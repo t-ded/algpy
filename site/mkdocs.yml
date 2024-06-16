@@ -1,0 +1,12 @@
+site_name: AlgPy
+nav:
+  - Home: index.md
+  - Algorithms:
+      - Sorting: docs/algorithms/sorting.md
+      - Searching: docs/algorithms/searching.md
+  - Data Structures:
+      - Linked List: docs/data_structures/linked_list.md
+      - Binary Tree: docs/data_structures/binary_tree.md
+  - Tools:
+      - Get Code: docs/tools/get_code.md
+theme: readthedocs
