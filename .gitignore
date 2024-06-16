@@ -1,2 +1,19 @@
-dsa/
+*.iml
+*.ipynb
+.ENV
+.env
+.ipynb_checkpoints/
+
+# IDE
 .idea/
+.vscode/
+.vim
+
+# Python
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv*/
+algpy/
+__pycache__/
+.coverage
