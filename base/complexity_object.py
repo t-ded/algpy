@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from constants import COMPLEXITIES
+from .constants import COMPLEXITIES
 
 
 class ComplexityObject(ABC):
