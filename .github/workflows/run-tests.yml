@@ -3,12 +3,12 @@ name: Run Tests
 on:
   pull_request:
     paths:
-      - algpy/**
+      - algpy_src/**
       - .github/workflows/run-tests.yml
 
   push:
     paths:
-      - algpy/**
+      - algpy_src/**
       - .github/workflows/run-tests.yml
 
 defaults:
