@@ -18,6 +18,14 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Create virtual environment
+        env:
+          BIN: ${{ matrix.os == 'windows-latest' && 'Scripts' || 'bin' }}
+        run: |
+          python -m venv .venv
+          echo "$GITHUB_WORKSPACE/algpy_src/.venv/$BIN" >> $GITHUB_PATH
+          echo "VIRTUAL_ENV=$GITHUB_WORKSPACE/algpy_src/.venv" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: |
           pip install mkdocs mkdocs-material
