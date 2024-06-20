@@ -56,3 +56,4 @@ jobs:
         with:
           name: test-results
           path: algpy_src/reports/junit/test-results.xml
+          overwrite: true
