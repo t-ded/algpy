@@ -2,8 +2,8 @@ import numpy as np
 import time
 from typing import Optional, Iterable, TypeVar, Generic
 from abc import abstractmethod
-from base.complexity_object import ComplexityObject
-from base.constants import COMPLEXITIES
+from algpy_src.base.complexity_object import ComplexityObject
+from algpy_src.base.constants import COMPLEXITIES
 
 AlgInstance = TypeVar('AlgInstance')
 
@@ -135,7 +135,7 @@ class Algorithm(ComplexityObject, Generic[AlgInstance]):
             ops_counts: list[int] = []
 
             for _ in range(n):
-                input_instance = self.generate_random_input(input_size[0])
+                input_instance = self.generate_random_input(input_size)
                 start = time.time()
                 run_output = self.run_algorithm(input_instance, args, kwargs)
                 runtimes.append(time.time() - start)

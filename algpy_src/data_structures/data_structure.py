@@ -1,6 +1,6 @@
 from abc import abstractmethod
-from base.complexity_object import ComplexityObject
-from base.constants import COMPLEXITIES
+from algpy_src.base.complexity_object import ComplexityObject
+from algpy_src.base.constants import COMPLEXITIES
 
 
 class DataStructure(ComplexityObject):

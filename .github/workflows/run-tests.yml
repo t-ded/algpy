@@ -4,13 +4,13 @@ on:
   pull_request:
     paths:
       - algpy/**
-      - docs/src/python/**
+      - docs/algpy_src/python/**
       - .github/workflows/run-tests.yml
 
   push:
     paths:
       - algpy/**
-      - docs/src/python/**
+      - docs/algpy_src/python/**
       - .github/workflows/run-tests.yml
 
 defaults:

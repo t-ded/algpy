@@ -1,4 +1,4 @@
-from base.complexity_object import ComplexityObject
+from algpy_src.base.complexity_object import ComplexityObject
 
 
 class ExampleComplexityObject(ComplexityObject):

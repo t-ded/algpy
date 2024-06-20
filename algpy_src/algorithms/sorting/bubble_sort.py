@@ -1,10 +1,8 @@
 import random
 from typing import Iterable, Optional, TypeVar
-from base.constants import SupportsComparison
+from algpy_src.base.constants import Comparable
 
-from algorithms.algorithm import Algorithm
-
-Comparable = TypeVar('Comparable', bound=SupportsComparison)
+from algpy_src.algorithms.algorithm import Algorithm
 
 
 class BubbleSort(Algorithm):
