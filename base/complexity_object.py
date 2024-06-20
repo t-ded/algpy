@@ -11,6 +11,11 @@ class ComplexityObject(ABC):
         pass
 
     @abstractmethod
+    @property
+    def name(self) -> str:
+        return 'Generic Complexity Object'
+
+    @abstractmethod
     def print_complexity_info(self, which: COMPLEXITIES = 'both') -> None:
         """
         Print all desired complexity information for the given object.
