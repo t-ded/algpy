@@ -1,8 +1,9 @@
-from typing import Any, Optional, Iterable
+import numpy as np
+import time
+from typing import Optional, Iterable
 from abc import abstractmethod
 from base.complexity_object import ComplexityObject
 from base.constants import COMPLEXITIES
-from base.utils import time_alg_runtime
 
 
 class Algorithm(ComplexityObject):
@@ -76,9 +77,9 @@ class Algorithm(ComplexityObject):
         raise NotImplementedError()
 
     @abstractmethod
-    def run_algorithm(self, input_instance: object, *args, **kwargs) -> Optional[Any]:
+    def run_algorithm(self, input_instance: object, *args, **kwargs) -> tuple[Optional[object], int]:
         """
-        The main run function of each algorithm.
+        The main run function of each algorithm. The algorithms should be able to internally count number of ops.
 
         Parameters
         ----------
@@ -91,7 +92,10 @@ class Algorithm(ComplexityObject):
 
         Returns
         -------
-
+        output_instance : Optional[object]
+            Returns input processed by the algorithm if relevant.
+        number_of_operations : int
+            Outputs the total number of operations made by the algorithm.
         """
         raise NotImplementedError()
 
@@ -102,7 +106,7 @@ class Algorithm(ComplexityObject):
         Parameters
         ----------
         n : int
-            Number of repetitions for the statistical analysis of algorithm's runtime
+            Number of repetitions per input size for the statistical analysis of algorithm's runtime
         *args
             Arguments passed to the run_algorithm() function call.
         **kwargs
@@ -114,6 +118,23 @@ class Algorithm(ComplexityObject):
         """
         input_sizes = self.generate_increasing_input_size_sequence()
         print('-' * 10)
+        self.print_time_complexity_info()
         print(f'Analysing runtime of the {self.name} algorithm:')
         for input_size in input_sizes:
-            time_alg_runtime(self, input_size, n, args, kwargs)
+
+            runtimes: list[float] = []
+            ops_counts: list[int] = []
+
+            for _ in range(n):
+                input_instance = self.generate_random_input(input_size)
+                start = time.time()
+                run_output = self.run_algorithm(input_instance, args, kwargs)
+                runtimes.append(time.time() - start)
+                ops_counts.append(run_output[1])
+
+            avg_secs = np.mean(runtimes)
+            std_secs = np.std(runtimes)
+            avg_ops = np.mean(ops_counts)
+            std_ops = np.std(ops_counts)
+            print(f'\tRun with input size {input_size} took {avg_secs:_.2f}', u'\u00B1', f'{std_secs:_2f} seconds',
+                  f'and {avg_ops:_.2f}', u'\u00B1', f'{std_ops:_2f} operations ({n=} samples)')
