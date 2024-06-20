@@ -1,8 +1,8 @@
 import random
-from typing import Iterable, Optional, TypeVar
-from algpy_src.base.constants import Comparable
+from typing import Iterable, Optional
 
 from algpy_src.algorithms.algorithm import Algorithm
+from algpy_src.base.constants import Comparable
 
 
 class BubbleSort(Algorithm):
@@ -29,4 +29,5 @@ class BubbleSort(Algorithm):
         return [random.randint(1, 1_000) for _ in range(input_size[0])]
 
     def run_algorithm(self, input_instance: Iterable[Comparable], *args, **kwargs) -> tuple[Optional[Iterable[Comparable]], int]:
-        pass
+        # TODO
+        return input_instance, 0
