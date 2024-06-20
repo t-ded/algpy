@@ -1,12 +1,14 @@
 import numpy as np
 import time
-from typing import Optional, Iterable
+from typing import Optional, Iterable, TypeVar, Generic
 from abc import abstractmethod
 from base.complexity_object import ComplexityObject
 from base.constants import COMPLEXITIES
 
+AlgInstance = TypeVar('AlgInstance')
 
-class Algorithm(ComplexityObject):
+
+class Algorithm(ComplexityObject, Generic[AlgInstance]):
     """
     Base class for all algorithms.
     """
@@ -60,13 +62,13 @@ class Algorithm(ComplexityObject):
 
         Returns
         -------
-        input_size_sequence : Iterable[int] or Iterable[Iterable[Iterable[int]]]
+        input_size_sequence : Iterable[tuple[int, ...]]
             Sequence of viable input size parameters for generate_random_input(input_size) in increasing order
         """
         raise NotImplementedError()
 
     @abstractmethod
-    def generate_random_input(self, input_size: tuple[int, ...]) -> object:
+    def generate_random_input(self, input_size: tuple[int, ...]) -> AlgInstance:
         """
         Way to generate single random input instance of given size.
         Output of this function has to be accepted by run_algorithm().
@@ -78,19 +80,19 @@ class Algorithm(ComplexityObject):
 
         Returns
         -------
-        instance : object
+        instance : AlgInstance
             A problem instance supported in run_algorithm(input_instance=instance).
         """
         raise NotImplementedError()
 
     @abstractmethod
-    def run_algorithm(self, input_instance: object, *args, **kwargs) -> tuple[Optional[object], int]:
+    def run_algorithm(self, input_instance: AlgInstance, *args, **kwargs) -> tuple[Optional[AlgInstance], int]:
         """
         The main run function of each algorithm. The algorithms should be able to internally count number of ops.
 
         Parameters
         ----------
-        input_instance : object
+        input_instance : AlgInstance
             Instance on which to run the algorithm.
         *args
             Additional arguments passed to the algorithm.
@@ -99,7 +101,7 @@ class Algorithm(ComplexityObject):
 
         Returns
         -------
-        output_instance : Optional[object]
+        output_instance : Optional[AlgInstance]
             Returns input processed by the algorithm if relevant.
         number_of_operations : int
             Outputs the total number of operations made by the algorithm.
@@ -133,7 +135,7 @@ class Algorithm(ComplexityObject):
             ops_counts: list[int] = []
 
             for _ in range(n):
-                input_instance = self.generate_random_input(input_size)
+                input_instance = self.generate_random_input(input_size[0])
                 start = time.time()
                 run_output = self.run_algorithm(input_instance, args, kwargs)
                 runtimes.append(time.time() - start)
