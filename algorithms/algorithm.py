@@ -14,10 +14,19 @@ class Algorithm(ComplexityObject):
     def __init__(self):
         super().__init__()
 
-    @abstractmethod
     @property
     def name(self) -> str:
         return 'Generic Algorithm Class'
+
+    @property
+    @abstractmethod
+    def time_complexity(self) -> str:
+        return 'N/A'
+
+    @property
+    @abstractmethod
+    def space_complexity(self) -> str:
+        return 'N/A'
 
     def print_complexity_info(self, which: COMPLEXITIES = 'both') -> None:
         """
@@ -33,22 +42,20 @@ class Algorithm(ComplexityObject):
         if which == 'space' or which == 'both':
             self.print_space_complexity_info()
 
-    @abstractmethod
     def print_time_complexity_info(self) -> None:
         """
         Print the time complexity information of the algorithm.
         """
-        raise NotImplementedError()
+        print(f'Time complexity of the {self.name} algorithm is O({self.time_complexity})')
 
-    @abstractmethod
     def print_space_complexity_info(self) -> None:
         """
         Print the space complexity information of the algorithm.
         """
-        raise NotImplementedError()
+        print(f'Space complexity of the {self.name} algorithm is O({self.space_complexity})')
 
     @abstractmethod
-    def generate_increasing_input_size_sequence(self) -> Iterable[int] | Iterable[Iterable[int]]:
+    def generate_increasing_input_size_sequence(self) -> Iterable[tuple[int, ...]]:
         """
 
         Returns
@@ -59,15 +66,15 @@ class Algorithm(ComplexityObject):
         raise NotImplementedError()
 
     @abstractmethod
-    def generate_random_input(self, input_size: int | Iterable[int]) -> object:
+    def generate_random_input(self, input_size: tuple[int, ...]) -> object:
         """
-        Way to generate random input instance of given size.
+        Way to generate single random input instance of given size.
         Output of this function has to be accepted by run_algorithm().
 
         Parameters
         ----------
-        input_size : int or Iterable[int]
-            Desired input size.
+        input_size : tuple[int, ...]
+            Desired input size (may be composed of multiple integers, e.g., for matrices).
 
         Returns
         -------
