@@ -11,6 +11,11 @@ class DataStructure(ComplexityObject):
     def __init__(self):
         super().__init__()
 
+    @abstractmethod
+    @property
+    def name(self) -> str:
+        return 'Generic Data Structure'
+
     def print_complexity_info(self, which: COMPLEXITIES = 'both') -> None:
         """
         Print the complexity information for the data structure.
