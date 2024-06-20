@@ -1,4 +1,5 @@
 from abc import abstractmethod
+
 from algpy_src.base.complexity_object import ComplexityObject
 from algpy_src.base.constants import COMPLEXITIES
 
@@ -11,8 +12,8 @@ class DataStructure(ComplexityObject):
     def __init__(self):
         super().__init__()
 
-    @abstractmethod
     @property
+    @abstractmethod
     def name(self) -> str:
         return 'Generic Data Structure'
 
