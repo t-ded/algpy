@@ -34,7 +34,7 @@ What sets AlgPy apart from other DSA libraries:
 
 3. **Install dependencies**
    ```sh
-   pip install -r requirements.txt
+   pip install -r algpy_src/requirements.txt
    ```
 
 4. **Run tests**
