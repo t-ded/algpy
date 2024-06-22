@@ -12,7 +12,7 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
 
     @property
     def name(self) -> str:
-        return 'Bubble sort'
+        return 'Bubble Sort'
 
     @property
     def time_complexity(self) -> str:
@@ -62,6 +62,6 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         rng = random.Random(seed)
         return [rng.randint(1, input_size) for _ in range(input_size)]
 
-    def run_algorithm(self, input_instance: Iterable[Comparable], *args, **kwargs) -> tuple[Iterable[Comparable], int]:
+    def run_algorithm(self, input_instance: Iterable[Comparable], *args, **kwargs) -> tuple[list[Comparable], int]:
         # TODO
-        return input_instance, 0
+        return [], 0

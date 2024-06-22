@@ -1,6 +1,7 @@
 from typing import Literal, Protocol, TypeVar
 
 COMPLEXITIES = Literal['both', 'time', 'space']
+TEST_SEED = 42
 
 T = TypeVar('T')
 

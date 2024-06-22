@@ -1,11 +1,4 @@
-from algpy_src.base.complexity_object import ComplexityObject
-
-
-class ExampleComplexityObject(ComplexityObject):
-
-    @property
-    def name(self) -> str:
-        return 'Example Complexity Object'
+from algpy_src.tests.test_utils.base_objects import ExampleComplexityObject
 
 
 def test_complexity_object():
