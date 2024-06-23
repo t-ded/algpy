@@ -228,7 +228,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
               f'and {avg_ops:_.2f}', u'\u00B1', f'{std_ops:_2f} operations ({n=} repetitions)')
 
         print_delimiter('-', 10)
-        print(f'Algorithm analysis on {'given' if using_random is False else 'random'} instances:')
+        print(f'Algorithm analysis on {"given" if using_random is False else "random"} instances:')
         for input_size, problem_instance in input_sequence.items():
 
             avg_secs, std_secs, avg_ops, std_ops = self.analyse_runtime_single(problem_instance, n, args, kwargs)
