@@ -17,6 +17,15 @@ def test_bubble_sort_base(bs):
     assert bs.space_complexity == '1'
     assert bs.generate_increasing_input_size_sequence(n=5) == [1, 10, 100, 1_000, 10_000]
     assert bs.generate_random_input(input_size=10, seed=TEST_SEED) == [2, 1, 5, 4, 4, 3, 2, 9, 2, 10]
+    assert bs.generate_worst_case(10, descending=True) == range(1, 11)
+    assert bs.generate_worst_case(10, descending=False) == range(10, 0, -1)
+
+
+def test_worst_case(bs):
+    worst_case_ascending_sort = bs.generate_worst_case(10, descending=False)
+    assert bs.run_algorithm(worst_case_ascending_sort, descending=False) == (list(range(1, 11)), 45)
+    worst_case_descending_sort = bs.generate_worst_case(10, descending=True)
+    assert bs.run_algorithm(worst_case_descending_sort, descending=True) == (list(range(10, 0, -1)), 45)
 
 
 @pytest.mark.parametrize(
@@ -34,5 +43,5 @@ def test_bubble_sort_base(bs):
         pytest.param([(0, 1), (1, 1), (1, 2)], True, ([(1, 2), (1, 1), (0, 1)], 3), id='Accepts comparable tuples'),
     ]
 )
-def test_bubble_sort_run_algorithm(bs, input_instance: Iterable[Comparable], descending: bool, expected_result: list[Comparable]):
+def test_bubble_sort_run_algorithm(bs, input_instance: Iterable[Comparable], descending: bool, expected_result: tuple[list[Comparable], int]):
     assert bs.run_algorithm(input_instance, descending) == expected_result
