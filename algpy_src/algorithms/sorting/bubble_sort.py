@@ -63,6 +63,30 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         rng = random.Random(seed)
         return [rng.randint(1, input_size) for _ in range(input_size)]
 
+    def generate_worst_case(self, input_size: int, *args: Any, **kwargs: Any) -> range:
+        """
+        Generates a sorted range of integers from 1 to input_size.
+        If 'descending' is passed as a keyword argument with value False, the order of the range is descending, otherwise ascending
+        (i.e., contrary to expected result of the sort).
+
+        Parameters
+        ----------
+        input_size : int
+            Size of the range to generate.
+        *args : Any
+            Additional arguments that are expected to be passed to the run_algorithm function.
+        **kwargs : Any
+            Additional keyword arguments that are expected to be passed to the run_algorithm function.
+
+        Returns
+        -------
+        instance : range
+            Range of sorted integers in order opposite to expected order of the run_algorithm function output.
+        """
+        if kwargs.get('descending', True) is False:
+            return range(input_size, 0, -1)
+        return range(1, input_size + 1)
+
     def run_algorithm(self, input_instance: Iterable[Comparable], descending: bool = True, *args: Any, **kwargs: Any) -> tuple[list[Comparable], int]:
         """
         Run function of the bubble sort algorithm implemented in a stable (relative order of same-valued keys remains) manner.

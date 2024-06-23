@@ -222,7 +222,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         print_delimiter('-', 10)
         print(f'Algorithm analysis on its worst case instance:')
         worst_case_input_size = max(input_sequence.keys())
-        worst_case_instance = self.generate_worst_case(input_size=worst_case_input_size)
+        worst_case_instance = self.generate_worst_case(worst_case_input_size, args, kwargs)
         avg_secs, std_secs, avg_ops, std_ops = self.analyse_runtime_single(worst_case_instance, n, args, kwargs)
         print(f'\tRun on worst case instance with problem size {worst_case_input_size} took {avg_secs:_.2f}', u'\u00B1', f'{std_secs:_2f} seconds',
               f'and {avg_ops:_.2f}', u'\u00B1', f'{std_ops:_2f} operations ({n=} repetitions)')
