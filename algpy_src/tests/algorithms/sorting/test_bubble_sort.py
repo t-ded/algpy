@@ -1,7 +1,9 @@
+from typing import Iterable
+
 import pytest
 
 from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
-from algpy_src.base.constants import TEST_SEED
+from algpy_src.base.constants import TEST_SEED, Comparable
 
 
 @pytest.fixture()
@@ -18,10 +20,19 @@ def test_bubble_sort_base(bs):
 
 
 @pytest.mark.parametrize(
-    ('input_instance', 'expected_result'),
+    ('input_instance', 'descending', 'expected_result'),
     [
-        pytest.param([], ([], 0), id='Empty list'),
+        pytest.param([], True, ([], 0), id='Empty list'),
+        pytest.param([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], True, ([10, 9, 8, 7, 6, 5, 4, 3, 2, 1], 45), id='Worst case'),
+        pytest.param([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], False, ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0), id='Best case'),
+        pytest.param([1, 1, 1, 1, 1], True, ([1, 1, 1, 1, 1], 0), id='Stable descending'),
+        pytest.param([1, 1, 1, 1, 1], False, ([1, 1, 1, 1, 1], 0), id='Stable ascending'),
+        pytest.param((4, 2, 0, 1, 3), True, ([4, 3, 2, 1, 0], 4), id='Accepts tuple'),
+        pytest.param(range(1, 11), False, ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0), id='Accepts range'),
+        pytest.param((lambda x: (i for i in range(1, x)))(11), False, ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 0), id='Accepts generator'),
+        pytest.param(['a', 'e', 'i', 'o', 'u'], True, (['u', 'o', 'i', 'e', 'a'], 10), id='Accepts comparable strings'),
+        pytest.param([(0, 1), (1, 1), (1, 2)], True, ([(1, 2), (1, 1), (0, 1)], 3), id='Accepts comparable tuples'),
     ]
 )
-def test_bubble_sort_run_algorithm(bs, input_instance, expected_result):
-    assert bs.run_algorithm(input_instance) == expected_result
+def test_bubble_sort_run_algorithm(bs, input_instance: Iterable[Comparable], descending: bool, expected_result: list[Comparable]):
+    assert bs.run_algorithm(input_instance, descending) == expected_result
