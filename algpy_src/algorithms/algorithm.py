@@ -28,7 +28,27 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
 
     @property
     @abstractmethod
-    def time_complexity(self) -> str:
+    def best_case_time_complexity(self) -> str:
+        return 'N/A'
+
+    @property
+    @abstractmethod
+    def best_case_description(self) -> str:
+        return 'N/A'
+
+    @property
+    @abstractmethod
+    def average_case_time_complexity(self) -> str:
+        return 'N/A'
+
+    @property
+    @abstractmethod
+    def worst_case_time_complexity(self) -> str:
+        return 'N/A'
+
+    @property
+    @abstractmethod
+    def worst_case_description(self) -> str:
         return 'N/A'
 
     @property
@@ -45,16 +65,22 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         which : str (default 'both')
             Select the type of complexity measure you want to print (one of 'both', 'time' or 'space').
         """
+        print_delimiter()
         if which == 'time' or which == 'both':
             self.print_time_complexity_info()
+            print_delimiter(n=5)
         if which == 'space' or which == 'both':
             self.print_space_complexity_info()
+        print_delimiter()
 
     def print_time_complexity_info(self) -> None:
         """
         Print the time complexity information of the algorithm.
         """
-        print(f'Time complexity of the {self.name} algorithm is O({self.time_complexity})')
+        print(f'Time complexity breakdown of the {self.name} algorithm:')
+        print(f'\tBest case time complexity is O({self.best_case_time_complexity}) with best case being {self.best_case_description}')
+        print(f'\tAverage case time complexity is O({self.average_case_time_complexity})')
+        print(f'\tWorst case time complexity is O({self.worst_case_time_complexity}) with worst case being {self.worst_case_description}')
 
     def print_space_complexity_info(self) -> None:
         """
