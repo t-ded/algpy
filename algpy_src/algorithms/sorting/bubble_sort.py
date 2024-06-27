@@ -15,8 +15,24 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         return 'Bubble Sort'
 
     @property
-    def time_complexity(self) -> str:
+    def best_case_time_complexity(self) -> str:
+        return 'n'
+
+    @property
+    def best_case_description(self) -> str:
+        return 'fully sorted array'
+
+    @property
+    def average_case_time_complexity(self) -> str:
         return 'n^2'
+
+    @property
+    def worst_case_time_complexity(self) -> str:
+        return 'n^2'
+
+    @property
+    def worst_case_description(self) -> str:
+        return 'fully unsorted array'
 
     @property
     def space_complexity(self) -> str:
