@@ -5,7 +5,7 @@ from typing import Optional, Iterable, TypeVar, Generic, Any
 import numpy as np
 
 from algpy_src.base.complexity_object import ComplexityObject
-from algpy_src.base.constants import COMPLEXITIES, PrintableComparable
+from algpy_src.base.constants import PrintableComparable
 from algpy_src.base.utils import print_delimiter, print_gap
 
 ProblemInstance = TypeVar('ProblemInstance')
@@ -55,23 +55,6 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
     @abstractmethod
     def space_complexity(self) -> str:
         return 'N/A'
-
-    def print_complexity_info(self, which: COMPLEXITIES = 'both') -> None:
-        """
-        Print the complexity information for the algorithm.
-
-        Parameters:
-        ----------
-        which : str (default 'both')
-            Select the type of complexity measure you want to print (one of 'both', 'time' or 'space').
-        """
-        print_delimiter()
-        if which == 'time' or which == 'both':
-            self.print_time_complexity_info()
-            print_delimiter(n=5)
-        if which == 'space' or which == 'both':
-            self.print_space_complexity_info()
-        print_delimiter()
 
     def print_time_complexity_info(self) -> None:
         """
