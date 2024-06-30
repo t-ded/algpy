@@ -98,8 +98,8 @@ class SinglyLinkedList(DataStructure):
     def space_complexity(self) -> str:
         return 'n'
 
-    def insert(self, data: T, index: int) -> int:
-        n_ops = 0
+    def insert(self, data: T, index: int) -> None:
+        self.n_ops = 0
         if index > self.length:
             logging.warning('Index out of range.')
         else:
@@ -111,19 +111,17 @@ class SinglyLinkedList(DataStructure):
                 for i in range(index - 1):
                     if current.successor is not None:
                         current = current.successor
-                        n_ops += 1
+                        self.n_ops += 1
                 current.add_successor(data)
                 self.length += 1
-        return n_ops
 
-    def delete(self, data: T, index: Optional[int]) -> int:
-        n_ops = 0
-        return n_ops
+    def delete(self, data: T, index: Optional[int]) -> None:
+        self.n_ops = 0
 
-    def search(self, data: T) -> tuple[Optional[int], int]:
-        n_ops = 0
+    def search(self, data: T) -> Optional[int]:
+        self.n_ops = 0
         location = None
-        return location, n_ops
+        return location
 
     def print_time_complexity_info(self) -> None:
         """

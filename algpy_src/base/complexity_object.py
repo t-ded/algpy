@@ -10,7 +10,7 @@ class ComplexityObject(ABC):
     """
 
     def __init__(self):
-        pass
+        self.n_ops = 0
 
     @property
     @abstractmethod

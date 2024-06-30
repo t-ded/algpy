@@ -103,7 +103,7 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
             return range(input_size, 0, -1)
         return range(1, input_size + 1)
 
-    def run_algorithm(self, input_instance: Iterable[Comparable], descending: bool = True, *args: Any, **kwargs: Any) -> tuple[list[Comparable], int]:
+    def run_algorithm(self, input_instance: Iterable[Comparable], descending: bool = True, *args: Any, **kwargs: Any) -> list[Comparable]:
         """
         Run function of the bubble sort algorithm implemented in a stable (relative order of same-valued keys remains) manner.
         Implementation assumes the less naive approach, taking into account that bubbled elements at the end of the array are known to be sorted already.
@@ -124,14 +124,12 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         -------
         input_list : list[Comparable]
             List copy of the given input instance iterable sorted in the required order.
-        n_ops : int
-            Number of operations (element switches) that were required.
         """
-        n_ops = 0
+        self.n_ops = 0
         input_list = list(input_instance)
         for i in range(len(input_list)):
             for j in range(len(input_list) - i - 1):
                 if (descending is True and input_list[j] < input_list[j + 1]) or (descending is False and input_list[j] > input_list[j + 1]):
                     input_list[j], input_list[j + 1] = input_list[j + 1], input_list[j]
-                    n_ops += 1
-        return input_list, n_ops
+                    self.n_ops += 1
+        return input_list

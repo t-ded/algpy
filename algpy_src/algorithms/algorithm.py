@@ -135,9 +135,10 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         raise NotImplementedError()
 
     @abstractmethod
-    def run_algorithm(self, input_instance: ProblemInstance, *args: Any, **kwargs: Any) -> tuple[Optional[ProblemInstance], int]:
+    def run_algorithm(self, input_instance: ProblemInstance, *args: Any, **kwargs: Any) -> Optional[ProblemInstance]:
         """
-        The main run function of each algorithm. The algorithms should be able to internally count number of ops.
+        The main run function of each algorithm.
+        The algorithms should be able to internally count number of ops and should reset self.n_ops to 0 on each use of this method.
 
         Parameters
         ----------
@@ -152,8 +153,6 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         -------
         output_instance : Optional[ProblemInstance]
             Returns input processed by the algorithm if relevant.
-        number_of_operations : int
-            Outputs the total number of operations made by the algorithm.
         """
         raise NotImplementedError()
 
@@ -188,9 +187,9 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
 
         for _ in range(n):
             start = time.time()
-            run_output = self.run_algorithm(problem_instance, args, kwargs)
+            self.run_algorithm(problem_instance, args, kwargs)
             runtimes.append(time.time() - start)
-            ops_counts.append(run_output[1])
+            ops_counts.append(self.n_ops)
 
         avg_secs = float(np.mean(runtimes))
         std_secs = float(np.std(runtimes))
