@@ -135,7 +135,19 @@ class SinglyLinkedList(DataStructure):
                 preceding = self.traverse(index - 1)
                 if preceding is not None and preceding.successor is not None and preceding.successor.value == data:
                     preceding.successor = preceding.successor.successor
+                    self.increment_n_ops()
                     self.length -= 1
+
+        else:
+            current = self.head
+            if current is not None:
+                while current.successor is not None:
+                    self.increment_n_ops()
+                    if current.successor.value == data:
+                        current.successor = current.successor.successor
+                        self.increment_n_ops()
+                        self.length -= 1
+                        break
 
     def search(self, data: T) -> Optional[int]:
         self.n_ops = 0
@@ -162,7 +174,3 @@ class SinglyLinkedList(DataStructure):
         print(f'\t\tBest case time complexity is O({self.best_case_search_time_complexity}) with best case being {self.best_case_search_description}.')
         print(f'\t\tAverage case time complexity is O({self.average_case_search_time_complexity}).')
         print(f'\t\tWorst case time complexity is O({self.worst_case_search_time_complexity}) with worst case being {self.worst_case_search_description}.')
-
-
-
-
