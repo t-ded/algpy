@@ -157,7 +157,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         """
         raise NotImplementedError()
 
-    def analyse_runtime_single(self, problem_instance: ProblemInstance, n: int = 10, *args: Any, **kwargs: Any) -> tuple[float, float, float, float]:
+    def analyse_runtime_single_instance(self, problem_instance: ProblemInstance, n: int = 10, *args: Any, **kwargs: Any) -> tuple[float, float, float, float]:
         """
         Perform runtime and number of operations analysis with a single problem instance.
 
@@ -232,7 +232,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         print('Algorithm analysis on its worst case instance:')
         worst_case_input_size = max(input_sequence.keys())
         worst_case_instance = self.generate_worst_case(worst_case_input_size, args, kwargs)
-        avg_secs, std_secs, avg_ops, std_ops = self.analyse_runtime_single(worst_case_instance, n, args, kwargs)
+        avg_secs, std_secs, avg_ops, std_ops = self.analyse_runtime_single_instance(worst_case_instance, n, args, kwargs)
         print(f'\tRun on worst case instance with problem size {worst_case_input_size} took {avg_secs:_.2f}', u'\u00B1', f'{std_secs:_2f} seconds',
               f'and {avg_ops:_.2f}', u'\u00B1', f'{std_ops:_2f} operations ({n=} repetitions)')
 
@@ -240,7 +240,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         print(f'Algorithm analysis on {"given" if using_random is False else "random"} instances:')
         for input_size, problem_instance in input_sequence.items():
 
-            avg_secs, std_secs, avg_ops, std_ops = self.analyse_runtime_single(problem_instance, n, args, kwargs)
+            avg_secs, std_secs, avg_ops, std_ops = self.analyse_runtime_single_instance(problem_instance, n, args, kwargs)
             print(f'\tRun on instance with problem size {input_size} took {avg_secs:_.2f}', u'\u00B1', f'{std_secs:_2f} seconds',
                   f'and {avg_ops:_.2f}', u'\u00B1', f'{std_ops:_2f} operations ({n=} repetitions)')
 
