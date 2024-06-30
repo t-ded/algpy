@@ -13,13 +13,11 @@ T = TypeVar("T")
 class LinkedListNode:
 
     def __init__(self, value: T):
-        self.index: int = 0
         self.value: T = value
         self.successor: Optional[LinkedListNode] = None
 
     def add_successor(self, value: T) -> None:
         successor = LinkedListNode(value)
-        successor.index = self.index + 1
         self.successor = successor
 
 
@@ -98,6 +96,15 @@ class SinglyLinkedList(DataStructure):
     def space_complexity(self) -> str:
         return 'n'
 
+    def traverse(self, index: int) -> Optional[LinkedListNode]:
+        current = self.head
+        if current is not None:
+            for i in range(index):
+                if current.successor is not None:
+                    current = current.successor
+                    self.increment_n_ops()
+        return current
+
     def insert(self, data: T, index: int) -> None:
         self.n_ops = 0
         if index > self.length:
@@ -105,18 +112,30 @@ class SinglyLinkedList(DataStructure):
         else:
             if self.head is None:
                 self.head = LinkedListNode(data)
-
             else:
-                current = self.head
-                for i in range(index - 1):
-                    if current.successor is not None:
-                        current = current.successor
-                        self.n_ops += 1
-                current.add_successor(data)
-                self.length += 1
+                preceding = self.traverse(index - 1)
+                if preceding is not None:
+                    preceding.add_successor(data)
+                    self.length += 1
 
     def delete(self, data: T, index: Optional[int]) -> None:
+
         self.n_ops = 0
+        if self.head is None:
+            return
+
+        if index is not None:
+            if index > self.length:
+                logging.warning('Index out of range.')
+            elif index == 0:
+                if self.head.value == data:
+                    self.head = self.head.successor
+                    self.increment_n_ops()
+            else:
+                preceding = self.traverse(index - 1)
+                if preceding is not None and preceding.successor is not None and preceding.successor.value == data:
+                    preceding.successor = preceding.successor.successor
+                    self.length -= 1
 
     def search(self, data: T) -> Optional[int]:
         self.n_ops = 0
