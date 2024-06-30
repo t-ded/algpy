@@ -131,5 +131,5 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
             for j in range(len(input_list) - i - 1):
                 if (descending is True and input_list[j] < input_list[j + 1]) or (descending is False and input_list[j] > input_list[j + 1]):
                     input_list[j], input_list[j + 1] = input_list[j + 1], input_list[j]
-                    self.n_ops += 1
+                    self.increment_n_ops()
         return input_list

@@ -17,6 +17,12 @@ class ComplexityObject(ABC):
     def name(self) -> str:
         return 'Generic Complexity Object'
 
+    def increment_n_ops(self, increment: int = 1):
+        """
+        Convenience method to increment self.n_ops
+        """
+        self.n_ops += increment
+
     @abstractmethod
     def print_time_complexity_info(self) -> None:
         """
