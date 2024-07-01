@@ -1,25 +1,10 @@
-from __future__ import annotations
-
 import logging
-from dataclasses import dataclass
 from typing import Optional, TypeVar
 
 from algpy_src.data_structures.data_structure import DataStructure
+from algpy_src.data_structures.linear.linked_list_node import LinkedListNode
 
-T = TypeVar("T")
-
-
-@dataclass
-class LinkedListNode:
-
-    def __init__(self, value: T):
-        self.value: T = value
-        self.successor: Optional[LinkedListNode] = None
-
-    def add_successor(self, value: T) -> None:
-        successor = LinkedListNode(value)
-        self.successor = successor
-
+T = TypeVar('T')
 
 class SinglyLinkedList(DataStructure):
 
@@ -109,7 +94,7 @@ class SinglyLinkedList(DataStructure):
 
         Returns
         -------
-        current : Optional[LinkedListNode]
+        current : LinkedListNode | None
             None if linked list is empty or index is out of range, node at index otherwise.
         """
         if reset_n_ops is True:
@@ -178,7 +163,7 @@ class SinglyLinkedList(DataStructure):
             else:
                 preceding = self.traverse(index - 1)
                 if preceding is not None and preceding.successor is not None and preceding.successor.value == data:
-                    preceding.successor = preceding.successor.successor
+                    preceding.change_successor(preceding.successor.successor)
                     self.increment_n_ops()
                     self.length -= 1
 
