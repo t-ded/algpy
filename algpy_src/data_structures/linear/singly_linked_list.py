@@ -96,16 +96,47 @@ class SinglyLinkedList(DataStructure):
     def space_complexity(self) -> str:
         return 'n'
 
-    def traverse(self, index: int) -> Optional[LinkedListNode]:
-        current = self.head
-        if current is not None:
-            for i in range(index):
-                if current.successor is not None:
-                    current = current.successor
-                    self.increment_n_ops()
+    def traverse(self, index: int, reset_n_ops: bool = False) -> Optional[LinkedListNode]:
+        """
+        Convenience method to traversing from head up to given index.
+
+        Parameters
+        ----------
+        index : int
+            Index to end at with head having index 0.
+        reset_n_ops : bool (default False)
+            Whether to reset self.n_ops to 0 at the beginning of the method run (False for convenience usage).
+
+        Returns
+        -------
+        current : Optional[LinkedListNode]
+            None if linked list is empty or index is out of range, node at index otherwise.
+        """
+        if reset_n_ops is True:
+            self.n_ops = 0
+        current: Optional[LinkedListNode] = None
+        if index > self.length:
+            logging.warning('Index out of range.')
+        else:
+            current = self.head
+            if current is not None:
+                for i in range(index):
+                    if current.successor is not None:
+                        current = current.successor
+                        self.increment_n_ops()
         return current
 
     def insert(self, data: T, index: int) -> None:
+        """
+        Insert node with value 'data' at given index.
+
+        Parameters
+        ----------
+        data : Any
+            Value for the node to hold.
+        index : int
+            At what position to insert the node. Must be lower than or equal to self.length.
+        """
         self.n_ops = 0
         if index > self.length:
             logging.warning('Index out of range.')
@@ -120,6 +151,17 @@ class SinglyLinkedList(DataStructure):
                     self.length += 1
 
     def delete(self, data: T, index: Optional[int]) -> None:
+        """
+        Delete node with value 'data'.
+        If index is passed, the element at given index has to hold value equal to 'data'. Otherwise, first entry with given value is deleted.
+
+        Parameters
+        ----------
+        data : Any
+            Value which the node to be deleted is holding.
+        index : Optional[int]
+            Index of the node to be deleted. Has to be lower than or equal to self.length.
+        """
 
         self.n_ops = 0
         if self.head is None:
@@ -152,6 +194,19 @@ class SinglyLinkedList(DataStructure):
                         break
 
     def search(self, data: T) -> Optional[int]:
+        """
+        Search for node with given value 'data'. Index of first occurrence of such node is returned or None of it is not found.
+
+        Parameters
+        ----------
+        data : Any
+            Value to be held by the node.
+
+        Returns
+        -------
+        location : Optional[int]
+            Index of first occurrence of such node or None if it is not found.
+        """
         self.n_ops = 0
         location = None
         current = self.head
