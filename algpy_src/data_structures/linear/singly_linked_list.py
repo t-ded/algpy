@@ -185,6 +185,11 @@ class SinglyLinkedList(DataStructure):
         else:
             current = self.head
             if current is not None:
+                if current.value == data:
+                    self.increment_n_ops()
+                    self.head = None
+                    self.length -= 1
+                    return
                 while current.successor is not None:
                     self.increment_n_ops()
                     if current.successor.value == data:
