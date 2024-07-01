@@ -112,6 +112,7 @@ class SinglyLinkedList(DataStructure):
         else:
             if self.head is None:
                 self.head = LinkedListNode(data)
+                self.length += 1
             else:
                 preceding = self.traverse(index - 1)
                 if preceding is not None:
@@ -131,6 +132,7 @@ class SinglyLinkedList(DataStructure):
                 if self.head.value == data:
                     self.head = self.head.successor
                     self.increment_n_ops()
+                    self.length -= 1
             else:
                 preceding = self.traverse(index - 1)
                 if preceding is not None and preceding.successor is not None and preceding.successor.value == data:
@@ -152,6 +154,16 @@ class SinglyLinkedList(DataStructure):
     def search(self, data: T) -> Optional[int]:
         self.n_ops = 0
         location = None
+        current = self.head
+        if current is not None:
+            for i in range(self.length):
+                self.increment_n_ops()
+                if current.value == data:
+                    return i
+                if current.successor is None:
+                    break
+                current = current.successor
+
         return location
 
     def print_time_complexity_info(self) -> None:
