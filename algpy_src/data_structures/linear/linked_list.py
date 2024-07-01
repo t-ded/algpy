@@ -307,17 +307,17 @@ class LinkedList(DataStructure):
         """
         print(f'Time complexity breakdown of {self.name} data structure:')
 
-        print(f'\tInsertion:')
+        print('\tInsertion:')
         print(f'\t\tBest case time complexity is O({self.best_case_insert_time_complexity}) with best case being {self.best_case_insert_description}.')
         print(f'\t\tAverage case time complexity is O({self.average_case_insert_time_complexity}).')
         print(f'\t\tWorst case time complexity is O({self.worst_case_insert_time_complexity}) with worst case being {self.worst_case_insert_description}.')
 
-        print(f'\tDeletion:')
+        print('\tDeletion:')
         print(f'\t\tBest case time complexity is O({self.best_case_delete_time_complexity}) with best case being {self.best_case_delete_description}.')
         print(f'\t\tAverage case time complexity is O({self.average_case_delete_time_complexity}).')
         print(f'\t\tWorst case time complexity is O({self.worst_case_delete_time_complexity}) with worst case being {self.worst_case_delete_description}.')
 
-        print(f'\tSearch:')
+        print('\tSearch:')
         print(f'\t\tBest case time complexity is O({self.best_case_search_time_complexity}) with best case being {self.best_case_search_description}.')
         print(f'\t\tAverage case time complexity is O({self.average_case_search_time_complexity}).')
         print(f'\t\tWorst case time complexity is O({self.worst_case_search_time_complexity}) with worst case being {self.worst_case_search_description}.')
