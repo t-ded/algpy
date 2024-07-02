@@ -93,7 +93,6 @@ class LinkedList(DataStructure):
     def space_complexity(self) -> str:
         return 'n'
 
-    # TODO: add index % self.length and index = self.length + index for cases when index < 0
     def traverse(self, index: int, reset_n_ops: bool = False) -> Optional[LinkedListNode]:
         """
         Convenience method to traversing from head up to given index.
@@ -117,6 +116,8 @@ class LinkedList(DataStructure):
         if index > self.length:
             logging.warning('Index out of range.')
         else:
+            if index < 0:
+                index %= self.length
             if self.linked_list_type == 'singly' or index <= self.length / 2:
                 current = self.head
                 if current is not None:
@@ -170,7 +171,7 @@ class LinkedList(DataStructure):
             self.tail = new_node
             self.increment_n_ops(2)
 
-    def setup_first_node(self, data: T) -> None:
+    def insert_to_empty(self, data: T) -> None:
         """
         Setup first node with value 'data' as head and also as tail in case of doubly linked list
 
@@ -202,14 +203,16 @@ class LinkedList(DataStructure):
             logging.warning('Index out of range.')
         else:
             if self.head is None:
-                self.setup_first_node(data)
+                self.insert_to_empty(data)
             else:
+                if index < 0:
+                    index %= self.length
                 if index == 0:
                     self.prepend(data)
                 elif index == self.length:
                     self.append(data)
                 else:
-                    preceding = self.traverse(index - 1)
+                    preceding = self.traverse(index)
                     if preceding is not None:
                         following = preceding.successor
                         new_node = LinkedListNode(data)
@@ -245,17 +248,20 @@ class LinkedList(DataStructure):
         if index is not None:
             if index > self.length:
                 logging.warning('Index out of range.')
-            elif index == 0:
-                if self.head.value == data:
-                    self.head = self.head.successor
-                    self.increment_n_ops()
-                    self.length -= 1
             else:
-                preceding = self.traverse(index - 1)
-                if preceding is not None and preceding.successor is not None and preceding.successor.value == data:
-                    preceding.change_successor(preceding.successor.successor)
-                    self.increment_n_ops()
-                    self.length -= 1
+                if index < 0:
+                    index %= self.length
+                if index == 0:
+                    if self.head.value == data:
+                        self.head = self.head.successor
+                        self.increment_n_ops()
+                        self.length -= 1
+                else:
+                    preceding = self.traverse(index - 1)
+                    if preceding is not None and preceding.successor is not None and preceding.successor.value == data:
+                        preceding.change_successor(preceding.successor.successor)
+                        self.increment_n_ops()
+                        self.length -= 1
 
         else:
             current = self.head
@@ -275,7 +281,7 @@ class LinkedList(DataStructure):
 
     def search(self, data: T) -> Optional[int]:
         """
-        Search for node with given value 'data'. Index of first occurrence of such node is returned or None of it is not found.
+        Search for node with given value 'data'. Index of first occurrence (from the front) of such node is returned or None of it is not found.
 
         Parameters
         ----------
