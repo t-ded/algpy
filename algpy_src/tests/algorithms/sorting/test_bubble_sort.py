@@ -33,6 +33,8 @@ def test_worst_case(bs):
     worst_case_descending_sort = bs.generate_worst_case(10, descending=True)
     assert bs.run_algorithm(worst_case_descending_sort, descending=True) == list(range(10, 0, -1))
     assert bs.n_ops == 45
+    bs.reset_n_ops()
+    assert bs.n_ops == 0
 
 
 @pytest.mark.parametrize(

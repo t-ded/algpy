@@ -23,6 +23,12 @@ class ComplexityObject(ABC):
         """
         self.n_ops += increment
 
+    def reset_n_ops(self):
+        """
+        Convenience method to reset self.n_ops
+        """
+        self.n_ops = 0
+
     @abstractmethod
     def print_time_complexity_info(self) -> None:
         """

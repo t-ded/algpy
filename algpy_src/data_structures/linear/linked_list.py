@@ -111,7 +111,7 @@ class LinkedList(DataStructure):
             None if linked list is empty or index is out of range, node at index otherwise.
         """
         if reset_n_ops is True:
-            self.n_ops = 0
+            self.reset_n_ops()
         current: Optional[LinkedListNode] = None
         if index > self.length:
             logging.warning('Index out of range.')
@@ -198,7 +198,7 @@ class LinkedList(DataStructure):
         index : int
             At what position to insert the node. Must be lower than or equal to self.length.
         """
-        self.n_ops = 0
+        self.reset_n_ops()
         if index > self.length:
             logging.warning('Index out of range.')
         else:
@@ -241,7 +241,7 @@ class LinkedList(DataStructure):
             Index of the node to be deleted. Has to be lower than or equal to self.length.
         """
 
-        self.n_ops = 0
+        self.reset_n_ops()
         if self.head is None:
             return
 
@@ -293,7 +293,7 @@ class LinkedList(DataStructure):
         location : Optional[int]
             Index of first occurrence of such node or None if it is not found.
         """
-        self.n_ops = 0
+        self.reset_n_ops()
         location = None
         current = self.head
         if current is not None:

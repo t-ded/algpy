@@ -125,7 +125,7 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         input_list : list[Comparable]
             List copy of the given input instance iterable sorted in the required order.
         """
-        self.n_ops = 0
+        self.reset_n_ops()
         input_list = list(input_instance)
         for i in range(len(input_list)):
             for j in range(len(input_list) - i - 1):
