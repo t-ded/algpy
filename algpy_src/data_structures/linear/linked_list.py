@@ -93,6 +93,7 @@ class LinkedList(DataStructure):
     def space_complexity(self) -> str:
         return 'n'
 
+    # TODO: Add repr to linked list and linked list node and add option to print along traverse
     def traverse(self, index: int, reset_n_ops: bool = False) -> Optional[LinkedListNode]:
         """
         Convenience method to traversing from head up to given index.
@@ -187,6 +188,7 @@ class LinkedList(DataStructure):
             self.tail = new_node
             self.increment_n_ops()
 
+    # TODO: Possibly also add before/after print option?
     def insert(self, data: T, index: int) -> None:
         """
         Insert node with value 'data' at given index.
@@ -227,6 +229,7 @@ class LinkedList(DataStructure):
                         self.increment_n_ops(2)
             self.length += 1
 
+    # TODO: Possibly also add before/after print option?
     # TODO: Factor in doubly linked listed type
     def delete(self, data: T, index: Optional[int]) -> None:
         """

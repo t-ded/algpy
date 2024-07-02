@@ -103,6 +103,7 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
             return range(input_size, 0, -1)
         return range(1, input_size + 1)
 
+    # TODO: Add option to print progress
     def run_algorithm(self, input_instance: Iterable[Comparable], descending: bool = True, *args: Any, **kwargs: Any) -> list[Comparable]:
         """
         Run function of the bubble sort algorithm implemented in a stable (relative order of same-valued keys remains) manner.

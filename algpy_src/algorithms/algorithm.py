@@ -134,6 +134,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         """
         raise NotImplementedError()
 
+    # TODO: Add option parameter to print progress
     @abstractmethod
     def run_algorithm(self, input_instance: ProblemInstance, *args: Any, **kwargs: Any) -> Optional[ProblemInstance]:
         """
