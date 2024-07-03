@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TypeVar, Optional
 
-T = TypeVar("T")
+T = TypeVar('T')
 
 
 class LinkedListNode:
@@ -11,6 +11,12 @@ class LinkedListNode:
         self.value: T = value
         self.successor: Optional[LinkedListNode] = None
         self.predecessor: Optional[LinkedListNode] = None
+
+    def __repr__(self) -> str:
+        return str(self.value)
+
+    def __str__(self) -> str:
+        return str(self.value)
 
     def add_successor(self, value: T) -> None:
         self.successor = LinkedListNode(value)
