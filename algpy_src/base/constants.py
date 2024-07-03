@@ -2,6 +2,7 @@ from typing import Literal, Protocol, TypeVar
 
 COMPLEXITIES = Literal['both', 'time', 'space']
 TEST_SEED = 42
+VERBOSITY_LEVELS = Literal[0, 1, 2]
 
 T = TypeVar('T')
 

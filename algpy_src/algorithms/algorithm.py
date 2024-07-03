@@ -5,7 +5,7 @@ from typing import Optional, Iterable, TypeVar, Generic, Any
 import numpy as np
 
 from algpy_src.base.complexity_object import ComplexityObject
-from algpy_src.base.constants import PrintableComparable
+from algpy_src.base.constants import PrintableComparable, VERBOSITY_LEVELS
 from algpy_src.base.utils import print_delimiter, print_gap
 
 ProblemInstance = TypeVar('ProblemInstance')
@@ -136,7 +136,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
 
     # TODO: Add option parameter to print progress
     @abstractmethod
-    def run_algorithm(self, input_instance: ProblemInstance, *args: Any, **kwargs: Any) -> Optional[ProblemInstance]:
+    def run_algorithm(self, input_instance: ProblemInstance, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any) -> Optional[ProblemInstance]:
         """
         The main run function of each algorithm.
         The algorithms should be able to internally count number of ops and should reset self.n_ops to 0 on each use of this method.
@@ -145,6 +145,9 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         ----------
         input_instance : ProblemInstance
             Instance on which to run the algorithm.
+        verbosity_level : int (default 0)
+            Select the amount of information to print throughout run of the algorithm.
+            One of 0, 1, 2 with 0 typically referring to no printing, 1 leading to print of given ProblemInstance before and after and 2 meaning every step.
         *args : Any
             Additional arguments passed to the algorithm.
         **kwargs : Any
@@ -188,7 +191,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
 
         for _ in range(n):
             start = time.time()
-            self.run_algorithm(problem_instance, args, kwargs)
+            self.run_algorithm(problem_instance, 0, args, kwargs)
             runtimes.append(time.time() - start)
             ops_counts.append(self.n_ops)
 

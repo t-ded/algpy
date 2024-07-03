@@ -2,7 +2,8 @@ import random
 from typing import Iterable, Optional, Any
 
 from algpy_src.algorithms.algorithm import Algorithm
-from algpy_src.base.constants import Comparable
+from algpy_src.base.constants import Comparable, VERBOSITY_LEVELS
+from algpy_src.base.utils import print_problem_instance
 
 
 class BubbleSort(Algorithm[Iterable[Comparable], int]):
@@ -103,8 +104,7 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
             return range(input_size, 0, -1)
         return range(1, input_size + 1)
 
-    # TODO: Add option to print progress
-    def run_algorithm(self, input_instance: Iterable[Comparable], descending: bool = True, *args: Any, **kwargs: Any) -> list[Comparable]:
+    def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True, *args: Any, **kwargs: Any) -> list[Comparable]:
         """
         Run function of the bubble sort algorithm implemented in a stable (relative order of same-valued keys remains) manner.
         Implementation assumes the less naive approach, taking into account that bubbled elements at the end of the array are known to be sorted already.
@@ -114,6 +114,9 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         input_instance : Iterable[Comparable]
             Iterable input instance of comparable objects to run the sorting algorithm on.
             It is copied and then returned as a sorted list.
+        verbosity_level : int (default 0)
+            Select the amount of information to print throughout run of the algorithm.
+            One of 0, 1, 2 with 0 referring to no printing, 1 leading to print of the iterable before and after and 2 meaning print after every swap.
         descending : bool (default True)
             Whether to sort in descending order.
             Note that the algorithm is built in a stable manner, so that the relative order of items with equal value remains intact.
@@ -128,9 +131,14 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         """
         self.reset_n_ops()
         input_list = list(input_instance)
+        print_problem_instance(input_list, verbosity_level, 1)
+        if verbosity_level > 0:
+            print(input_list)
         for i in range(len(input_list)):
             for j in range(len(input_list) - i - 1):
                 if (descending is True and input_list[j] < input_list[j + 1]) or (descending is False and input_list[j] > input_list[j + 1]):
                     input_list[j], input_list[j + 1] = input_list[j + 1], input_list[j]
                     self.increment_n_ops()
+                    print_problem_instance(input_list, verbosity_level, 2)
+        print_problem_instance(input_list, verbosity_level, 1)
         return input_list
