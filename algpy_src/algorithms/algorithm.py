@@ -1,15 +1,12 @@
 import time
 from abc import abstractmethod
-from typing import Optional, Iterable, TypeVar, Generic, Any
+from typing import Optional, Iterable, Generic, Any
 
 import numpy as np
 
 from algpy_src.base.complexity_object import ComplexityObject
-from algpy_src.base.constants import PrintableComparable, VERBOSITY_LEVELS
+from algpy_src.base.constants import VERBOSITY_LEVELS, ProblemInstance, InputSize
 from algpy_src.base.utils import print_delimiter, print_gap
-
-ProblemInstance = TypeVar('ProblemInstance')
-InputSize = TypeVar('InputSize', bound=PrintableComparable)
 
 
 class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
@@ -134,7 +131,6 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         """
         raise NotImplementedError()
 
-    # TODO: Add option parameter to print progress
     @abstractmethod
     def run_algorithm(self, input_instance: ProblemInstance, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any) -> Optional[ProblemInstance]:
         """

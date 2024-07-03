@@ -1,5 +1,4 @@
-from algpy_src.algorithms.algorithm import ProblemInstance
-from algpy_src.base.constants import VERBOSITY_LEVELS
+from algpy_src.base.constants import VERBOSITY_LEVELS, ProblemInstance
 
 
 def print_delimiter(delimiter: str = '-', n: int = 10) -> None:
