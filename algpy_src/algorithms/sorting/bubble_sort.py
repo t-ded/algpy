@@ -132,8 +132,6 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         self.reset_n_ops()
         input_list = list(input_instance)
         print_problem_instance(input_list, verbosity_level, 1)
-        if verbosity_level > 0:
-            print(input_list)
         for i in range(len(input_list)):
             for j in range(len(input_list) - i - 1):
                 if (descending is True and input_list[j] < input_list[j + 1]) or (descending is False and input_list[j] > input_list[j + 1]):

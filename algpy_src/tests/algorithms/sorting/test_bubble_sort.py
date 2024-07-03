@@ -28,10 +28,10 @@ def test_bubble_sort_base(bs):
 def test_worst_case(bs):
     worst_case_ascending_sort = bs.generate_worst_case(10, descending=False)
     assert bs.n_ops == 0
-    assert bs.run_algorithm(worst_case_ascending_sort, descending=False) == list(range(1, 11))
+    assert bs.run_algorithm(worst_case_ascending_sort, 0, descending=False) == list(range(1, 11))
     assert bs.n_ops == 45
     worst_case_descending_sort = bs.generate_worst_case(10, descending=True)
-    assert bs.run_algorithm(worst_case_descending_sort, descending=True) == list(range(10, 0, -1))
+    assert bs.run_algorithm(worst_case_descending_sort, 0,  descending=True) == list(range(10, 0, -1))
     assert bs.n_ops == 45
     bs.reset_n_ops()
     assert bs.n_ops == 0
@@ -53,5 +53,5 @@ def test_worst_case(bs):
     ]
 )
 def test_bubble_sort_run_algorithm(bs, input_instance: Iterable[Comparable], descending: bool, expected_result: list[Comparable], expected_n_ops: int):
-    assert bs.run_algorithm(input_instance, descending) == expected_result
+    assert bs.run_algorithm(input_instance, 0, descending) == expected_result
     assert bs.n_ops == expected_n_ops
