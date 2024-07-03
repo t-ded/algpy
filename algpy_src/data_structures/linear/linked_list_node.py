@@ -13,7 +13,11 @@ class LinkedListNode:
         self.predecessor: Optional[LinkedListNode] = None
 
     def __repr__(self) -> str:
-        return str(self.value)
+        return (
+            f'{self.__class__.__name__} (value={self.value!r}, '
+            f'successor={self.successor.value if self.successor else None}, '
+            f'predecessor={self.predecessor.value if self.predecessor else None})'
+        )
 
     def __str__(self) -> str:
         return str(self.value)
