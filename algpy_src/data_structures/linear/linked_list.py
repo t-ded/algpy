@@ -1,6 +1,7 @@
 import logging
 from typing import Optional, TypeVar, Literal
 
+from algpy_src.base.constants import VERBOSITY_LEVELS
 from algpy_src.data_structures.data_structure import DataStructure
 from algpy_src.data_structures.linear.linked_list_node import LinkedListNode
 
@@ -16,6 +17,15 @@ class LinkedList(DataStructure):
         if self.linked_list_type == 'doubly':
             self.tail: Optional[LinkedListNode] = None
         self.length: int = 0
+
+    def __repr__(self) -> str:
+        str_repr = ''
+        if self.head is not None:
+            str_repr += f'{self.head.value} (head)'
+            current = self.head.successor
+            while current is not None:
+                str_repr += f' -> {current.value}'
+        return str_repr
 
     @property
     def name(self) -> str:
@@ -93,8 +103,7 @@ class LinkedList(DataStructure):
     def space_complexity(self) -> str:
         return 'n'
 
-    # TODO: Add repr to linked list and linked list node and add option to print along traverse
-    def traverse(self, index: int, reset_n_ops: bool = False) -> Optional[LinkedListNode]:
+    def traverse(self, index: int, reset_n_ops: bool = False, verbosity_level: VERBOSITY_LEVELS = 0) -> Optional[LinkedListNode]:
         """
         Convenience method to traversing from head up to given index.
         If linked list is of type double, traverse from tail for cases when index is higher than half of length.
@@ -105,6 +114,9 @@ class LinkedList(DataStructure):
             Index to end at with head having index 0.
         reset_n_ops : bool (default False)
             Whether to reset self.n_ops to 0 at the beginning of the method run (False for convenience usage).
+        verbosity_level : int (default 0)
+            Select the amount of information to print throughout the traversal.
+            One of 0, 1, 2 with 0 referring to no printing, 1 leading to printing the linked list and 2 meaning additionally print every element of traversal.
 
         Returns
         -------
@@ -113,6 +125,8 @@ class LinkedList(DataStructure):
         """
         if reset_n_ops is True:
             self.reset_n_ops()
+        if verbosity_level > 0:
+            print(self)
         current: Optional[LinkedListNode] = None
         if index > self.length:
             logging.warning('Index out of range.')
@@ -123,6 +137,8 @@ class LinkedList(DataStructure):
                 current = self.head
                 if current is not None:
                     for i in range(index):
+                        if verbosity_level == 2:
+                            print(current)
                         if current.successor is not None:
                             current = current.successor
                             self.increment_n_ops()
@@ -130,6 +146,8 @@ class LinkedList(DataStructure):
                 current = self.tail
                 if current is not None:
                     for i in range(self.length - index):
+                        if verbosity_level == 2:
+                            print(current)
                         if current.predecessor is not None:
                             current = current.predecessor
                             self.increment_n_ops()
@@ -188,8 +206,7 @@ class LinkedList(DataStructure):
             self.tail = new_node
             self.increment_n_ops()
 
-    # TODO: Possibly also add before/after print option?
-    def insert(self, data: T, index: int) -> None:
+    def insert(self, data: T, index: int, verbosity_level: VERBOSITY_LEVELS = 0) -> None:
         """
         Insert node with value 'data' at given index.
 
@@ -199,8 +216,14 @@ class LinkedList(DataStructure):
             Value for the node to hold.
         index : int
             At what position to insert the node. Must be lower than or equal to self.length.
+        verbosity_level : int (default 0)
+            Select the amount of information to print throughout the insertion.
+            One of 0, 1, 2 with 0 referring to no printing, 1 leading to printing the linked list before and after insertion
+            and 2 meaning additionally print every element of traversal.
         """
         self.reset_n_ops()
+        if verbosity_level > 0:
+            print(self)
         if index > self.length:
             logging.warning('Index out of range.')
         else:
@@ -214,7 +237,7 @@ class LinkedList(DataStructure):
                 elif index == self.length:
                     self.append(data)
                 else:
-                    preceding = self.traverse(index)
+                    preceding = self.traverse(index, verbosity_level=2 if verbosity_level == 2 else 0)
                     if preceding is not None:
                         following = preceding.successor
                         new_node = LinkedListNode(data)
@@ -228,10 +251,12 @@ class LinkedList(DataStructure):
                             self.increment_n_ops()
                         self.increment_n_ops(2)
             self.length += 1
+        if verbosity_level > 0:
+            print(self)
 
     # TODO: Possibly also add before/after print option?
     # TODO: Factor in doubly linked listed type
-    def delete(self, data: T, index: Optional[int]) -> None:
+    def delete(self, data: T, index: Optional[int], verbosity_level: VERBOSITY_LEVELS = 0) -> None:
         """
         Delete node with value 'data'.
         If index is passed, the element at given index has to hold value equal to 'data'. Otherwise, first entry with given value is deleted.
@@ -242,9 +267,15 @@ class LinkedList(DataStructure):
             Value which the node to be deleted is holding.
         index : Optional[int]
             Index of the node to be deleted. Has to be lower than or equal to self.length.
+        verbosity_level : int (default 0)
+            Select the amount of information to print throughout the deletion.
+            One of 0, 1, 2 with 0 referring to no printing, 1 leading to printing the linked list before and after deletion
+            and 2 meaning additionally print every element of traversal.
         """
 
         self.reset_n_ops()
+        if verbosity_level > 0:
+            print(self)
         if self.head is None:
             return
 
@@ -273,6 +304,8 @@ class LinkedList(DataStructure):
                     self.head = current.successor
                     self.increment_n_ops()
                     self.length -= 1
+                    if verbosity_level > 0:
+                        print(self)
                     return
                 while current.successor is not None:
                     self.increment_n_ops()
@@ -281,6 +314,9 @@ class LinkedList(DataStructure):
                         self.increment_n_ops()
                         self.length -= 1
                         break
+
+        if verbosity_level > 0:
+            print(self)
 
     def search(self, data: T) -> Optional[int]:
         """
