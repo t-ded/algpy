@@ -254,8 +254,61 @@ class LinkedList(DataStructure):
         if verbosity_level > 0:
             print(self)
 
-    # TODO: Possibly also add before/after print option?
-    # TODO: Factor in doubly linked listed type
+    def delete_head(self) -> None:
+        """
+        Delete the first node in the linked list (head).
+        """
+        if self.head is not None:
+            if self.head.successor is not None:
+                new_head = self.head.successor
+                del self.head
+                self.head = new_head
+                self.head.change_predecessor(None)
+                self.increment_n_ops(4)
+            else:
+                self.head = None
+                self.increment_n_ops()
+            self.length -= 1
+
+    def delete_last(self, preceding: LinkedListNode) -> None:
+        """
+        Delete the last node in the linked list (tail) given its predecessor.
+
+        Parameters
+        ----------
+        preceding : LinkedListNode
+            The node preceding to the node to be deleted (which is last in the linked list).
+        """
+        if preceding.successor is not None:
+            if preceding.successor.successor is None:
+                del preceding.successor
+                preceding.change_successor(None)
+                if self.linked_list_type == 'doubly':
+                    self.tail = preceding
+                    self.increment_n_ops()
+                self.increment_n_ops(3)
+                self.length -= 1
+
+    def delete_middle(self, preceding: LinkedListNode) -> None:
+        """
+        Delete the node following input node assuming that such node is not the last in the linked list.
+
+        Parameters
+        ----------
+        preceding : LinkedListNode
+            The node preceding to the node to be deleted (which is not last in the linked list).
+        """
+        if preceding.successor is not None:
+            if preceding.successor.successor is not None:
+                following = preceding.successor.successor
+                del preceding.successor
+                preceding.change_successor(following)
+                if self.linked_list_type == 'doubly':
+                    following.change_predecessor(preceding)
+                    self.increment_n_ops()
+                self.increment_n_ops(3)
+                self.length -= 1
+
     def delete(self, data: T, index: Optional[int], verbosity_level: VERBOSITY_LEVELS = 0) -> None:
         """
         Delete node with value 'data'.
@@ -278,7 +331,6 @@ class LinkedList(DataStructure):
             print(self)
         if self.head is None:
             return
-
         if index is not None:
             if index > self.length:
                 logging.warning('Index out of range.')
@@ -287,32 +339,30 @@ class LinkedList(DataStructure):
                     index %= self.length
                 if index == 0:
                     if self.head.value == data:
-                        self.head = self.head.successor
-                        self.increment_n_ops()
-                        self.length -= 1
+                        self.delete_head()
                 else:
-                    preceding = self.traverse(index - 1)
+                    preceding = self.traverse(index - 1, verbosity_level=2 if verbosity_level == 2 else 0)
                     if preceding is not None and preceding.successor is not None and preceding.successor.value == data:
-                        preceding.change_successor(preceding.successor.successor)
-                        self.increment_n_ops()
-                        self.length -= 1
+                        if preceding.successor.successor is None:
+                            self.delete_last(preceding)
+                        else:
+                            self.delete_middle(preceding)
 
         else:
             current = self.head
             if current is not None:
                 if current.value == data:
-                    self.head = current.successor
-                    self.increment_n_ops()
-                    self.length -= 1
+                    self.delete_head()
                     if verbosity_level > 0:
                         print(self)
                     return
                 while current.successor is not None:
                     self.increment_n_ops()
                     if current.successor.value == data:
-                        current.change_successor(current.successor.successor)
-                        self.increment_n_ops()
-                        self.length -= 1
+                        if current.successor.successor is None:
+                            self.delete_last(current)
+                        else:
+                            self.delete_middle(current)
                         break
 
         if verbosity_level > 0:
