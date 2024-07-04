@@ -7,11 +7,11 @@ from algpy_src.base.constants import TEST_SEED, Comparable
 
 
 @pytest.fixture()
-def bs():
+def bs() -> BubbleSort:
     return BubbleSort()
 
 
-def test_bubble_sort_base(bs):
+def test_bubble_sort_base(bs: BubbleSort) -> None:
     assert bs.name == 'Bubble Sort'
     assert bs.best_case_time_complexity == 'n'
     assert bs.best_case_description == 'fully sorted array'
@@ -25,7 +25,7 @@ def test_bubble_sort_base(bs):
     assert bs.generate_worst_case(10, descending=False) == range(10, 0, -1)
 
 
-def test_worst_case(bs):
+def test_worst_case(bs: BubbleSort) -> None:
     worst_case_ascending_sort = bs.generate_worst_case(10, descending=False)
     assert bs.n_ops == 0
     assert bs.run_algorithm(worst_case_ascending_sort, 0, descending=False) == list(range(1, 11))
@@ -52,6 +52,8 @@ def test_worst_case(bs):
         pytest.param([(0, 1), (1, 1), (1, 2)], True, [(1, 2), (1, 1), (0, 1)], 3, id='Accepts comparable tuples'),
     ]
 )
-def test_bubble_sort_run_algorithm(bs, input_instance: Iterable[Comparable], descending: bool, expected_result: list[Comparable], expected_n_ops: int):
+def test_bubble_sort_run_algorithm(
+        bs: BubbleSort, input_instance: Iterable[Comparable], descending: bool, expected_result: list[Comparable], expected_n_ops: int
+) -> None:
     assert bs.run_algorithm(input_instance, 0, descending) == expected_result
     assert bs.n_ops == expected_n_ops
