@@ -1,0 +1,49 @@
+name: '🐞 Bug report'
+description: Report na issue with AlgPy.
+labels: [bug]
+
+body:
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have found no other report for similar issue.
+          required: true
+        - label: I can provide a reproducible example of the behaviour.
+          required: true
+        - label: I can explain why the behaviour might be happening and propose a fix (Optional)
+          required: false
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Reproducible example
+      description: >
+        Please follow [this guide](https://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports) on how to
+        provide a minimal, copy-pastable example. Include the (wrong) output or any encountered error message.
+      value: |
+        ```python
+
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Issue description
+      description: >
+        Provide any additional information you think might be relevant.
+        This might include hypothesis for the cause, relevant screenshots, related behaviour etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: >
+        Describe or show a code example of the expected behavior.
+    validations:
+      required: true
