@@ -53,21 +53,6 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
     def space_complexity(self) -> str:
         return 'N/A'
 
-    def print_time_complexity_info(self) -> None:
-        """
-        Print the time complexity information of the algorithm.
-        """
-        print(f'Time complexity breakdown of the {self.name} algorithm:')
-        print(f'\tBest case time complexity is O({self.best_case_time_complexity}) with best case being {self.best_case_description}.')
-        print(f'\tAverage case time complexity is O({self.average_case_time_complexity}).')
-        print(f'\tWorst case time complexity is O({self.worst_case_time_complexity}) with worst case being {self.worst_case_description}.')
-
-    def print_space_complexity_info(self) -> None:
-        """
-        Print the space complexity information of the algorithm.
-        """
-        print(f'Space complexity of the {self.name} algorithm is O({self.space_complexity}).')
-
     @abstractmethod
     def generate_increasing_input_size_sequence(self, *args: Any, **kwargs: Any) -> Iterable[InputSize]:
         """
@@ -225,7 +210,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
 
         print_delimiter('-', 10)
         print(f'Analysing runtime of the {self.name} algorithm:')
-        self.print_time_complexity_info()
+        # print_time_complexity_info(self)
 
         print_delimiter('-', 10)
         print('Algorithm analysis on its worst case instance:')
