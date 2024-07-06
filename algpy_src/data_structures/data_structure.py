@@ -20,16 +20,3 @@ class DataStructure(ComplexityObject):
     @abstractmethod
     def space_complexity(self) -> str:
         return 'N/A'
-
-    @abstractmethod
-    def print_time_complexity_info(self) -> None:
-        """
-        Print the time complexity information of the data structure (e.g., insertion, deletion, retrieval etc.).
-        """
-        raise NotImplementedError()
-
-    def print_space_complexity_info(self) -> None:
-        """
-        Print the space complexity information of the data structure.
-        """
-        print(f'Space complexity of the {self.name} data structure is O({self.space_complexity}).')
