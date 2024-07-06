@@ -16,6 +16,7 @@ def test_queue_base(queue: Queue) -> None:
     assert queue.is_empty is True
     assert queue.space_complexity == 'n'
 
+
 @pytest.mark.parametrize(
     ('in_stream', ),
     [
