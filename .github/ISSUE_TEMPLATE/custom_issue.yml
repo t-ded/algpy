@@ -1,0 +1,13 @@
+name: '💬 Custom issue'
+description: Placeholder for any miscellaneous issues not covered by other templates.
+labels: [miscellaneous]
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Please describe your general issue and provide any relevant information.
+    validations:
+      required: true

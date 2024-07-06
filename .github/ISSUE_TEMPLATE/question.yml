@@ -1,0 +1,20 @@
+name: '❓ Question'
+description: Question to ask.
+labels: [question]
+
+body:
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have looked for answer to this question both in relevant sources and in the code and have not found a satisfactory answer.
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Please post your question here.
+    validations:
+      required: true

@@ -54,11 +54,12 @@ Help us improve our documentation by:
 ## Tiny Simple Bits for Starting Right Away
 
 If you want to start immediately but do not have any idea how, here are few ideas to spark your imagination:
+- Check any open issues, focusing on ones labeled as *good first issue*. Chances are, you will find one that interests you.
 - Implement a hashing algorithm - these typically have 0 dependencies and prerequisites.
 - Pick a sorting algorithm, search algorithm or string manipulation algorithm - these also tend to not have many prerequisites. 
 - Add a simple data structure that you like.
 - Pick an algorithm you like and explore it in a notebook. Add a comparison to its concurrents.
-- Select a LeetCode question that you think might be solvable with an algorithm from our database and solve it.
+- Select a LeetCode question you think might be solvable with an algorithm from our database and solve it.
 - Contribute to the documentation by adding examples, fixing typos or errors, or explaining complex algorithms.
 
 ## Contributing Steps

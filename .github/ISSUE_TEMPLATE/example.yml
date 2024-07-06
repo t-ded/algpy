@@ -1,0 +1,23 @@
+name: '🧩 Usage example'
+description: Add an example of usage.
+labels: [example]
+
+body:
+  - type: textarea
+    id: relation
+    attributes:
+      label: Example related to
+      description: >
+        Describe elements of the codebase to which this example would relate.
+        If relevant, add a LeetCode question that this example would solve.
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: >
+        Describe how the example should look like, what should it cover, what would be the optimal form (Jupyter Notebook, LeetCode)
+    validations:
+      required: true

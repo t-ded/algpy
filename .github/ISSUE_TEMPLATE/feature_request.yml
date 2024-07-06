@@ -3,6 +3,17 @@ description: Suggest a new feature or enhancement for Polars.
 labels: [enhancement, new feature]
 
 body:
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have found no other issue for this feature request.
+          required: true
+        - label: I have found no implementation of this feature in the current codebase.
+          required: true
+        - label: This feature would benefit me and/or other users of AlgPy.
+          required: true
   - type: textarea
     id: description
     attributes:

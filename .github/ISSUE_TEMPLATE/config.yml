@@ -1,1 +1,5 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
+contact_links:
+  - name: AlgPy author
+    url: tomas-ded@seznam.cz
+    about: Contact with any deeper questions or proposals for collaboration.
