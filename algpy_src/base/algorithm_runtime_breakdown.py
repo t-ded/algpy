@@ -1,23 +1,31 @@
 from dataclasses import dataclass
-from typing import Iterable, Generic
+from typing import Generic, Optional
 
+from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.base.constants import InputSize, ProblemInstance
 
 
 @dataclass
+class AlgorithmRuntimeSingle(Generic[InputSize, ProblemInstance]):
+    algorithm: Algorithm
+    input_size: InputSize
+    input_sequence: ProblemInstance
+
+    avg_secs: float
+    std_secs: float
+    avg_ops: float
+    std_ops: float
+
+
+@dataclass
 class AlgorithmRuntimeBreakdown(Generic[ProblemInstance, InputSize]):
-    algorithm_name: str
-    input_sizes: Iterable[InputSize]
-    input_sequences: dict[InputSize, ProblemInstance]
+    algorithm: Algorithm
+    used_random: bool
 
-    worst_case_input_size: InputSize
-    worst_case_instance: ProblemInstance
-    worst_case_avg_secs: float
-    worst_case_std_secs: float
-    worst_case_avg_ops: float
-    worst_case_std_ops: float
+    worst_case_breakdown: Optional[AlgorithmRuntimeSingle] = None
 
-    avg_secs_per_instance: float
-    std_secs_per_instance: float
-    avg_ops_per_instance: float
-    std_ops_per_instance: float
+    input_sequences: Optional[dict[InputSize, ProblemInstance]] = None
+    per_case_breakdowns: Optional[dict[InputSize, AlgorithmRuntimeSingle]] = None
+
+
+
