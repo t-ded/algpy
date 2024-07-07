@@ -15,7 +15,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
     Inheriting class should specify type hints for ProblemInstance and InputSize
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     @property

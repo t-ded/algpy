@@ -1,12 +1,12 @@
 import random
 from typing import Iterable, Optional, Any
 
-from algpy_src.algorithms.algorithm import Algorithm
+from algpy_src.algorithms.sorting.base_sorting_algorithm import SortingAlgorithm
 from algpy_src.base.constants import Comparable, VERBOSITY_LEVELS
 from algpy_src.base.utils import print_problem_instance
 
 
-class BubbleSort(Algorithm[Iterable[Comparable], int]):
+class BubbleSort(SortingAlgorithm):
 
     def __init__(self):
         super().__init__()
@@ -104,7 +104,8 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
             return range(input_size, 0, -1)
         return range(1, input_size + 1)
 
-    def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True, *args: Any, **kwargs: Any) -> list[Comparable]:
+    def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
+                      *args: Any, **kwargs: Any) -> list[Comparable]:
         """
         Run function of the bubble sort algorithm implemented in a stable (relative order of same-valued keys remains) manner.
         Implementation assumes the less naive approach, taking into account that bubbled elements at the end of the array are known to be sorted already.
@@ -129,14 +130,19 @@ class BubbleSort(Algorithm[Iterable[Comparable], int]):
         input_list : list[Comparable]
             List copy of the given input instance iterable sorted in the required order.
         """
-        self.reset_n_ops()
-        input_list = list(input_instance)
+        self.reset_all_counters()
+        input_list: list[Comparable] = list(input_instance)
         print_problem_instance(input_list, verbosity_level, 1)
-        for i in range(len(input_list)):
+        for i in range(len(input_list) - 1):
+            swapped = False
             for j in range(len(input_list) - i - 1):
                 if (descending is True and input_list[j] < input_list[j + 1]) or (descending is False and input_list[j] > input_list[j + 1]):
                     input_list[j], input_list[j + 1] = input_list[j + 1], input_list[j]
-                    self.increment_n_ops()
-                    print_problem_instance(input_list, verbosity_level, 2)
+                    self.increment_n_swaps()
+                    swapped = True
+                self.increment_n_comparisons()
+                print_problem_instance(input_list, verbosity_level, 2)
+            if swapped is False:
+                break
         print_problem_instance(input_list, verbosity_level, 1)
         return input_list

@@ -8,7 +8,7 @@ class DataStructure(ComplexityObject):
     Base class for all data structures.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     @property
