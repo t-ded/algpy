@@ -9,6 +9,7 @@ from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.base.algorithm_runtime_breakdown import AlgorithmRuntimeBreakdown, AlgorithmRuntimeSingle
 from algpy_src.base.constants import ProblemInstance, InputSize
 from algpy_src.base.utils import print_delimiter, print_gap
+from algpy_src.tools.algorithm_random_input_generation.random_input_generators import get_generator
 from algpy_src.tools.complexity_info_display.complexity_info_displaying import print_time_complexity_info
 
 
@@ -17,7 +18,7 @@ class AlgorithmRuntimeAnalytic:
     Base class for running analysis of algorithms and comparing distinct algorithms among each other.
     """
 
-    def __init__(self, algorithm: Algorithm, n_repetitions: int = 10) -> None:
+    def __init__(self, algorithm: Algorithm, n_repetitions: int = 10, seed: Optional[int] = None) -> None:
         """
         Analytic class to perform runtime analysis and get runtime breakdowns.
 
@@ -27,10 +28,13 @@ class AlgorithmRuntimeAnalytic:
             Algorithm whose runtime to analyse.
         n_repetitions : int (default 10)
             Number of repetitions for analysis of each problem instance to get a statistical sample.
+        seed : Optional[int] (default None)
+            Seed for random input generation.
         """
         self.algorithm: Algorithm = algorithm
         self.n_repetitions = n_repetitions
         self.runtime_analysis: Optional[AlgorithmRuntimeBreakdown] = None
+        self.random_input_generator = get_generator(self.algorithm)(seed)
 
     def get_runtime_analysis_single_instance(self, problem_instance: ProblemInstance, input_size: InputSize,
                                              **run_algorithm_kwargs) -> AlgorithmRuntimeSingle:
@@ -71,7 +75,7 @@ class AlgorithmRuntimeAnalytic:
             std_ops=float(np.std(ops_counts)),
         )
 
-    def get_runtime_analysis(self, input_sequence: Optional[dict[InputSize, ProblemInstance]], seed: Optional[int] = None, **kwargs) -> None:
+    def get_runtime_analysis(self, input_sequence: Optional[dict[InputSize, ProblemInstance]], **kwargs) -> None:
         """
         Runs algorithm assigned to this analytic on predefined or randomly generated instances of given sizes to assess its runtime complexity.
         The complexity breakdown is saved to this object's runtime_analysis attribute.
@@ -81,10 +85,8 @@ class AlgorithmRuntimeAnalytic:
         input_sequence : dict[InputSize, ProblemInstance]
             Optional dictionary of input_size : problem instance pairs to analyse the algorithm's runtime on.
             If not given, random inputs are generated.
-        seed : Optional[int] (default None)
-            Seed for generating random instances in case input_sequence not provided.
         **kwargs : Any
-            Additional keyword arguments passed to the run_algorithm(), generate_random_input() or generate_worst_case() function call.
+            Additional keyword arguments passed to the run_algorithm() or generate_worst_case() function call.
 
         Returns
         -------
@@ -98,10 +100,8 @@ class AlgorithmRuntimeAnalytic:
 
         if input_sequence is None:
             input_sizes: Iterable[InputSize] = self.algorithm.generate_increasing_input_size_sequence()
-            random_input_generation_args = list(inspect.signature(self.algorithm.generate_random_input).parameters)
-            random_input_generation_kwargs = {k: kwargs.pop(k) for k in dict(kwargs) if k in random_input_generation_args}
             input_sequence = {
-                input_size: self.algorithm.generate_random_input(input_size, seed, kwargs=random_input_generation_kwargs)
+                input_size: self.random_input_generator.generate_random_input(input_size)
                 for input_size in input_sizes
             }
 

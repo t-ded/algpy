@@ -67,30 +67,6 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         raise NotImplementedError()
 
     @abstractmethod
-    def generate_random_input(self, input_size: InputSize, seed: Optional[int] = None, *args: Any, **kwargs: Any) -> ProblemInstance:
-        """
-        Way to generate single random input instance of given size.
-        Output of this function has to be accepted by run_algorithm().
-
-        Parameters
-        ----------
-        input_size : InputSize
-            Desired input size (form depends on specific algorithm).
-        seed : Optional[int] (default None)
-            Seed for generating random instance.
-        *args : Any
-            Additional arguments passed to the generating function.
-        **kwargs : Any
-            Additional keyword arguments passed to the generating function.
-
-        Returns
-        -------
-        instance : ProblemInstance
-            A problem instance supported in run_algorithm(input_instance=instance).
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
     def generate_worst_case(self, input_size: InputSize, *args: Any, **kwargs: Any) -> ProblemInstance:
         """
         Way to generate single input instance of given size corresponding to algorithm's worst case scenario.

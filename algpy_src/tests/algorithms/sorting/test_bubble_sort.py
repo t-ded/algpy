@@ -3,7 +3,7 @@ from typing import Iterable
 import pytest
 
 from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
-from algpy_src.base.constants import TEST_SEED, Comparable
+from algpy_src.base.constants import Comparable
 
 
 @pytest.fixture()
@@ -20,7 +20,6 @@ def test_bubble_sort_base(bs: BubbleSort) -> None:
     assert bs.worst_case_description == 'fully unsorted array'
     assert bs.space_complexity == '1'
     assert bs.generate_increasing_input_size_sequence(n=5) == [1, 10, 100, 1_000, 10_000]
-    assert bs.generate_random_input(input_size=10, seed=TEST_SEED) == [2, 1, 5, 4, 4, 3, 2, 9, 2, 10]
     assert bs.generate_worst_case(10, descending=True) == range(1, 11)
     assert bs.generate_worst_case(10, descending=False) == range(10, 0, -1)
 
