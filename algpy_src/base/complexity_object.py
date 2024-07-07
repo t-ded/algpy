@@ -7,7 +7,7 @@ class ComplexityObject(ABC):
     """
 
     def __init__(self) -> None:
-        self.n_ops = 0
+        self._n_ops = 0
 
     @property
     @abstractmethod
@@ -19,14 +19,18 @@ class ComplexityObject(ABC):
     def space_complexity(self) -> str:
         return 'N/A'
 
+    @property
+    def n_ops(self) -> int:
+        return self._n_ops
+
     def increment_n_ops(self, increment: int = 1) -> None:
         """
         Convenience method to increment self.n_ops
         """
-        self.n_ops += increment
+        self._n_ops += increment
 
     def reset_n_ops(self) -> None:
         """
         Convenience method to reset self.n_ops
         """
-        self.n_ops = 0
+        self._n_ops = 0

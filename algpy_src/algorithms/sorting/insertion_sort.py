@@ -1,7 +1,7 @@
 import random
 from typing import Iterable, Optional, Any
 
-from algpy_src.algorithms.sorting.base_sorting_algorithm import SortingAlgorithm
+from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
 from algpy_src.base.constants import Comparable, VERBOSITY_LEVELS
 from algpy_src.base.utils import print_problem_instance
 

@@ -1,7 +1,7 @@
 from typing import Any, Optional, Iterable
 
 from algpy_src.algorithms.algorithm import Algorithm
-from algpy_src.algorithms.sorting.base_sorting_algorithm import SortingAlgorithm
+from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
 from algpy_src.base.complexity_object import ComplexityObject
 from algpy_src.base.constants import Comparable, VERBOSITY_LEVELS
 

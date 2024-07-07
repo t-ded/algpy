@@ -36,6 +36,10 @@ class SortingAlgorithm(Algorithm[Iterable[Comparable], int]):
     def name(self) -> str:
         return 'Base Sorting Algorithm'
 
+    @property
+    def n_ops(self) -> int:
+        return self.n_swaps + self.n_comparisons
+
     @abstractmethod
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
                       *args: Any, **kwargs: Any) -> list[Comparable]:
