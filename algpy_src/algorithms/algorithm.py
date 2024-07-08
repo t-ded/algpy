@@ -20,6 +20,10 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         return 'Generic Algorithm Class'
 
     @property
+    def is_deterministic(self) -> bool:
+        return True
+
+    @property
     @abstractmethod
     def best_case_time_complexity(self) -> str:
         return 'N/A'

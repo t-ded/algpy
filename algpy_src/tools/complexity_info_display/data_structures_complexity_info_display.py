@@ -13,11 +13,11 @@ def print_time_complexity_info_container(container: Container) -> None:
         Expected to have property methods for breaking down insert, search, delete time complexities and best and worst cases.
     """
     for operation in ['insert', 'delete', 'search']:
-        print(f'\t{operation.capitalize()}:')
-        print(f'\t\tBest case time complexity is O({getattr(container, f"best_case_{operation}_time_complexity")}) with best case being',
+        print(f'  {operation.capitalize()}:')
+        print(f'\tBest case time complexity is O({getattr(container, f"best_case_{operation}_time_complexity")}) with best case being',
               f'{getattr(container, f"best_case_{operation}_description")}.')
-        print(f'\t\tAverage case time complexity is O({getattr(container, f"average_case_{operation}_time_complexity")}).')
-        print(f'\t\tWorst case time complexity is O({getattr(container, f"worst_case_{operation}_time_complexity")}) with best case being ',
+        print(f'\tAverage case time complexity is O({getattr(container, f"average_case_{operation}_time_complexity")}).')
+        print(f'\tWorst case time complexity is O({getattr(container, f"worst_case_{operation}_time_complexity")}) with best case being ',
               f'{getattr(container, f"best_case_{operation}_description")}.')
 
 

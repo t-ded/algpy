@@ -141,21 +141,22 @@ class AlgorithmRuntimeAnalytic:
         print_delimiter('-', 10)
         print('Algorithm analysis on its worst case instance:')
         print(
-            f'\tRun on worst case instance with problem size {self.runtime_analysis.worst_case_breakdown.input_size}',
-            f'took {self.runtime_analysis.worst_case_breakdown.avg_secs:_.2f}', u'\u00B1', f'{self.runtime_analysis.worst_case_breakdown.std_secs:_2f} seconds',
-            f'and {self.runtime_analysis.worst_case_breakdown.avg_ops:_.2f}', u'\u00B1', f'{self.runtime_analysis.worst_case_breakdown.std_ops:_2f} operations',
-            f'({self.n_repetitions=} repetitions)'
+            f'  Run on worst case instance with problem size {self.runtime_analysis.worst_case_breakdown.input_size}',
+            f'took {self.runtime_analysis.worst_case_breakdown.avg_secs:_.2f}', u'\u00B1', f'{self.runtime_analysis.worst_case_breakdown.std_secs:_.2f} seconds',
+            f'and {self.runtime_analysis.worst_case_breakdown.avg_ops:_.2f}' + (u' \u00B1 ' if not self.algorithm.is_deterministic else '') +
+            (f'{self.runtime_analysis.worst_case_breakdown.std_ops:_.2f}' if not self.algorithm.is_deterministic else '') +
+            f' operations ({self.n_repetitions} repetitions)'
         )
 
         print_delimiter('-', 10)
         print(f'Algorithm analysis on {"given" if self.runtime_analysis.used_random is False else "random"} instances:')
         for input_size, breakdown in self.runtime_analysis.per_case_breakdowns.items():
             print(
-                f'\tRun on instance with problem size {input_size}',
-                f'took {breakdown.avg_secs:_.2f}', u'\u00B1', f'{breakdown.std_secs:_2f} seconds',
-                f'and {breakdown.avg_ops:_.2f}', u'\u00B1', f'{breakdown.std_ops:_2f} operations',
-                f'({self.n_repetitions=} repetitions)'
+                f'  Run on instance with problem size {input_size}',
+                f'took {breakdown.avg_secs:_.2f}', u'\u00B1', f'{breakdown.std_secs:_.2f} seconds',
+                f'and {breakdown.avg_ops:_.2f}', u'\u00B1', f'{breakdown.std_ops:_.2f} operations',
+                f'({self.n_repetitions} repetitions)'
             )
 
         print_delimiter('-', 10)
-        print_gap(3)
+        print_gap()
