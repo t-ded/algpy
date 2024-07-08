@@ -75,14 +75,14 @@ class AlgorithmRuntimeAnalytic:
             std_ops=float(np.std(ops_counts)),
         )
 
-    def get_runtime_analysis(self, input_sequence: Optional[dict[InputSize, ProblemInstance]], **kwargs) -> None:
+    def get_runtime_analysis(self, input_sequence: Optional[dict[InputSize, ProblemInstance]] = None, **kwargs) -> None:
         """
         Runs algorithm assigned to this analytic on predefined or randomly generated instances of given sizes to assess its runtime complexity.
         The complexity breakdown is saved to this object's runtime_analysis attribute.
 
         Parameters
         ----------
-        input_sequence : dict[InputSize, ProblemInstance]
+        input_sequence : Optional[dict[InputSize, ProblemInstance]] (default None)
             Optional dictionary of input_size : problem instance pairs to analyse the algorithm's runtime on.
             If not given, random inputs are generated.
         **kwargs : Any

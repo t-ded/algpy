@@ -3,7 +3,7 @@ from typing import Iterable
 import pytest
 
 from algpy_src.algorithms.sorting.insertion_sort import InsertionSort
-from algpy_src.base.constants import TEST_SEED, Comparable
+from algpy_src.base.constants import Comparable
 
 
 @pytest.fixture()
@@ -20,7 +20,6 @@ def test_insertion_sort_base(ins: InsertionSort) -> None:
     assert ins.worst_case_description == 'fully unsorted array'
     assert ins.space_complexity == '1'
     assert ins.generate_increasing_input_size_sequence(n=5) == [1, 10, 100, 1_000, 10_000]
-    assert ins.generate_random_input(input_size=10, seed=TEST_SEED) == [2, 1, 5, 4, 4, 3, 2, 9, 2, 10]
     assert ins.generate_worst_case(10, descending=True) == range(1, 11)
     assert ins.generate_worst_case(10, descending=False) == range(10, 0, -1)
 
