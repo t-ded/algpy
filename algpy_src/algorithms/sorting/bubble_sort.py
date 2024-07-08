@@ -38,13 +38,13 @@ class BubbleSort(SortingAlgorithm):
     def space_complexity(self) -> str:
         return '1'
 
-    def generate_increasing_input_size_sequence(self, n: int = 6, *args: Any, **kwargs: Any) -> list[int]:
+    def generate_increasing_input_size_sequence(self, n: int = 3, *args: Any, **kwargs: Any) -> list[int]:
         """
         Generates a list of increasing integers corresponding to number of elements in the to-be-sorted sequence.
 
         Parameters
         ----------
-        n : int
+        n : int (default 3)
             Exponent of the highest number in the list (10^n).
         *args : Any
             Additional arguments passed to the input sizes generating function.
