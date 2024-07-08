@@ -1,5 +1,4 @@
 *.iml
-*.ipynb
 .ENV
 .env
 .ipynb_checkpoints/
