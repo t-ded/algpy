@@ -14,10 +14,10 @@ def bs() -> BubbleSort:
 def test_bubble_sort_base(bs: BubbleSort) -> None:
     assert bs.name == 'Bubble Sort'
     assert bs.best_case_time_complexity == 'n'
-    assert bs.best_case_description == 'fully sorted array'
+    assert bs.best_case_description == 'a fully sorted array'
     assert bs.average_case_time_complexity == 'n^2'
     assert bs.worst_case_time_complexity == 'n^2'
-    assert bs.worst_case_description == 'fully unsorted array'
+    assert bs.worst_case_description == 'a fully unsorted array'
     assert bs.space_complexity == '1'
     assert bs.generate_increasing_input_size_sequence(n=5) == [1, 10, 100, 1_000, 10_000]
     assert bs.generate_worst_case(10, descending=True) == range(1, 11)

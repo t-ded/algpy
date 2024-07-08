@@ -20,7 +20,7 @@ class InsertionSort(SortingAlgorithm):
 
     @property
     def best_case_description(self) -> str:
-        return 'fully sorted array'
+        return 'a fully sorted array'
 
     @property
     def average_case_time_complexity(self) -> str:
@@ -32,7 +32,7 @@ class InsertionSort(SortingAlgorithm):
 
     @property
     def worst_case_description(self) -> str:
-        return 'fully unsorted array'
+        return 'a fully unsorted array'
 
     @property
     def space_complexity(self) -> str:

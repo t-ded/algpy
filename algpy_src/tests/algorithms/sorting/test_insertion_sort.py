@@ -14,10 +14,10 @@ def ins() -> InsertionSort:
 def test_insertion_sort_base(ins: InsertionSort) -> None:
     assert ins.name == 'Insertion Sort'
     assert ins.best_case_time_complexity == 'n'
-    assert ins.best_case_description == 'fully sorted array'
+    assert ins.best_case_description == 'a fully sorted array'
     assert ins.average_case_time_complexity == 'n^2'
     assert ins.worst_case_time_complexity == 'n^2'
-    assert ins.worst_case_description == 'fully unsorted array'
+    assert ins.worst_case_description == 'a fully unsorted array'
     assert ins.space_complexity == '1'
     assert ins.generate_increasing_input_size_sequence(n=5) == [1, 10, 100, 1_000, 10_000]
     assert ins.generate_worst_case(10, descending=True) == range(1, 11)
