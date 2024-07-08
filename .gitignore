@@ -15,5 +15,6 @@
 .ruff_cache/
 .venv*/
 algpy/
+algpy_examples/
 __pycache__/
 .coverage
