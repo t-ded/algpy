@@ -4,8 +4,8 @@
 
 Please include a summary of the changes and the related issue. Please also include relevant motivation and context.
 
-## Related issue
-- Issue #issue_number (link)
+## Related issue(s)
+- Resolves #issue-number (link)
 
 ## Type of change
 
