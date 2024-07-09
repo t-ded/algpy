@@ -1,4 +1,4 @@
-# Feature Pull Request
+# Bux Fix Pull Request
 
 ## Description
 
@@ -9,9 +9,7 @@ Please include a summary of the changes and the related issue. Please also inclu
 
 ## Type of change
 
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Enhancement (non-breaking change which improves existing functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] Documentation update
 
 ## Checklist
@@ -21,6 +19,7 @@ Please include a summary of the changes and the related issue. Please also inclu
 
 - [ ] I believe that my updates will improve the experience with AlgPy for me and/or other users
 - [ ] My code follows the style guidelines of AlgPy and passes both mypy and ruff checks
+- [ ] I have added tests that prove my fix is effective and will help to prevent similar bug arising in the future
 - [ ] I have performed a self-review of my code
 - [ ] My changes generate no new warnings
 - [ ] New and existing unit tests pass locally with my changes
@@ -30,7 +29,6 @@ Please include a summary of the changes and the related issue. Please also inclu
 - [ ] I believe my code closes the related issue (if any exists)
 - [ ] I have commented my code and included docstrings (in case of larger changes and new methods/classes/logic/...)
 - [ ] I have made corresponding changes to the documentation (in case of changes that required this)
-- [ ] I have added tests that prove my fix is effective or that my feature works (in case of fixes and/or new features)
 
 ## Additional Information
 
