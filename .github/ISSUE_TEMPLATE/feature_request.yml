@@ -1,5 +1,5 @@
 name: '💡 Feature request'
-description: Suggest a new feature or enhancement for Polars.
+description: Suggest a missing feature for AlgPy.
 labels: [enhancement, new feature]
 
 body:
