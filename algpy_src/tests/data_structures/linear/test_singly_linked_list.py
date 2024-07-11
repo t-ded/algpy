@@ -1,9 +1,11 @@
 import logging
-from typing import Optional
+from typing import Optional, TypeVar
 
 import pytest
 
 from algpy_src.data_structures.linear.linked_list import LinkedList
+
+T = TypeVar('T')
 
 
 @pytest.fixture()
@@ -11,7 +13,7 @@ def sll() -> LinkedList:
     return LinkedList(linked_list_type='singly')
 
 
-def traverse_and_check_equals_expected_sequence(ll: LinkedList, expected_state: list[object]):
+def traverse_and_check_equals_expected_sequence(ll: LinkedList, expected_state: list[T]):
     if len(expected_state) == 0:
         assert ll.head is None
     else:
@@ -20,6 +22,7 @@ def traverse_and_check_equals_expected_sequence(ll: LinkedList, expected_state: 
             assert current is not None
             assert current.value == value
             current = current.successor
+        assert ll.length == len(expected_state)
 
 
 class TestSinglyLinkedList:
@@ -91,11 +94,11 @@ class TestSinglyLinkedList:
             pytest.param([1, 0], [0, 0], [[1], [0, 1]], id='Insert two nodes prepend'),
             pytest.param([0, 2, 1], [0, 1, 1], [[0], [0, 2], [0, 1, 2]], id='Insert three nodes one in between'),
             pytest.param([0, 'B', None, (4, 5), ['6', '7']], [-1, -1, -1, -1, -1], [[0], [0, 'B'], [0, 'B', None], [0, 'B', None, (4, 5)], [0, 'B', None, (4, 5), ['6', '7']]],
-                         id='Append various objects'),
+                         id='Append various Ts'),
 
         ]
     )
-    def test_singly_linked_list_insert(self, sll: LinkedList, insert_value_sequence: list[object], insert_index_sequence: list[int], expected_state_after_insert: list[list[object]]) -> None:
+    def test_singly_linked_list_insert(self, sll: LinkedList, insert_value_sequence: list[T], insert_index_sequence: list[int], expected_state_after_insert: list[list[T]]) -> None:
         assert sll.head is None
         for insert_value, insert_index, expected_state in zip(insert_value_sequence, insert_index_sequence, expected_state_after_insert):
             sll.insert(insert_value, insert_index)
@@ -130,16 +133,29 @@ class TestSinglyLinkedList:
             pytest.param([0, 1], [1], [-1], [[0]], id='Delete second item of two by value and index -1'),
             pytest.param([0, 1, 2], [1], [None], [[0, 2]], id='Delete middle item of three by value'),
             pytest.param([0, 1, 2], [1], [1], [[0, 2]], id='Delete middle item of three by value and index'),
+            pytest.param([0, 0], [0], [None], [[0]], id='Delete first encountered value'),
         ]
     )
-    def test_singly_linked_list_delete(self, sll: LinkedList, initial_state: list[object], delete_value_sequence: list[object],
-                                       delete_index_sequence: list[Optional[int]], expected_state_after_delete: list[list[Optional[object]]]) -> None:
+    def test_singly_linked_list_delete(self, sll: LinkedList, initial_state: list[T], delete_value_sequence: list[T],
+                                       delete_index_sequence: list[Optional[int]], expected_state_after_delete: list[list[Optional[T]]]) -> None:
         assert sll.head is None
         for insert_value in initial_state:
             sll.insert(insert_value, -1)
-        sll_len = sll.length
         for delete_value, delete_index, expected_state in zip(delete_value_sequence, delete_index_sequence, expected_state_after_delete):
             sll.delete(delete_value, delete_index, verbosity_level=2)
             traverse_and_check_equals_expected_sequence(sll, expected_state)
-            sll_len -= 1
-            assert sll_len == sll.length
+
+    @pytest.mark.parametrize(
+        ('initial_state', 'value_to_search', 'expected_result'),
+        [
+            pytest.param([], 1, None, id='Returns None on empty linked list'),
+            pytest.param([0, 2, 3, 4], 1, None, id='Returns None if value not found'),
+            pytest.param([0, 1], 1, 1, id='Returns correctly if value found'),
+            pytest.param([1, 1, 1], 1, 0, id='Returns index of first value if multiple matching present'),
+        ]
+    )
+    def test_singly_linked_list_search(self, sll: LinkedList, initial_state: list[T], value_to_search: T, expected_result: Optional[int]) -> None:
+        assert sll.head is None
+        for insert_value in initial_state:
+            sll.insert(insert_value, -1)
+        assert sll.search(value_to_search) == expected_result
