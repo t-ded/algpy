@@ -25,6 +25,7 @@ class LinkedList(DataStructure):
             current = self.head.successor
             while current is not None:
                 str_repr += f' -> {current.value}'
+                current = current.successor
         return str_repr
 
     @property
@@ -170,6 +171,7 @@ class LinkedList(DataStructure):
                 self.increment_n_ops()
         self.head = new_node
         self.increment_n_ops(2)
+        self.length += 1
 
     def append(self, data: T) -> None:
         """
@@ -189,6 +191,7 @@ class LinkedList(DataStructure):
             new_node.change_predecessor(tail)
             self.tail = new_node
             self.increment_n_ops(2)
+        self.length += 1
 
     def insert_to_empty(self, data: T) -> None:
         """
@@ -205,6 +208,7 @@ class LinkedList(DataStructure):
         if self.linked_list_type == 'doubly':
             self.tail = new_node
             self.increment_n_ops()
+        self.length += 1
 
     def insert(self, data: T, index: int, verbosity_level: VERBOSITY_LEVELS = 0) -> None:
         """
@@ -224,33 +228,34 @@ class LinkedList(DataStructure):
         self.reset_n_ops()
         if verbosity_level > 0:
             print(self)
-        if index > self.length:
+        if index > self.length or (index < 0 and abs(index + 1) > self.length):
             logging.warning('Index out of range.')
         else:
             if self.head is None:
                 self.insert_to_empty(data)
             else:
                 if index < 0:
-                    index %= self.length
+                    index += self.length + 1
                 if index == 0:
                     self.prepend(data)
                 elif index == self.length:
                     self.append(data)
                 else:
-                    preceding = self.traverse(index, verbosity_level=2 if verbosity_level == 2 else 0)
+                    preceding = self.traverse(index - 1, verbosity_level=2 if verbosity_level == 2 else 0)
                     if preceding is not None:
                         following = preceding.successor
-                        new_node = LinkedListNode(data)
-                        new_node.change_successor(following)
-                        preceding.change_successor(new_node)
-                        if self.linked_list_type == 'doubly':
-                            new_node.change_predecessor(preceding)
-                            if following is not None:
-                                following.change_predecessor(new_node)
+                        if following is not None:
+                            new_node = LinkedListNode(data)
+                            new_node.change_successor(following)
+                            preceding.change_successor(new_node)
+                            if self.linked_list_type == 'doubly':
+                                new_node.change_predecessor(preceding)
+                                if following is not None:
+                                    following.change_predecessor(new_node)
+                                    self.increment_n_ops()
                                 self.increment_n_ops()
-                            self.increment_n_ops()
-                        self.increment_n_ops(2)
-            self.length += 1
+                            self.increment_n_ops(2)
+                            self.length += 1
         if verbosity_level > 0:
             print(self)
 
