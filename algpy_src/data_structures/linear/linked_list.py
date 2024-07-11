@@ -314,7 +314,7 @@ class LinkedList(DataStructure):
                 self.increment_n_ops(3)
                 self.length -= 1
 
-    def delete(self, data: T, index: Optional[int], verbosity_level: VERBOSITY_LEVELS = 0) -> None:
+    def delete(self, data: T, index: Optional[int] = None, verbosity_level: VERBOSITY_LEVELS = 0) -> None:
         """
         Delete node with value 'data'.
         If index is passed, the element at given index has to hold value equal to 'data'. Otherwise, first entry with given value is deleted.
@@ -323,7 +323,7 @@ class LinkedList(DataStructure):
         ----------
         data : Any
             Value which the node to be deleted is holding.
-        index : Optional[int]
+        index : Optional[int] (default None)
             Index of the node to be deleted. Has to be lower than or equal to self.length.
         verbosity_level : int (default 0)
             Select the amount of information to print throughout the deletion.
@@ -337,11 +337,14 @@ class LinkedList(DataStructure):
         if self.head is None:
             return
         if index is not None:
-            if index > self.length:
+            if index > self.length or (index < 0 and abs(index) > self.length):
+                print('!!!')
                 logging.warning('Index out of range.')
             else:
+                print()
+                print(index, self.length)
                 if index < 0:
-                    index %= self.length
+                    index += self.length
                 if index == 0:
                     if self.head.value == data:
                         self.delete_head()
