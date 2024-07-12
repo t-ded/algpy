@@ -94,7 +94,7 @@ class TestSinglyLinkedList:
             pytest.param([1, 0], [0, 0], [[1], [0, 1]], id='Insert two nodes prepend'),
             pytest.param([0, 2, 1], [0, 1, 1], [[0], [0, 2], [0, 1, 2]], id='Insert three nodes one in between'),
             pytest.param([0, 'B', None, (4, 5), ['6', '7']], [-1, -1, -1, -1, -1], [[0], [0, 'B'], [0, 'B', None], [0, 'B', None, (4, 5)], [0, 'B', None, (4, 5), ['6', '7']]],
-                         id='Append various Ts'),
+                         id='Append various objects'),
 
         ]
     )
@@ -142,7 +142,7 @@ class TestSinglyLinkedList:
         for insert_value in initial_state:
             sll.insert(insert_value, -1)
         for delete_value, delete_index, expected_state in zip(delete_value_sequence, delete_index_sequence, expected_state_after_delete):
-            sll.delete(delete_value, delete_index, verbosity_level=2)
+            sll.delete(delete_value, delete_index)
             traverse_and_check_equals_expected_sequence(sll, expected_state)
 
     @pytest.mark.parametrize(

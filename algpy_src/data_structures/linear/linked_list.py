@@ -146,7 +146,7 @@ class LinkedList(DataStructure):
             elif self.linked_list_type == 'doubly':
                 current = self.tail
                 if current is not None:
-                    for i in range(self.length - index):
+                    for i in range(self.length - index - 1):
                         if verbosity_level == 2:
                             print(current)
                         if current.predecessor is not None:
@@ -291,7 +291,7 @@ class LinkedList(DataStructure):
                 if self.linked_list_type == 'doubly':
                     self.tail = preceding
                     self.increment_n_ops()
-                self.increment_n_ops(3)
+                self.increment_n_ops(2)
                 self.length -= 1
 
     def delete_middle(self, preceding: LinkedListNode) -> None:
@@ -337,17 +337,16 @@ class LinkedList(DataStructure):
         if self.head is None:
             return
         if index is not None:
-            if index > self.length or (index < 0 and abs(index) > self.length):
-                print('!!!')
+            if index >= self.length or (index < 0 and abs(index) > self.length):
                 logging.warning('Index out of range.')
             else:
-                print()
-                print(index, self.length)
                 if index < 0:
                     index += self.length
                 if index == 0:
                     if self.head.value == data:
                         self.delete_head()
+                    if self.length == 0:
+                        self.tail = None
                 else:
                     preceding = self.traverse(index - 1, verbosity_level=2 if verbosity_level == 2 else 0)
                     if preceding is not None and preceding.successor is not None and preceding.successor.value == data:
@@ -363,6 +362,8 @@ class LinkedList(DataStructure):
                     self.delete_head()
                     if verbosity_level > 0:
                         print(self)
+                    if self.length == 0:
+                        self.tail = None
                     return
                 while current.successor is not None:
                     self.increment_n_ops()
