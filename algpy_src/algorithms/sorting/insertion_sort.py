@@ -42,27 +42,7 @@ class InsertionSort(SortingAlgorithm):
     def is_stable(self) -> bool:
         return True
 
-    def generate_increasing_input_size_sequence(self, n: int = 3, *args: Any, **kwargs: Any) -> list[int]:
-        """
-        Generates a list of increasing integers corresponding to number of elements in the to-be-sorted sequence.
-
-        Parameters
-        ----------
-        n : int (default 3)
-            Exponent of the highest number in the list (10^n).
-        *args : Any
-            Additional arguments passed to the input sizes generating function.
-        **kwargs : Any
-            Additional keyword arguments passed to the input sizes generating function.
-
-        Returns
-        -------
-        input_sizes : list[int]
-            List of increasing integers specified as exponents of 10 from 10^0 up to 10^n.
-        """
-        return [10 ** i for i in range(n)]
-
-    def generate_worst_case(self, input_size: int, *args: Any, **kwargs: Any) -> range:
+    def generate_worst_case(self, input_size: int, *args: Any, **kwargs: Any) -> Iterable[int]:
         """
         Generates a sorted range of integers from 1 to input_size.
         If 'descending' is passed as a keyword argument with value False, the order of the range is descending, otherwise ascending

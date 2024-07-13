@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Optional, Iterable, Generic, Any
+from typing import Optional, Generic, Any
 
 from algpy_src.base.complexity_object import ComplexityObject
 from algpy_src.base.constants import VERBOSITY_LEVELS, ProblemInstance, InputSize
@@ -52,23 +52,6 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
     @abstractmethod
     def space_complexity(self) -> str:
         return 'N/A'
-
-    @abstractmethod
-    def generate_increasing_input_size_sequence(self, *args: Any, **kwargs: Any) -> Iterable[InputSize]:
-        """
-        Parameters
-        ----------
-        *args : Any
-            Additional arguments passed to the input sizes generating function.
-        **kwargs : Any
-            Additional keyword arguments passed to the input sizes generating function.
-
-        Returns
-        -------
-        input_size_sequence : Iterable[InputSize]
-            Sequence of viable input size parameters for generate_random_input(input_size) in order of increasing complexity.
-        """
-        raise NotImplementedError()
 
     @abstractmethod
     def generate_worst_case(self, input_size: InputSize, *args: Any, **kwargs: Any) -> ProblemInstance:

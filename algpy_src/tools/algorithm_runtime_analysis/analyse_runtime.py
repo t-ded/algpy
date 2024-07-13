@@ -1,7 +1,7 @@
 import inspect
 import logging
 import time
-from typing import Optional, Iterable
+from typing import Optional, Iterable, cast
 
 import numpy as np
 
@@ -9,6 +9,7 @@ from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.base.algorithm_runtime_breakdown import AlgorithmRuntimeBreakdown, AlgorithmRuntimeSingle
 from algpy_src.base.constants import ProblemInstance, InputSize
 from algpy_src.base.utils import print_delimiter, print_gap
+from algpy_src.tools.algorithm_input_generation.increasing_input_size_sequence_generators import generate_increasing_input_size_sequence
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator
 from algpy_src.tools.complexity_info_display.complexity_info_displaying import print_time_complexity_info
 
@@ -75,7 +76,7 @@ class AlgorithmRuntimeAnalytic:
             std_ops=float(np.std(ops_counts)),
         )
 
-    def get_runtime_analysis(self, input_sequence: Optional[dict[InputSize, ProblemInstance]] = None, **kwargs) -> None:
+    def get_runtime_analysis(self, input_sequence: Optional[dict[InputSize, ProblemInstance]] = None, max_input_size: Optional[InputSize] = None, **kwargs) -> None:
         """
         Runs algorithm assigned to this analytic on predefined or randomly generated instances of given sizes to assess its runtime complexity.
         The complexity breakdown is saved to this object's runtime_analysis attribute.
@@ -85,6 +86,9 @@ class AlgorithmRuntimeAnalytic:
         input_sequence : Optional[dict[InputSize, ProblemInstance]] (default None)
             Optional dictionary of input_size : problem instance pairs to analyse the algorithm's runtime on.
             If not given, random inputs are generated.
+        max_input_size : Optional[InputSize] (default None)
+            Maximal size of an item in the randomly generated input sequence if input_sequence is not given.
+            Has to be given if input_sequence is not given.
         **kwargs : Any
             Additional keyword arguments passed to the run_algorithm() or generate_worst_case() function call.
 
@@ -93,17 +97,22 @@ class AlgorithmRuntimeAnalytic:
         runtime_breakdown : AlgorithmRuntimeBreakdown
             Dataclass storing aggregate info per each input problem instance.
         """
+        if input_sequence is None and max_input_size is None:
+            raise ValueError('One of input_sequence or max_input_size must be given.')
+
         self.runtime_analysis = AlgorithmRuntimeBreakdown(
             algorithm=self.algorithm,
             used_random=input_sequence is None,
         )
 
         if input_sequence is None:
-            input_sizes: Iterable[InputSize] = self.algorithm.generate_increasing_input_size_sequence()
+            max_input_size = cast(InputSize, max_input_size)
+            input_sizes: Iterable[InputSize] = generate_increasing_input_size_sequence(self.algorithm, max_input_size=max_input_size)
             input_sequence = {
                 input_size: self.random_input_generator.generate_random_input(input_size)
                 for input_size in input_sizes
             }
+        cast(dict[InputSize, ProblemInstance], input_sequence)
 
         run_algorithm_args = list(inspect.signature(self.algorithm.run_algorithm).parameters)
         run_algorithm_kwargs = {k: kwargs.pop(k) for k in dict(kwargs) if k in run_algorithm_args}

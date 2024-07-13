@@ -46,6 +46,28 @@ class SortingAlgorithm(Algorithm[Iterable[Comparable], int]):
         return True
 
     @abstractmethod
+    def generate_worst_case(self, input_size: int, *args: Any, **kwargs: Any) -> Iterable[Comparable]:
+        """
+        Way to generate single input instance of given size corresponding to algorithm's worst case scenario.
+        Output of this function has to be accepted by run_algorithm().
+
+        Parameters
+        ----------
+        input_size : InputSize
+            Desired input size (form depends on specific algorithm).
+        *args : Any
+            Additional arguments passed to the generating function.
+        **kwargs : Any
+            Additional keyword arguments passed to the generating function.
+
+        Returns
+        -------
+        instance : ProblemInstance
+            A problem instance supported in run_algorithm(input_instance=instance).
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
                       *args: Any, **kwargs: Any) -> list[Comparable]:
         raise NotImplementedError()

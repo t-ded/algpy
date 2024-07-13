@@ -19,7 +19,6 @@ def test_bubble_sort_base(bs: BubbleSort) -> None:
     assert bs.worst_case_time_complexity == 'n^2'
     assert bs.worst_case_description == 'a fully unsorted array'
     assert bs.space_complexity == '1'
-    assert bs.generate_increasing_input_size_sequence(n=5) == [1, 10, 100, 1_000, 10_000]
     assert bs.generate_worst_case(10, descending=True) == range(1, 11)
     assert bs.generate_worst_case(10, descending=False) == range(10, 0, -1)
 
