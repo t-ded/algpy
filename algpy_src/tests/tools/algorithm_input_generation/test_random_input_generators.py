@@ -3,7 +3,7 @@ import pytest
 from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
 from algpy_src.algorithms.sorting.insertion_sort import InsertionSort
 from algpy_src.base.constants import TEST_SEED
-from algpy_src.tests.test_utils.base_objects import ExampleAlgorithm, ExampleSortingAlgorithm
+from algpy_src.tests.test_utils.example_base_objects import ExampleAlgorithm, ExampleSortingAlgorithm
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator, RandomInputGeneratorSortingAlgorithm
 
 

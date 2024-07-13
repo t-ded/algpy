@@ -1,6 +1,6 @@
 import pytest
 
-from algpy_src.tests.test_utils.base_objects import ExampleSortingAlgorithm
+from algpy_src.tests.test_utils.example_base_objects import ExampleSortingAlgorithm
 
 
 @pytest.fixture()

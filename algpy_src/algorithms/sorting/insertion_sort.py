@@ -15,6 +15,10 @@ class InsertionSort(SortingAlgorithm):
         return 'Insertion Sort'
 
     @property
+    def is_deterministic(self) -> bool:
+        return True
+
+    @property
     def best_case_time_complexity(self) -> str:
         return 'n'
 

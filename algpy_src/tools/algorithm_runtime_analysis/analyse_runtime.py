@@ -9,7 +9,7 @@ from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.base.algorithm_runtime_breakdown import AlgorithmRuntimeBreakdown, AlgorithmRuntimeSingle
 from algpy_src.base.constants import ProblemInstance, InputSize
 from algpy_src.base.utils import print_delimiter, print_gap
-from algpy_src.tools.algorithm_input_generation.increasing_input_size_sequence_generators import generate_increasing_input_size_sequence
+from algpy_src.tools.algorithm_input_generation.generate_increasing_input_size_sequence import generate_increasing_input_size_sequence
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator
 from algpy_src.tools.complexity_info_display.complexity_info_displaying import print_time_complexity_info
 

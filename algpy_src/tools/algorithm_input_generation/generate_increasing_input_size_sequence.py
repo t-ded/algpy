@@ -29,7 +29,7 @@ def generate_increasing_input_size_sequence(algorithm: A, max_input_size: InputS
     """
     if isinstance(algorithm, SortingAlgorithm):
         if isinstance(max_input_size, int):
-            return np.linspace(1, max_input_size, num=sequence_length, dtype=int)
+            return list(np.linspace(1, max_input_size, num=sequence_length, dtype=int))
         raise ValueError("max_input_size must be an integer for SortingAlgorithm's increasing input size sequence generation")
 
     raise ValueError('No increasing input size sequence generator assigned for this algorithm class.')

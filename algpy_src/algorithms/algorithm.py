@@ -20,8 +20,9 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         return 'Generic Algorithm Class'
 
     @property
+    @abstractmethod
     def is_deterministic(self) -> bool:
-        return True
+        raise NotImplementedError()
 
     @property
     @abstractmethod

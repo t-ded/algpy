@@ -24,6 +24,10 @@ class ExampleAlgorithm(Algorithm[Iterable[Comparable], int]):
         return 'Example Algorithm'
 
     @property
+    def is_deterministic(self) -> bool:
+        return True
+
+    @property
     def best_case_time_complexity(self) -> str:
         return 'N/A'
 
@@ -47,9 +51,6 @@ class ExampleAlgorithm(Algorithm[Iterable[Comparable], int]):
     def space_complexity(self) -> str:
         return 'N/A'
 
-    def generate_increasing_input_size_sequence(self, *args: Any, **kwargs: Any) -> Iterable[int]:
-        return [1]
-
     def generate_worst_case(self, input_size: InputSize, *args: Any, **kwargs: Any) -> Iterable[Comparable]:
         return [1]
 
@@ -58,11 +59,15 @@ class ExampleAlgorithm(Algorithm[Iterable[Comparable], int]):
         return None
 
 
-class ExampleSortingAlgorithm(SortingAlgorithm, Algorithm[Iterable[Comparable], int]):
+class ExampleSortingAlgorithm(SortingAlgorithm):
 
     @property
     def name(self) -> str:
         return 'Example Sorting Algorithm'
+
+    @property
+    def is_deterministic(self) -> bool:
+        return True
 
     @property
     def best_case_time_complexity(self) -> str:
@@ -91,9 +96,6 @@ class ExampleSortingAlgorithm(SortingAlgorithm, Algorithm[Iterable[Comparable], 
     @property
     def is_stable(self) -> bool:
         return True
-
-    def generate_increasing_input_size_sequence(self, *args: Any, **kwargs: Any) -> Iterable[int]:
-        return [1, 2, 3]
 
     def generate_worst_case(self, input_size: int, *args: Any, **kwargs: Any) -> Iterable[Comparable]:
         return [1, 2, 3]

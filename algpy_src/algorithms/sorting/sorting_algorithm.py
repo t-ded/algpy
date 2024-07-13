@@ -37,13 +37,17 @@ class SortingAlgorithm(Algorithm[Iterable[Comparable], int]):
         return 'Base Sorting Algorithm'
 
     @property
+    def is_deterministic(self) -> bool:
+        raise NotImplementedError()
+
+    @property
     def n_ops(self) -> int:
         return self.n_swaps + self.n_comparisons
 
     @property
     @abstractmethod
     def is_stable(self) -> bool:
-        return True
+        raise NotImplementedError()
 
     @abstractmethod
     def generate_worst_case(self, input_size: int, *args: Any, **kwargs: Any) -> Iterable[Comparable]:
