@@ -38,6 +38,10 @@ class BubbleSort(SortingAlgorithm):
     def space_complexity(self) -> str:
         return '1'
 
+    @property
+    def is_stable(self) -> bool:
+        return True
+
     def generate_increasing_input_size_sequence(self, n: int = 3, *args: Any, **kwargs: Any) -> list[int]:
         """
         Generates a list of increasing integers corresponding to number of elements in the to-be-sorted sequence.

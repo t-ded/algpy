@@ -40,6 +40,11 @@ class SortingAlgorithm(Algorithm[Iterable[Comparable], int]):
     def n_ops(self) -> int:
         return self.n_swaps + self.n_comparisons
 
+    @property
+    @abstractmethod
+    def is_stable(self) -> bool:
+        return True
+
     @abstractmethod
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
                       *args: Any, **kwargs: Any) -> list[Comparable]:
