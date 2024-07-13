@@ -88,6 +88,10 @@ class ExampleSortingAlgorithm(SortingAlgorithm, Algorithm[Iterable[Comparable], 
     def space_complexity(self) -> str:
         return 'N/A'
 
+    @property
+    def is_stable(self) -> bool:
+        return True
+
     def generate_increasing_input_size_sequence(self, *args: Any, **kwargs: Any) -> Iterable[int]:
         return [1, 2, 3]
 

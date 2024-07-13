@@ -11,7 +11,7 @@ def test_get_generators() -> None:
     assert get_generator(InsertionSort()) == RandomInputGeneratorSortingAlgorithm
     assert get_generator(BubbleSort()) == RandomInputGeneratorSortingAlgorithm
     assert get_generator(ExampleSortingAlgorithm()) == RandomInputGeneratorSortingAlgorithm
-    with pytest.raises(KeyError):
+    with pytest.raises(ValueError):
         get_generator(ExampleAlgorithm())
 
 
