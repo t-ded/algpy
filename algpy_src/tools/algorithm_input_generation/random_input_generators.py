@@ -66,4 +66,4 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
     """
     if isinstance(algorithm, SortingAlgorithm):
         return RandomInputGeneratorSortingAlgorithm
-    raise KeyError('No random input generator assigned for this algorithm class.')
+    raise ValueError('No random input generator assigned for this algorithm class.')
