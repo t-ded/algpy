@@ -1,22 +1,24 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import TypeVar, Type
+from typing import TypeVar, Type, Generic
 
 from algpy_src.data_structures.data_structure import DataStructure
 
 G = TypeVar('G', bound='Graph')
+N = TypeVar('N', bound=object)
+E = TypeVar('E', bound=tuple[object, object, object])
 
 
-class Graph(DataStructure):
+class Graph(DataStructure, Generic[N, E]):
     """
     Base class for all graphs.
     """
 
     def __init__(self, directed: bool = False, multigraph: bool = False) -> None:
         super().__init__()
-        self._nodes: set[object] = set()
-        self._edges: set[tuple[object, object, object]] = set()
+        self._nodes: set[N] = set()
+        self._edges: set[E] = set()
         self._is_directed = directed
         self._is_multigraph = multigraph
 
@@ -39,11 +41,11 @@ class Graph(DataStructure):
         return self._is_multigraph
 
     @property
-    def nodes(self) -> set[object]:
+    def nodes(self) -> set[N]:
         return self._nodes
 
     @property
-    def edges(self) -> set[tuple[object, object, object]]:
+    def edges(self) -> set[E]:
         return self._edges
 
     @property
@@ -56,7 +58,7 @@ class Graph(DataStructure):
 
     @property
     @abstractmethod
-    def adjacency_list(self) -> dict[object, dict[object, object | list[object]]]:
+    def adjacency_list(self) -> dict[N, dict[N, object | list[object]]]:
         raise NotImplementedError()
 
     @property
@@ -64,15 +66,23 @@ class Graph(DataStructure):
     def adjacency_matrix(self) -> list[list[object | list[object]]]:
         raise NotImplementedError()
 
-    @abstractmethod
-    def add_node(self, node: object) -> None:
-        raise NotImplementedError()
+    def add_nodes_from(self, nodes: set[N]) -> None:
+        for node in nodes:
+            self.add_node(node)
 
     @abstractmethod
-    def add_edge(self, edge: tuple[object, object, object]) -> None:
+    def add_node(self, node: N) -> None:
+        raise NotImplementedError()
+
+    def add_edges_from(self, edges: set[E]) -> None:
+        for edge in edges:
+            self.add_edge(edge)
+
+    @abstractmethod
+    def add_edge(self, edge: E) -> None:
         raise NotImplementedError()
 
     @classmethod
     @abstractmethod
-    def from_adjacency_list(cls: Type[G], adjacency_list: dict[object, dict[object, object]]) -> G:
+    def from_adjacency_list(cls: Type[G], adjacency_list: dict[N, dict[N, object | list[object]]]) -> G:
         raise NotImplementedError()
