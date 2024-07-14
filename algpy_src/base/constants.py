@@ -14,6 +14,7 @@ class PrintableComparable(Comparable, Protocol):
 
 
 COMPLEXITIES = Literal['both', 'time', 'space']
+GRAPH_REPRESENTATIONS = Literal['list', 'matrix']
 TEST_SEED = 42
 VERBOSITY_LEVELS = Literal[0, 1, 2]
 
