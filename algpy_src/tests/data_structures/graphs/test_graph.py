@@ -25,6 +25,10 @@ class TestDirectedSimpleGraph:
         assert simple_digraph.number_of_nodes == 2
         assert simple_digraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': 1}, 'ExampleNodeB': {}}
         assert simple_digraph.adjacency_matrix == [[None, 1], [None, None]]
+        assert simple_digraph.neighbors('ExampleNodeA') == {'ExampleNodeB'}
+        assert simple_digraph.degree('ExampleNodeA') == 1
+        assert simple_digraph.neighbors('ExampleNodeB') == set()
+        assert simple_digraph.degree('ExampleNodeB') == 0
 
     def test_directed_simple_graph_add_nodes_edges(self, simple_digraph: ExampleDirectedSimpleGraph) -> None:
 

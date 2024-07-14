@@ -99,6 +99,12 @@ class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
                 self._adjacency_list[v][u] = data
         self.edges.add(edge)
 
+    def neighbors(self, node: Node) -> set[Node]:
+        return set(self._adjacency_list.get(node, {}).keys())
+
+    def degree(self, node: Node) -> int:
+        return len(self._adjacency_list.get(node, {}))
+
     @classmethod
     def from_adjacency_list(cls: Type[G], adjacency_list: dict[Node, dict[Node, EdgeData]]) -> G:
         raise NotImplementedError()
