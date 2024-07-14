@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import TypeVar, Type, Generic
+from typing import TypeVar, Type, Generic, Optional, Iterable
 
-from algpy_src.base.constants import GRAPH_REPRESENTATIONS
 from algpy_src.data_structures.data_structure import DataStructure
 
 G = TypeVar('G', bound='Graph')
@@ -15,17 +14,15 @@ EdgeData = TypeVar('EdgeData', bound=object)
 class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
     """
     Base class for all graphs.
+    Adjacency list representation is assumed for simplicity.
     """
 
-    def __init__(self, directed: bool = False, multigraph: bool = False, representation: GRAPH_REPRESENTATIONS = 'list') -> None:
+    def __init__(self, directed: bool = False, multigraph: bool = False) -> None:
         super().__init__()
-        self._nodes: set[Node] = set()
         self._edges: set[Edge] = set()
         self._is_directed = directed
         self._is_multigraph = multigraph
-        self._representation = representation
         self._adjacency_list: dict[Node, dict[Node, EdgeData | list[EdgeData]]] = {}
-        self._adjacency_matrix: list[list[EdgeData | list[EdgeData]]] = []
 
     @property
     @abstractmethod
@@ -33,9 +30,8 @@ class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
         return 'Base Graph'
 
     @property
-    @abstractmethod
     def space_complexity(self) -> str:
-        raise NotImplementedError()
+        return 'V + E'
 
     @property
     def is_directed(self) -> bool:
@@ -46,12 +42,8 @@ class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
         return self._is_multigraph
 
     @property
-    def representation(self) -> str:
-        return 'Adjacency ' + self._representation
-
-    @property
-    def nodes(self) -> set[Node]:
-        return self._nodes
+    def nodes(self) -> list[Node]:
+        return list(self._adjacency_list.keys())
 
     @property
     def edges(self) -> set[Edge]:
@@ -59,39 +51,54 @@ class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
 
     @property
     def number_of_nodes(self) -> int:
-        return len(self._nodes)
+        return len(self.nodes)
 
     @property
     def number_of_edges(self) -> int:
         return len(self._edges)
 
     @property
-    @abstractmethod
-    def adjacency_list(self) -> dict[Node, dict[Node, EdgeData]]:
-        raise NotImplementedError()
+    def adjacency_list(self) -> dict[Node, dict[Node, EdgeData | list[EdgeData]]]:
+        return self._adjacency_list
 
     @property
-    @abstractmethod
-    def adjacency_matrix(self) -> list[list[EdgeData]]:
-        raise NotImplementedError()
+    def adjacency_matrix(self) -> list[list[Optional[EdgeData | list[EdgeData]]]]:
+        adj_matrix: list[list[Optional[EdgeData | list[EdgeData]]]] = []
+        for i, u in enumerate(self.nodes):
+            adj_matrix.append([])
+            for v in self.nodes:
+                adj_matrix[i].append(self.adjacency_list.get(u, {}).get(v, None))
+        return adj_matrix
 
-    def add_nodes_from(self, nodes: set[Node]) -> None:
+    def add_nodes_from(self, nodes: Iterable[Node]) -> None:
         for node in nodes:
             self.add_node(node)
 
-    @abstractmethod
     def add_node(self, node: Node) -> None:
-        raise NotImplementedError()
+        self._adjacency_list.setdefault(node, {})
 
-    def add_edges_from(self, edges: set[Edge]) -> None:
+    def add_edges_from(self, edges: Iterable[Edge]) -> None:
         for edge in edges:
             self.add_edge(edge)
 
-    @abstractmethod
     def add_edge(self, edge: Edge) -> None:
-        raise NotImplementedError()
+        u, v, data = edge
+        self.add_nodes_from({u, v})
+        if self.is_multigraph:
+            if v in self._adjacency_list[u]:
+                self._adjacency_list[u][v].append(data)
+                if not self.is_directed:
+                    self._adjacency_list[v][u].append(data)
+            else:
+                self._adjacency_list[u][v] = [data]
+                if not self.is_directed:
+                    self._adjacency_list[v][u] = [data]
+        else:
+            self._adjacency_list[u][v] = data
+            if not self._is_directed:
+                self._adjacency_list[v][u] = data
+        self.edges.add(edge)
 
     @classmethod
-    @abstractmethod
     def from_adjacency_list(cls: Type[G], adjacency_list: dict[Node, dict[Node, EdgeData]]) -> G:
         raise NotImplementedError()
