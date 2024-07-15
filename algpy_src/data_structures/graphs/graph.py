@@ -1,17 +1,16 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import TypeVar, Type, Generic, Optional, Iterable
+from typing import TypeVar, Type, Generic, Optional, Iterable, cast
 
 from algpy_src.data_structures.data_structure import DataStructure
 
 G = TypeVar('G', bound='Graph')
 Node = TypeVar('Node', bound=object)
-Edge = TypeVar('Edge', bound=tuple[object, object, object])
 EdgeData = TypeVar('EdgeData', bound=object)
 
 
-class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
+class Graph(DataStructure, Generic[Node, EdgeData]):
     """
     Base class for all graphs.
     Adjacency list representation is assumed for simplicity.
@@ -19,7 +18,7 @@ class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
 
     def __init__(self, directed: bool = False, multigraph: bool = False) -> None:
         super().__init__()
-        self._edges: set[Edge] = set()
+        self._edges: set[tuple[Node, Node, EdgeData]] = set()
         self._is_directed = directed
         self._is_multigraph = multigraph
         self._adjacency_list: dict[Node, dict[Node, EdgeData | list[EdgeData]]] = {}
@@ -46,7 +45,7 @@ class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
         return list(self._adjacency_list.keys())
 
     @property
-    def edges(self) -> set[Edge]:
+    def edges(self) -> set[tuple[Node, Node, EdgeData]]:
         return self._edges
 
     @property
@@ -77,18 +76,18 @@ class Graph(DataStructure, Generic[Node, Edge, EdgeData]):
     def add_node(self, node: Node) -> None:
         self._adjacency_list.setdefault(node, {})
 
-    def add_edges_from(self, edges: Iterable[Edge]) -> None:
+    def add_edges_from(self, edges: Iterable[tuple[Node, Node, EdgeData]]) -> None:
         for edge in edges:
             self.add_edge(edge)
 
-    def add_edge(self, edge: Edge) -> None:
+    def add_edge(self, edge: tuple[Node, Node, EdgeData]) -> None:
         u, v, data = edge
         self.add_nodes_from({u, v})
         if self.is_multigraph:
             if v in self._adjacency_list[u]:
-                self._adjacency_list[u][v].append(data)
+                cast(list[EdgeData], self._adjacency_list[u][v]).append(data)
                 if not self.is_directed:
-                    self._adjacency_list[v][u].append(data)
+                    cast(list[EdgeData], self._adjacency_list[u][v]).append(data)
             else:
                 self._adjacency_list[u][v] = [data]
                 if not self.is_directed:
