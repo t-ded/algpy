@@ -102,7 +102,7 @@ class Graph(DataStructure, Generic[Node, EdgeData]):
         return set(self._adjacency_list.get(node, {}).keys())
 
     def degree(self, node: Node) -> int:
-        return len(self._adjacency_list.get(node, {}))
+        return sum(len(edges) if isinstance(edges, list) else 1 for edges in self._adjacency_list.get(node, {}).values())
 
     @classmethod
     def from_adjacency_list(cls: Type[G], adjacency_list: dict[Node, dict[Node, EdgeData]]) -> G:
