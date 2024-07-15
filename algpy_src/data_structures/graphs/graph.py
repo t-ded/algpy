@@ -87,7 +87,7 @@ class Graph(DataStructure, Generic[Node, EdgeData]):
             if v in self._adjacency_list[u]:
                 cast(list[EdgeData], self._adjacency_list[u][v]).append(data)
                 if not self.is_directed:
-                    cast(list[EdgeData], self._adjacency_list[u][v]).append(data)
+                    cast(list[EdgeData], self._adjacency_list[v][u]).append(data)
             else:
                 self._adjacency_list[u][v] = [data]
                 if not self.is_directed:
