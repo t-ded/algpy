@@ -22,6 +22,8 @@ class TestDirectedSimpleGraph:
         assert simple_digraph.edges == set()
         assert simple_digraph.number_of_edges == 0
         assert simple_digraph.number_of_nodes == 0
+        assert simple_digraph.neighbors('ExampleNode') == set()
+        assert simple_digraph.degree('ExampleNode') == 0
 
     def test_directed_simple_graph_add_nodes_edges(self, simple_digraph: ExampleDirectedSimpleGraph) -> None:
 
@@ -72,6 +74,8 @@ class TestSimpleGraph:
         assert simple_graph.edges == set()
         assert simple_graph.number_of_edges == 0
         assert simple_graph.number_of_nodes == 0
+        assert simple_graph.neighbors('ExampleNode') == set()
+        assert simple_graph.degree('ExampleNode') == 0
 
     def test_simple_graph_add_nodes_edges(self, simple_graph: ExampleSimpleGraph) -> None:
 

@@ -22,6 +22,8 @@ class TestDirectedMultigraph:
         assert multidigraph.edges == set()
         assert multidigraph.number_of_edges == 0
         assert multidigraph.number_of_nodes == 0
+        assert multidigraph.neighbors('ExampleNode') == set()
+        assert multidigraph.degree('ExampleNode') == 0
 
     def test_directed_multigraph_add_nodes_edges(self, multidigraph: ExampleDirectedMultigraph) -> None:
 
@@ -69,6 +71,8 @@ class TestSimpleGraph:
         assert multigraph.edges == set()
         assert multigraph.number_of_edges == 0
         assert multigraph.number_of_nodes == 0
+        assert multigraph.neighbors('ExampleNode') == set()
+        assert multigraph.degree('ExampleNode') == 0
 
     def test_multigraph_add_nodes_edges(self, multigraph: ExampleMultigraph) -> None:
 
