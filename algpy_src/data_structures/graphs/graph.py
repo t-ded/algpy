@@ -33,7 +33,9 @@ class Graph(DataStructure, Generic[Node, EdgeData]):
         self._edges: set[tuple[Node, Node, EdgeData]] = set()
         self._is_directed = directed
         self._is_multigraph = multigraph
-        self._adjacency_list: dict[Node, dict[Node, EdgeData | list[EdgeData]]] = {}
+        self._adjacency_list: dict[Node, dict[Node, EdgeData | set[EdgeData]]] = {}
+        self._adjacency_matrix: list[list[Optional[EdgeData | set[EdgeData]]]] = []
+        self._adjacency_matrix_is_actual: bool = True
 
     @property
     @abstractmethod
@@ -106,20 +108,20 @@ class Graph(DataStructure, Generic[Node, EdgeData]):
         return len(self._edges)
 
     @property
-    def adjacency_list(self) -> dict[Node, dict[Node, EdgeData | list[EdgeData]]]:
+    def adjacency_list(self) -> dict[Node, dict[Node, EdgeData | set[EdgeData]]]:
         """
         Getter for the adjacency list representation of the graph.
 
         Returns
         -------
-        adjacency_list: dict[Node, dict[Node, dict[Node, EdgeData | list[EdgeData]]]]
+        adjacency_list: dict[Node, dict[Node, dict[Node, EdgeData | set[EdgeData]]]]
             Adjacency list representation of the graph, represented as a dict of node : neighbours pairs with
-            neighbours being a dict of neighbour : edge data or list of edge data in case of a multigraph.
+            neighbours being a dict of neighbour : edge data or set of edge data in case of a multigraph.
         """
         return self._adjacency_list
 
     @property
-    def adjacency_matrix(self, cache_as_attribute: bool = False) -> list[list[Optional[EdgeData | list[EdgeData]]]]:
+    def adjacency_matrix(self, cache_as_attribute: bool = False) -> list[list[Optional[EdgeData | set[EdgeData]]]]:
         """
         Getter for the adjacency matrix of the graph.
         Note that the graph is internally represented as an adjacency list, thus the adjacency matrix is built in O(n^2) time with O(n^2) space complexity for each call of this method.
@@ -132,16 +134,21 @@ class Graph(DataStructure, Generic[Node, EdgeData]):
 
         Returns
         -------
-        adjacency_matrix : list[list[Optional[EdgeData | list[EdgeData]]]]
-            Adjacency matrix representation of the graph object represented as a list of lists with edges represented either by the data itself or list of data in case of a multigraph.
+        adjacency_matrix : list[list[Optional[EdgeData | set[EdgeData]]]]
+            Adjacency matrix representation of the graph object represented as a list of lists with edges represented either by the data itself or set of data in case of a multigraph.
             Symmetrical for undirected graph.
         """
-        adj_matrix: list[list[Optional[EdgeData | list[EdgeData]]]] = []
-        for i, u in enumerate(self.nodes):
-            adj_matrix.append([])
-            for v in self.nodes:
-                adj_matrix[i].append(self.adjacency_list.get(u, {}).get(v, None))
-        return adj_matrix
+        if not self._adjacency_matrix_is_actual:
+            adj_matrix: list[list[Optional[EdgeData | set[EdgeData]]]] = []
+            for i, u in enumerate(self.nodes):
+                adj_matrix.append([])
+                for v in self.nodes:
+                    adj_matrix[i].append(self.adjacency_list.get(u, {}).get(v, None))
+            if cache_as_attribute is True:
+                self._adjacency_matrix = adj_matrix
+                self._adjacency_matrix_is_actual = True
+            return adj_matrix
+        return self._adjacency_matrix
 
     def add_nodes_from(self, nodes: Iterable[Node]) -> None:
         """
@@ -165,7 +172,9 @@ class Graph(DataStructure, Generic[Node, EdgeData]):
         node : Node
             Node to add.
         """
-        self._adjacency_list.setdefault(node, {})
+        if node not in self._adjacency_list:
+            self._adjacency_list[node] = {}
+            self._adjacency_matrix_is_actual = False
 
     def add_edges_from(self, edges: Iterable[tuple[Node, Node, EdgeData]]) -> None:
         """
@@ -196,17 +205,21 @@ class Graph(DataStructure, Generic[Node, EdgeData]):
         self.add_nodes_from({u, v})
         if self.is_multigraph:
             if v in self._adjacency_list[u]:
-                cast(list[EdgeData], self._adjacency_list[u][v]).append(data)
+                if data not in cast(set[EdgeData], self._adjacency_list[u][v]):
+                    self._adjacency_matrix_is_actual = False
+                cast(set[EdgeData], self._adjacency_list[u][v]).add(data)
                 if not self.is_directed:
-                    cast(list[EdgeData], self._adjacency_list[v][u]).append(data)
+                    cast(set[EdgeData], self._adjacency_list[v][u]).add(data)
             else:
-                self._adjacency_list[u][v] = [data]
+                self._adjacency_list[u][v] = {data}
                 if not self.is_directed:
-                    self._adjacency_list[v][u] = [data]
+                    self._adjacency_list[v][u] = {data}
         else:
-            self._adjacency_list[u][v] = data
-            if not self._is_directed:
-                self._adjacency_list[v][u] = data
+            if self._adjacency_list[u].get(v, None) != data:
+                self._adjacency_list[u][v] = data
+                if not self._is_directed:
+                    self._adjacency_list[v][u] = data
+                self._adjacency_matrix_is_actual = False
         self.edges.add(edge)
 
     def neighbors(self, node: Node) -> set[Node]:
@@ -241,7 +254,7 @@ class Graph(DataStructure, Generic[Node, EdgeData]):
         degree : int
             Degree of the given node.
         """
-        return sum(len(edges) if isinstance(edges, list) else 1 for edges in self._adjacency_list.get(node, {}).values())
+        return sum(len(edges) if isinstance(edges, set) else 1 for edges in self._adjacency_list.get(node, {}).values())
 
     @classmethod
     def from_adjacency_list(cls: Type[G], adjacency_list: dict[Node, dict[Node, EdgeData]]) -> G:

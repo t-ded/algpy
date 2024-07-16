@@ -33,8 +33,8 @@ class TestDirectedMultigraph:
         assert multidigraph.edges == {('ExampleNodeA', 'ExampleNodeB', 1)}
         assert multidigraph.number_of_edges == 1
         assert multidigraph.number_of_nodes == 2
-        assert multidigraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': [1]}, 'ExampleNodeB': {}}
-        assert multidigraph.adjacency_matrix == [[None, [1]], [None, None]]
+        assert multidigraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': {1}}, 'ExampleNodeB': {}}
+        assert multidigraph.adjacency_matrix == [[None, {1}], [None, None]]
         assert multidigraph.neighbors('ExampleNodeA') == {'ExampleNodeB'}
         assert multidigraph.degree('ExampleNodeA') == 1
         assert multidigraph.neighbors('ExampleNodeB') == set()
@@ -45,8 +45,8 @@ class TestDirectedMultigraph:
         assert multidigraph.edges == {('ExampleNodeA', 'ExampleNodeB', 1), ('ExampleNodeA', 'ExampleNodeB', 2)}
         assert multidigraph.number_of_edges == 2
         assert multidigraph.number_of_nodes == 2
-        assert multidigraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': [1, 2]}, 'ExampleNodeB': {}}
-        assert multidigraph.adjacency_matrix == [[None, [1, 2]], [None, None]]
+        assert multidigraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': {1, 2}}, 'ExampleNodeB': {}}
+        assert multidigraph.adjacency_matrix == [[None, {1, 2}], [None, None]]
         assert multidigraph.neighbors('ExampleNodeA') == {'ExampleNodeB'}
         assert multidigraph.degree('ExampleNodeA') == 2
         assert multidigraph.neighbors('ExampleNodeB') == set()
@@ -82,8 +82,8 @@ class TestSimpleGraph:
         assert multigraph.edges == {('ExampleNodeA', 'ExampleNodeB', 1)}
         assert multigraph.number_of_edges == 1
         assert multigraph.number_of_nodes == 2
-        assert multigraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': [1]}, 'ExampleNodeB': {'ExampleNodeA': [1]}}
-        assert multigraph.adjacency_matrix == [[None, [1]], [[1], None]]
+        assert multigraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': {1}}, 'ExampleNodeB': {'ExampleNodeA': {1}}}
+        assert multigraph.adjacency_matrix == [[None, {1}], [{1}, None]]
         assert multigraph.neighbors('ExampleNodeA') == {'ExampleNodeB'}
         assert multigraph.degree('ExampleNodeA') == 1
         assert multigraph.neighbors('ExampleNodeB') == {'ExampleNodeA'}
@@ -94,8 +94,8 @@ class TestSimpleGraph:
         assert multigraph.edges == {('ExampleNodeA', 'ExampleNodeB', 1), ('ExampleNodeA', 'ExampleNodeB', 2)}
         assert multigraph.number_of_edges == 2
         assert multigraph.number_of_nodes == 2
-        assert multigraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': [1, 2]}, 'ExampleNodeB': {'ExampleNodeA': [1, 2]}}
-        assert multigraph.adjacency_matrix == [[None, [1, 2]], [[1, 2], None]]
+        assert multigraph.adjacency_list == {'ExampleNodeA': {'ExampleNodeB': {1, 2}}, 'ExampleNodeB': {'ExampleNodeA': {1, 2}}}
+        assert multigraph.adjacency_matrix == [[None, {1, 2}], [{1, 2}, None]]
         assert multigraph.neighbors('ExampleNodeA') == {'ExampleNodeB'}
         assert multigraph.degree('ExampleNodeA') == 2
         assert multigraph.neighbors('ExampleNodeB') == {'ExampleNodeA'}
