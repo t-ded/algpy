@@ -5,6 +5,7 @@ from typing import Generic, Optional, Iterable
 
 from algpy_src.base.constants import Node, EdgeData, Edge
 from algpy_src.data_structures.data_structure import DataStructure
+from algpy_src.data_structures.graphs.graph_utils.affects_adjacency_matrix import affects_adjacency_matrix
 from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
 
 
@@ -28,7 +29,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         self._edges: set[tuple[Node, Node, EdgeData]] = set()
         self._adjacency_list: dict[Node, dict[Node, EdgeData]] = adjacency_list if adjacency_list is not None else {}
         self._adjacency_matrix: list[list[EdgeData | NoEdge]] = []
-        self._adjacency_matrix_is_actual = True if adjacency_list is None else False
+        self._adjacency_matrix_is_actual: bool = True if adjacency_list is None else False
 
     @property
     @abstractmethod
@@ -152,6 +153,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         for node in nodes:
             self.add_node(node)
 
+    @affects_adjacency_matrix
     def add_node(self, node: Node) -> None:
         """
         Add a single node to the graph.
@@ -162,9 +164,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         node : Node
             Node to add.
         """
-        if node not in self._adjacency_list:
-            self._adjacency_list[node] = {}
-            self._adjacency_matrix_is_actual = False
+        self._adjacency_list.setdefault(node, {})
 
     def add_edges_from(self, edges: Iterable[Edge]) -> None:
         """
@@ -179,6 +179,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         for edge in edges:
             self.add_edge(edge)
 
+    @affects_adjacency_matrix
     @abstractmethod
     def add_edge(self, edge: Edge) -> None:
         """
@@ -194,8 +195,9 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         """
         raise NotImplementedError()
 
+    @affects_adjacency_matrix
     @abstractmethod
-    def remove_edge(self, source: Node, target: Node, data: Optional[EdgeData] = None) -> None:
+    def remove_edge(self, source: Node, target: Node, *data: EdgeData) -> None:
         """
         Remove an edge between two nodes from the graph.
         If an edge is not present in the graph, it is silently ignored.
@@ -209,7 +211,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
             Source node of the edge to remove.
         target : Node
             Target node of the edge to remove.
-        data : Optional[EdgeData]
+        *data : EdgeData
             EdgeData of the edge to be removed.
         """
         raise NotImplementedError()
