@@ -21,6 +21,8 @@ ProblemInstance = TypeVar('ProblemInstance')
 InputSize = TypeVar('InputSize', bound=PrintableComparable)
 
 G = TypeVar('G')
-Node = TypeVar('Node', bound=object)
-EdgeData = TypeVar('EdgeData', bound=object)
+Node = TypeVar('Node')
+EdgeData = TypeVar('EdgeData')
+SingleEdgeData = TypeVar('SingleEdgeData')
+MultiEdgeData = set[SingleEdgeData]
 Edge = tuple[Node, Node, EdgeData]

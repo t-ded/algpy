@@ -5,6 +5,7 @@ from typing import Generic, Optional, Iterable
 
 from algpy_src.base.constants import Node, EdgeData, Edge
 from algpy_src.data_structures.data_structure import DataStructure
+from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
 
 
 class BaseGraph(DataStructure, Generic[Node, EdgeData]):
@@ -13,20 +14,20 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
     Adjacency list representation is assumed for simplicity.
     """
 
-    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, EdgeData]] | dict[Node, dict[Node, set[EdgeData]]]] = None) -> None:
+    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, EdgeData]]] = None) -> None:
         """
         Constructor of the BaseGraph class.
         Initializes set of edges, adjacency list and adjacency matrix.
 
         Parameters
         ----------
-        adjacency_list : Optional[dict[Node, dict[Node, dict[Node, EdgeData]]] | dict[Node, dict[Node, dict[Node, set[EdgeData]]]] (default None)
+        adjacency_list : Optional[dict[Node, dict[Node, EdgeData]]] (default None)
             Optional adjacency list from which to build the graph.
         """
         super().__init__()
         self._edges: set[tuple[Node, Node, EdgeData]] = set()
-        self._adjacency_list: dict[Node, dict[Node, EdgeData]] | dict[Node, dict[Node, set[EdgeData]]] = adjacency_list if adjacency_list is not None else {}
-        self._adjacency_matrix: list[list[EdgeData]] | list[list[set[EdgeData]]] = []
+        self._adjacency_list: dict[Node, dict[Node, EdgeData]] = adjacency_list if adjacency_list is not None else {}
+        self._adjacency_matrix: list[list[EdgeData | NoEdge]] = []
         self._adjacency_matrix_is_actual = True if adjacency_list is None else False
 
     @property
@@ -62,7 +63,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         return list(self._adjacency_list.keys())
 
     @property
-    def edges(self) -> set[tuple[Node, Node, EdgeData]]:
+    def edges(self) -> set[Edge]:
         """
         Retrieve the edges of this graph.
         Edges are represented as tuples of (source node, destination node, edge data).
@@ -71,7 +72,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
 
         Returns
         -------
-        edges : set[tuple[Node, Node, EdgeData]]
+        edges : set[Edge]
             Edges of this graph.
         """
         return self._edges
@@ -102,20 +103,20 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         return len(self._edges)
 
     @property
-    def adjacency_list(self) -> dict[Node, dict[Node, EdgeData]] | dict[Node, dict[Node, set[EdgeData]]]:
+    def adjacency_list(self) -> dict[Node, dict[Node, EdgeData]]:
         """
         Getter for the adjacency list representation of the graph.
 
         Returns
         -------
-        adjacency_list: dict[Node, dict[Node, EdgeData]] | dict[Node, dict[Node, set[EdgeData]]]
+        adjacency_list: dict[Node, dict[Node, EdgeData]]
             Adjacency list representation of the graph, represented as a dict of node : neighbours pairs with
             neighbours being a dict of neighbour : edge data or set of edge data in case of a multigraph.
         """
         return self._adjacency_list
 
     @property
-    def adjacency_matrix(self) -> list[list[EdgeData]] | list[list[set[EdgeData]]]:
+    def adjacency_matrix(self) -> list[list[EdgeData | NoEdge]]:
         """
         Getter for the adjacency matrix of the graph.
         Note that the graph is internally represented as an adjacency list, thus the adjacency matrix is built in O(n^2) time with O(n^2) space complexity for each call of this method.
@@ -123,7 +124,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
 
         Returns
         -------
-        adjacency_matrix : list[list[Optional[EdgeData]]] | list[list[Optional[set[EdgeData]]]]
+        adjacency_matrix : list[list[EdgeData | NoEdge]]
             Adjacency matrix representation of the graph object represented as a list of lists with edges represented either by the data itself or set of data in case of a multigraph.
             Symmetrical for undirected graph.
         """
@@ -165,13 +166,13 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
             self._adjacency_list[node] = {}
             self._adjacency_matrix_is_actual = False
 
-    def add_edges_from(self, edges: Iterable[tuple[Node, Node, EdgeData]]) -> None:
+    def add_edges_from(self, edges: Iterable[Edge]) -> None:
         """
         Add multiple edges from an iterable.
 
         Parameters
         ----------
-        edges : Iterable[tuple[Node, Node, EdgeData]]
+        edges : Iterable[Edge]
             Iterable from which to add the edges.
             Edges are represented as tuples of (source node, destination node, edge data).
         """
@@ -188,7 +189,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
 
         Parameters
         ----------
-        edge : tuple[Node, Node, EdgeData]
+        edge : Edge
             The edge to add represented as a tuple of (source node, destination node, edge data).
         """
         raise NotImplementedError()
