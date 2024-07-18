@@ -19,3 +19,8 @@ VERBOSITY_LEVELS = Literal[0, 1, 2]
 
 ProblemInstance = TypeVar('ProblemInstance')
 InputSize = TypeVar('InputSize', bound=PrintableComparable)
+
+G = TypeVar('G')
+Node = TypeVar('Node', bound=object)
+EdgeData = TypeVar('EdgeData', bound=object)
+Edge = tuple[Node, Node, EdgeData]
