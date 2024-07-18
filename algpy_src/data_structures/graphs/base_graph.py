@@ -17,13 +17,17 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         """
         Constructor of the BaseGraph class.
         Initializes set of edges, adjacency list and adjacency matrix.
+
+        Parameters
+        ----------
+        adjacency_list : Optional[dict[Node, dict[Node, dict[Node, EdgeData]]] | dict[Node, dict[Node, dict[Node, set[EdgeData]]]] (default None)
+            Optional adjacency list from which to build the graph.
         """
         super().__init__()
         self._edges: set[tuple[Node, Node, EdgeData]] = set()
         self._adjacency_list: dict[Node, dict[Node, EdgeData]] | dict[Node, dict[Node, set[EdgeData]]] = adjacency_list if adjacency_list is not None else {}
-        self._adjacency_matrix: list[list[Optional[EdgeData]]] | list[list[Optional[set[EdgeData]]]] = []
-        self._build_adjacency_matrix()
-        self._adjacency_matrix_is_actual = True
+        self._adjacency_matrix: list[list[EdgeData]] | list[list[set[EdgeData]]] = []
+        self._adjacency_matrix_is_actual = True if adjacency_list is None else False
 
     @property
     @abstractmethod
@@ -111,7 +115,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         return self._adjacency_list
 
     @property
-    def adjacency_matrix(self) -> list[list[Optional[EdgeData]]] | list[list[Optional[set[EdgeData]]]]:
+    def adjacency_matrix(self) -> list[list[EdgeData]] | list[list[set[EdgeData]]]:
         """
         Getter for the adjacency matrix of the graph.
         Note that the graph is internally represented as an adjacency list, thus the adjacency matrix is built in O(n^2) time with O(n^2) space complexity for each call of this method.
@@ -190,16 +194,22 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         raise NotImplementedError()
 
     @abstractmethod
-    def remove_edge(self, edge: Edge) -> None:
+    def remove_edge(self, source: Node, target: Node, data: Optional[EdgeData] = None) -> None:
         """
-        Remove an edge from the graph.
+        Remove an edge between two nodes from the graph.
         If an edge is not present in the graph, it is silently ignored.
         Either direction can be given for an undirected graph, both respective opposite edges will be removed.
+        If data is given, only the edge with matching EdgeData will be removed (both in case of a multigraph and simple graph).
+        If data is not given for a multigraph, all edges between the two nodes will be removed.
 
         Parameters
         ----------
-        edge : tuple[Node, Node, EdgeData]
-            Edge to remove from the graph.
+        source : Node
+            Source node of the edge to remove.
+        target : Node
+            Target node of the edge to remove.
+        data : Optional[EdgeData]
+            EdgeData of the edge to be removed.
         """
         raise NotImplementedError()
 
