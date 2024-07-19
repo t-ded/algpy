@@ -1,7 +1,10 @@
+# type: ignore
+# ruff: noqa
+
 import pytest
+from algpy_src.tests.test_utils.example_base_graphs import ExampleDirectedSimpleGraph, ExampleSimpleGraph
 
 from algpy_src.data_structures.graphs.graph import Graph
-from algpy_src.tests.test_utils.example_base_graphs import ExampleDirectedSimpleGraph, ExampleSimpleGraph
 
 
 @pytest.fixture
