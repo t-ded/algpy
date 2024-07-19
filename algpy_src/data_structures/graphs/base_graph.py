@@ -27,9 +27,37 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         """
         super().__init__()
         self._edges: set[tuple[Node, Node, EdgeData]] = set()
-        self._adjacency_list: dict[Node, dict[Node, EdgeData]] = adjacency_list if adjacency_list is not None else {}
+        self._adjacency_list: dict[Node, dict[Node, EdgeData]] = {}
         self._adjacency_matrix: list[list[EdgeData | NoEdge]] = []
-        self._adjacency_matrix_is_actual: bool = True if adjacency_list is None else False
+        self._adjacency_matrix_is_actual: bool = True
+        if adjacency_list is not None:
+            self._adjacency_list = adjacency_list.copy()
+            self._fill_missing_nodes_adjacency_list(adjacency_list)
+            self._fill_missing_edges_adjacency_list()
+
+    @affects_adjacency_matrix
+    def _fill_missing_nodes_adjacency_list(self, adjacency_list: dict[Node, dict[Node, EdgeData]]) -> None:
+        """
+        Helper method for building the graph from given adjacency list to ensure that all nodes are present in the adjacency list as expected.
+
+        Parameters
+        ----------
+        adjacency_list : dict[Node, dict[Node, EdgeData]]
+            Adjacency list from which the graph is being built.
+        """
+        for node in adjacency_list:
+            for neighbour in adjacency_list[node]:
+                self._adjacency_list.setdefault(neighbour, {})
+
+    @affects_adjacency_matrix
+    def _fill_missing_edges_adjacency_list(self) -> None:
+        """
+        Helper method for building the graph from given adjacency list to ensure that all edges are present in the adjacency list as expected.
+        """
+        for node in self._adjacency_list:
+            for neighbour, data in self._adjacency_list[node].items():
+                print((node, neighbour, data))
+                self._edges.add((node, neighbour, data))
 
     @property
     @abstractmethod
