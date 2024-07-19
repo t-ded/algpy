@@ -14,7 +14,7 @@ class DiGraph(BaseGraph[Node, SingleEdgeData]):
     Adjacency list representation is assumed for simplicity.
     """
 
-    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, SingleEdgeData]]]) -> None:
+    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, SingleEdgeData]]] = None) -> None:
         """
         Constructor of the DiGraph class.
 
@@ -61,7 +61,7 @@ class DiGraph(BaseGraph[Node, SingleEdgeData]):
 
         Parameters
         ----------
-        edge : tuple[Node, Node, EdgeData]
+        edge : Edge
             The edge to add represented as a tuple of (source node, destination node, edge data).
         """
         u, v, data = edge
