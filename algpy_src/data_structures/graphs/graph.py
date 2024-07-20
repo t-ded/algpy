@@ -26,13 +26,7 @@ class Graph(DiGraph):
             If edges in both directions are given with conflicting data, this data is arbitrarily rewritten to one of the entries.
         """
         super().__init__(adjacency_list)
-        self._fill_to_undirected()
-
-    @affects_adjacency_matrix
-    def _fill_to_undirected(self) -> None:
-        for node in self.nodes:
-            for neighbour, data in self._adjacency_list[node].items():
-                self._adjacency_list[neighbour][node] = data
+        super()._fill_to_undirected()
 
     @property
     def name(self) -> str:

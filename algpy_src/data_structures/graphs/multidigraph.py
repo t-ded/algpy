@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from algpy_src.base.constants import Node, SingleEdgeData, Edge, MultiEdgeData
+from algpy_src.base.constants import Node, Edge, MultiEdgeData
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.graph_utils.affects_adjacency_matrix import affects_adjacency_matrix
 from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
@@ -58,7 +58,7 @@ class MultiDiGraph(BaseGraph[Node, MultiEdgeData]):
         self.edges.add(edge)
 
     @affects_adjacency_matrix
-    def remove_edge(self, source: Node, target: Node, *data: SingleEdgeData) -> None:
+    def remove_edge(self, source: Node, target: Node, *data: MultiEdgeData) -> None:
         """
         Remove an edge from the graph.
         If an edge is not present in the graph, it is silently ignored.
@@ -69,7 +69,7 @@ class MultiDiGraph(BaseGraph[Node, MultiEdgeData]):
             Source node of the edge to remove.
         target : Node
             Target node of the edge to remove.
-        *data : SingleEdgeData
+        *data : MultiEdgeData
             Data of the edge to be removed.
             If not given, all edges between the two nodes are removed.
             Otherwise, each corresponding data entry is removed from the multiedge between the two nodes.
