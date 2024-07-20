@@ -75,7 +75,7 @@ class DiGraph(BaseGraph[Node, SingleEdgeData]):
         if len(data) > 1:
             raise ValueError('Simple graph cannot have more than 1 edge between two nodes.')
         present_data: SingleEdgeData | NoEdge = self._adjacency_list[source].get(target, NoEdge())
-        if present_data == NoEdge or (data is not None and present_data != data):
+        if present_data == NoEdge or (data and present_data != data[0]):
             return
         del self._adjacency_list[source][target]
         self.edges.remove((source, target, present_data))
