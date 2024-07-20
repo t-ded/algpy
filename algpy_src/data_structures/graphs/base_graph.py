@@ -162,12 +162,19 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
             self._adjacency_matrix_is_actual = True
         return self._adjacency_matrix
 
-    @abstractmethod
     def _build_adjacency_matrix(self) -> None:
         """
         Builder method for the adjacency matrix of this graph. Should assign the self._adjacency_matrix attribute.
         """
-        raise NotImplementedError()
+        self._adjacency_matrix = []
+        for u in self.nodes:
+            neighbours: list[EdgeData | NoEdge] = []
+            for v in self.nodes:
+                if v in self._adjacency_list[u]:
+                    neighbours.append(self._adjacency_list[u][v])
+                else:
+                    neighbours.append(NoEdge())
+            self._adjacency_matrix.append(neighbours)
 
     def add_nodes_from(self, nodes: Iterable[Node]) -> None:
         """

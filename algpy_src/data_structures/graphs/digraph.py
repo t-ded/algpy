@@ -37,20 +37,6 @@ class DiGraph(BaseGraph[Node, SingleEdgeData]):
     def is_multigraph(self) -> bool:
         return False
 
-    def _build_adjacency_matrix(self) -> None:
-        """
-        Builder method for the adjacency matrix of this graph. Should assign the self._adjacency_matrix attribute.
-        """
-        self._adjacency_matrix: list[list[SingleEdgeData | NoEdge]] = []
-        for u in self.nodes:
-            neighbours: list[SingleEdgeData | NoEdge] = []
-            for v in self.nodes:
-                if v in self._adjacency_list[u]:
-                    neighbours.append(self._adjacency_list[u][v])
-                else:
-                    neighbours.append(NoEdge())
-            self._adjacency_matrix.append(neighbours)
-
     @affects_adjacency_matrix
     def add_edge(self, edge: Edge) -> None:
         """
