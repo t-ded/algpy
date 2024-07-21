@@ -56,7 +56,6 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         """
         for node in self._adjacency_list:
             for neighbour, data in self._adjacency_list[node].items():
-                print((node, neighbour, data))
                 self._edges.add((node, neighbour, data))
 
     @affects_adjacency_matrix

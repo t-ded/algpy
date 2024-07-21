@@ -73,5 +73,5 @@ class Graph(DiGraph):
         *data : SingleEdgeData
             Data of the edge to be removed. Only one entry has to be given for a simple graph.
         """
-        super().remove_edge(source, target, data)
-        super().remove_edge(target, source, data)
+        super().remove_edge(source, target, *data)
+        super().remove_edge(target, source, *data)

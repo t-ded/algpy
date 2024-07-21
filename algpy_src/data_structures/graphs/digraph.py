@@ -54,7 +54,7 @@ class DiGraph(BaseGraph[Node, SingleEdgeData]):
         self.add_nodes_from({u, v})
         current_data = self.get_edge_data(u, v)
         if current_data != NoEdge():
-            self.edges.remove((u, v, current_data))
+            self.edges.discard((u, v, current_data))
         self._adjacency_list[u][v] = data
         self.edges.add(edge)
 
@@ -78,7 +78,7 @@ class DiGraph(BaseGraph[Node, SingleEdgeData]):
         if len(data) > 1:
             raise ValueError('Simple graph cannot have more than 1 edge between two nodes.')
         present_data: SingleEdgeData | NoEdge = self._adjacency_list[source].get(target, NoEdge())
-        if present_data == NoEdge or (data and present_data != data[0]):
+        if present_data == NoEdge() or (data and present_data != data[0]):
             return
         del self._adjacency_list[source][target]
-        self.edges.remove((source, target, present_data))
+        self.edges.discard((source, target, present_data))
