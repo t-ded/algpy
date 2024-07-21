@@ -56,7 +56,11 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         """
         for node in self._adjacency_list:
             for neighbour, data in self._adjacency_list[node].items():
-                self._edges.add((node, neighbour, data))
+                if self.is_multigraph and isinstance(data, set):
+                    for single_edge_data in data:
+                        self._edges.add((node, neighbour, single_edge_data))
+                else:
+                    self._edges.add((node, neighbour, data))
 
     @affects_adjacency_matrix
     def _fill_to_undirected(self) -> None:
