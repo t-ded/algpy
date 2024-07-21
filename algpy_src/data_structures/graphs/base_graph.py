@@ -299,6 +299,9 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         indegree : int
             Indegree of the given node.
         """
+        if not self.is_directed:
+            return sum(len(edges) if isinstance(edges, set) else 1 for edges in self._adjacency_list.get(node, {}).values())
+
         indegree = 0
         for edge in self._edges:
             if edge[1] == node:
