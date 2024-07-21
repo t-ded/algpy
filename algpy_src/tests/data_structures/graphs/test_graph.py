@@ -1,6 +1,7 @@
 import pytest
 
 from algpy_src.data_structures.graphs.graph import Graph
+from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
 
 
 @pytest.fixture
@@ -48,3 +49,39 @@ class TestGraph:
         assert g.number_of_nodes == 4
         assert g.edges == {(1, 2, 'Edge1'), (1, 3, 'Edge2'), (1, 4, 'Edge3')}
         assert g.number_of_edges == 3
+
+    def test_graph_adding_edges(self, empty_graph: Graph) -> None:
+
+        g = empty_graph
+
+        g.add_edge((1, 2, None))
+        assert g.nodes == [1, 2]
+        assert g.edges == {(1, 2, None)}
+        assert g.adjacency_list == {1: {2: None}, 2: {1: None}}
+        assert g.adjacency_matrix == [[NoEdge(), None], [None, NoEdge()]]
+        assert g.get_edge_data(1, 2) is None
+        assert g.get_edge_data(2, 1) is None
+
+        g.add_edge((1, 2, 'Edge1'))
+        assert g.nodes == [1, 2]
+        assert g.edges == {(1, 2, 'Edge1')}
+        assert g.adjacency_list == {1: {2: 'Edge1'}, 2: {1: 'Edge1'}}
+        assert g.adjacency_matrix == [[NoEdge(), 'Edge1'], ['Edge1', NoEdge()]]
+        assert g.get_edge_data(1, 2) == 'Edge1'
+        assert g.get_edge_data(2, 1) == 'Edge1'
+
+    def test_graph_removing_edges(self, filled_graph: Graph) -> None:
+
+        g = filled_graph
+        with pytest.raises(ValueError):
+            g.remove_edge(1, 2, 'MultiEdge1', 'MultiEdge2')
+        assert g.edges == {(1, 2, 'Edge1'), (2, 3, 'Edge2')}
+        g.remove_edge(1, 2)
+        assert g.adjacency_list == {1: {}, 2: {3: 'Edge2'}, 3: {2: 'Edge2'}}
+        assert g.edges == {(2, 3, 'Edge2')}
+        g.remove_edge(2, 3, 'Edge1')
+        assert g.adjacency_list == {1: {}, 2: {3: 'Edge2'}, 3: {2: 'Edge2'}}
+        assert g.edges == {(2, 3, 'Edge2')}
+        g.remove_edge(2, 3, 'Edge2')
+        assert g.adjacency_list == {1: {}, 2: {}, 3: {}}
+        assert g.edges == set()

@@ -73,9 +73,13 @@ class TestDiGraph:
         g = filled_digraph
         with pytest.raises(ValueError):
             g.remove_edge(1, 2, 'MultiEdge1', 'MultiEdge2')
+        assert g.edges == {(1, 2, 'Edge1'), (2, 3, 'Edge2')}
         g.remove_edge(1, 2)
         assert g.adjacency_list == {1: {}, 2: {3: 'Edge2'}, 3: {}}
+        assert g.edges == {(2, 3, 'Edge2')}
         g.remove_edge(2, 3, 'Edge1')
         assert g.adjacency_list == {1: {}, 2: {3: 'Edge2'}, 3: {}}
+        assert g.edges == {(2, 3, 'Edge2')}
         g.remove_edge(2, 3, 'Edge2')
         assert g.adjacency_list == {1: {}, 2: {}, 3: {}}
+        assert g.edges == set()
