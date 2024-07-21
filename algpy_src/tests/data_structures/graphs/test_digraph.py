@@ -1,6 +1,7 @@
 import pytest
 
 from algpy_src.data_structures.graphs.digraph import DiGraph
+from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
 
 
 @pytest.fixture
@@ -48,3 +49,33 @@ class TestDiGraph:
         assert g.number_of_nodes == 4
         assert g.edges == {(1, 2, 'Edge1'), (1, 3, 'Edge2'), (1, 4, 'Edge3')}
         assert g.number_of_edges == 3
+
+    def test_digraph_adding_edges(self, empty_digraph: DiGraph) -> None:
+
+        g = empty_digraph
+
+        g.add_edge((1, 2, None))
+        assert g.nodes == [1, 2]
+        assert g.edges == {(1, 2, None)}
+        assert g.adjacency_list == {1: {2: None}, 2: {}}
+        assert g.adjacency_matrix == [[NoEdge(), None], [NoEdge(), NoEdge()]]
+        assert g.get_edge_data(1, 2) is None
+
+        g.add_edge((1, 2, 'Edge1'))
+        assert g.nodes == [1, 2]
+        assert g.edges == {(1, 2, 'Edge1')}
+        assert g.adjacency_list == {1: {2: 'Edge1'}, 2: {}}
+        assert g.adjacency_matrix == [[NoEdge(), 'Edge1'], [NoEdge(), NoEdge()]]
+        assert g.get_edge_data(1, 2) == 'Edge1'
+
+    def test_digraph_removing_edges(self, filled_digraph: DiGraph) -> None:
+
+        g = filled_digraph
+        with pytest.raises(ValueError):
+            g.remove_edge(1, 2, 'MultiEdge1', 'MultiEdge2')
+        g.remove_edge(1, 2)
+        assert g.adjacency_list == {1: {}, 2: {3: 'Edge2'}, 3: {}}
+        g.remove_edge(2, 3, 'Edge1')
+        assert g.adjacency_list == {1: {}, 2: {3: 'Edge2'}, 3: {}}
+        g.remove_edge(2, 3, 'Edge2')
+        assert g.adjacency_list == {1: {}, 2: {}, 3: {}}
