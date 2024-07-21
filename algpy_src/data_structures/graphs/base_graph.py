@@ -220,6 +220,13 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         for edge in edges:
             self.add_edge(edge)
 
+    def get_edge_data(self, source: Node, target: Node) -> EdgeData | NoEdge:
+        if source not in self.nodes:
+            raise KeyError('Source node is not present in the graph.')
+        if target not in self.nodes:
+            raise KeyError('Target node is not present in the graph.')
+        return self._adjacency_list[source].get(target, NoEdge())
+
     @affects_adjacency_matrix
     @abstractmethod
     def add_edge(self, edge: Edge) -> None:
