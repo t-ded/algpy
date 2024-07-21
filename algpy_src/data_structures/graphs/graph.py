@@ -55,7 +55,8 @@ class Graph(DiGraph):
         """
         u, v, data = edge
         super().add_edge(edge)
-        self._adjacency_list[v].setdefault(u, data)
+        super().add_edge((v, u, data))
+        self.edges.remove((v, u, data))
 
     @affects_adjacency_matrix
     def remove_edge(self, source: Node, target: Node, *data: SingleEdgeData) -> None:

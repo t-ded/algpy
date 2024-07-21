@@ -52,7 +52,10 @@ class DiGraph(BaseGraph[Node, SingleEdgeData]):
         """
         u, v, data = edge
         self.add_nodes_from({u, v})
-        self._adjacency_list[u].setdefault(v, data)
+        current_data = self.get_edge_data(u, v)
+        if current_data != NoEdge():
+            self.edges.remove((u, v, current_data))
+        self._adjacency_list[u][v] = data
         self.edges.add(edge)
 
     @affects_adjacency_matrix
