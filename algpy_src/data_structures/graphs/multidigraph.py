@@ -81,9 +81,9 @@ class MultiDiGraph(BaseGraph[Node, MultiEdgeData]):
             if not data:
                 del self._adjacency_list[source][target]
                 for single_edge_data in present_data:
-                    self.edges.remove((source, target, single_edge_data))
+                    self.edges.discard((source, target, single_edge_data))
             else:
                 for single_edge_data in present_data:
                     if single_edge_data in data:
-                        self.edges.remove((source, target, single_edge_data))
+                        self.edges.discard((source, target, single_edge_data))
                 self._adjacency_list[source][target] -= set(data)

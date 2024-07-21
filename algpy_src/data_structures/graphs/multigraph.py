@@ -13,7 +13,7 @@ class MultiGraph(MultiDiGraph):
     Adjacency list representation is assumed for simplicity.
     """
 
-    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, MultiEdgeData]]]) -> None:
+    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, MultiEdgeData]]] = None) -> None:
         """
         Constructor of the MultiGraph class.
 
@@ -52,7 +52,8 @@ class MultiGraph(MultiDiGraph):
         """
         u, v, data = edge
         super().add_edge(edge)
-        self._adjacency_list[v].setdefault(u, data)
+        super().add_edge((v, u, data))
+        self.edges.remove((v, u, data))
 
     @affects_adjacency_matrix
     def remove_edge(self, source: Node, target: Node, *data: MultiEdgeData) -> None:
@@ -71,5 +72,5 @@ class MultiGraph(MultiDiGraph):
             If not given, all edges between the two nodes are removed.
             Otherwise, each corresponding data entry is removed from the multiedge between the two nodes.
         """
-        super().remove_edge(source, target, data)
-        super().remove_edge(target, source, data)
+        super().remove_edge(source, target, *data)
+        super().remove_edge(target, source, *data)
