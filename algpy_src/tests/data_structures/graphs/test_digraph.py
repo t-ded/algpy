@@ -35,11 +35,17 @@ class TestDiGraph:
         assert filled_digraph.number_of_edges == 2
         assert filled_digraph.number_of_nodes == 3
         assert filled_digraph.neighbors(1) == {2}
+        assert filled_digraph.indegree(1) == 0
+        assert filled_digraph.outdegree(1) == 1
         assert filled_digraph.degree(1) == 1
         assert filled_digraph.neighbors(2) == {3}
-        assert filled_digraph.degree(2) == 1
+        assert filled_digraph.indegree(2) == 1
+        assert filled_digraph.outdegree(2) == 1
+        assert filled_digraph.degree(2) == 2
         assert filled_digraph.neighbors(3) == set()
-        assert filled_digraph.degree(3) == 0
+        assert filled_digraph.indegree(3) == 1
+        assert filled_digraph.outdegree(3) == 0
+        assert filled_digraph.degree(3) == 1
 
     def test_digraph_from_adjacency_list_nodes_filled(self) -> None:
 

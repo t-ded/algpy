@@ -280,6 +280,44 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         """
         return set(self._adjacency_list.get(node, {}).keys())
 
+    def indegree(self, node: Node) -> int:
+        """
+        Return indegree for a given node.
+
+        Parameters
+        ----------
+        node : Node
+            Node for which to find the indegree.
+            If not present in the graph, 0 is returned.
+
+        Returns
+        -------
+        indegree : int
+            Indegree of the given node.
+        """
+        indegree = 0
+        for edge in self._edges:
+            if edge[1] == node:
+                indegree += len(edge[2]) if isinstance(edge[2], set) else 1
+        return indegree
+
+    def outdegree(self, node: Node) -> int:
+        """
+        Return outdegree for a given node.
+
+        Parameters
+        ----------
+        node : Node
+            Node for which to find the outdegree.
+            If not present in the graph, 0 is returned.
+
+        Returns
+        -------
+        outdegree : int
+            Outdegree of the given node.
+        """
+        return sum(len(edges) if isinstance(edges, set) else 1 for edges in self._adjacency_list.get(node, {}).values())
+
     def degree(self, node: Node) -> int:
         """
         Return degree for a given node.
@@ -295,4 +333,6 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         degree : int
             Degree of the given node.
         """
-        return sum(len(edges) if isinstance(edges, set) else 1 for edges in self._adjacency_list.get(node, {}).values())
+        if self.is_directed:
+            return self.indegree(node) + self.outdegree(node)
+        return self.outdegree(node)
