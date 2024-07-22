@@ -46,29 +46,21 @@ class InsertionSort(SortingAlgorithm):
     def is_stable(self) -> bool:
         return True
 
-    def generate_worst_case(self, input_size: int, *args: Any, **kwargs: Any) -> Iterable[int]:
+    def get_worst_case_arguments(self, input_size: int) -> dict[str, Any]:
         """
-        Generates a sorted range of integers from 1 to input_size.
-        If 'descending' is passed as a keyword argument with value False, the order of the range is descending, otherwise ascending
-        (i.e., contrary to expected result of the sort).
+        Generates a sorted range of integers from 1 to input_size and descending keyword argument as True.
 
         Parameters
         ----------
         input_size : int
             Size of the range to generate.
-        *args : Any
-            Additional arguments that are expected to be passed to the run_algorithm function.
-        **kwargs : Any
-            Additional keyword arguments that are expected to be passed to the run_algorithm function.
 
         Returns
         -------
-        instance : range
-            Range of sorted integers in order opposite to expected order of the run_algorithm function output.
+        run_algorithm_kwargs : dict[str, Any]
+            A dictionary with keyword arguments for the input_instance and descending parameters of the run_algorithm method.
         """
-        if kwargs.get('descending', True) is False:
-            return range(input_size, 0, -1)
-        return range(1, input_size + 1)
+        return {'input_instance': range(1, input_size + 1), 'descending': True}
 
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
                       *args: Any, **kwargs: Any) -> list[Comparable]:

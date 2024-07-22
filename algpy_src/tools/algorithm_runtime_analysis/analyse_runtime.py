@@ -61,7 +61,7 @@ class AlgorithmRuntimeAnalytic:
 
         for _ in range(self.n_repetitions):
             start = time.time()
-            self.algorithm.run_algorithm(problem_instance, 0, kwargs=run_algorithm_kwargs)
+            self.algorithm.run_algorithm(problem_instance, 0, **run_algorithm_kwargs)
             runtimes.append(time.time() - start)
             ops_counts.append(self.algorithm.n_ops)
 
@@ -90,7 +90,7 @@ class AlgorithmRuntimeAnalytic:
             Maximal size of an item in the randomly generated input sequence if input_sequence is not given.
             Has to be given if input_sequence is not given.
         **kwargs : Any
-            Additional keyword arguments passed to the run_algorithm() or generate_worst_case() function call.
+            Additional keyword arguments passed to the run_algorithm() function call.
 
         Returns
         -------
@@ -117,12 +117,11 @@ class AlgorithmRuntimeAnalytic:
         run_algorithm_args = list(inspect.signature(self.algorithm.run_algorithm).parameters)
         run_algorithm_kwargs = {k: kwargs.pop(k) for k in dict(kwargs) if k in run_algorithm_args}
 
-        worst_case_generation_args = list(inspect.signature(self.algorithm.generate_worst_case).parameters)
-        worst_case_generation_kwargs = {k: kwargs.pop(k) for k in dict(kwargs) if k in worst_case_generation_args}
         worst_case_input_size = max(input_sequence.keys())
-        worst_case_instance = self.algorithm.generate_worst_case(worst_case_input_size, kwargs=worst_case_generation_kwargs)
+        worst_case_arguments = self.algorithm.get_worst_case_arguments(worst_case_input_size)
+        worst_case_instance = worst_case_arguments.pop('input_instance')
         self.runtime_analysis.worst_case_breakdown = self.get_runtime_analysis_single_instance(
-            worst_case_instance, worst_case_input_size, kwargs=run_algorithm_kwargs
+            worst_case_instance, worst_case_input_size, **worst_case_arguments
         )
 
         for input_size, problem_instance in input_sequence.items():

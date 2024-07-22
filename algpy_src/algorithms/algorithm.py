@@ -55,24 +55,20 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         return 'N/A'
 
     @abstractmethod
-    def generate_worst_case(self, input_size: InputSize, *args: Any, **kwargs: Any) -> ProblemInstance:
+    def get_worst_case_arguments(self, input_size: InputSize) -> dict[str, Any]:
         """
-        Way to generate single input instance of given size corresponding to algorithm's worst case scenario.
-        Output of this function has to be accepted by run_algorithm().
+        Way to generate keyword arguments for this class' run_algorithm method corresponding to algorithm's worst case scenario.
+        Output of this function has to be accepted by run_algorithm() and has to contain a pair 'input_instance': ProblemInstance with the value having given InputSize.
 
         Parameters
         ----------
         input_size : InputSize
             Desired input size (form depends on specific algorithm).
-        *args : Any
-            Additional arguments passed to the generating function.
-        **kwargs : Any
-            Additional keyword arguments passed to the generating function.
 
         Returns
         -------
-        instance : ProblemInstance
-            A problem instance supported in run_algorithm(input_instance=instance).
+        run_algorithm_kwargs : dict[str, Any]
+            A dictionary with keyword arguments for the run_algorithm method.
         """
         raise NotImplementedError()
 

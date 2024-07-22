@@ -46,7 +46,7 @@ class BFS(Algorithm[Graph | DiGraph, GraphSize]):
     def space_complexity(self) -> str:
         return '|V|'
 
-    def generate_worst_case(self, input_size: GraphSize, *args: Any, **kwargs: Any) -> DiGraph:
+    def get_worst_case_arguments(self, input_size: GraphSize) -> dict[str, Any]:
         raise NotImplementedError()
 
     def run_algorithm(self, input_instance: Graph | DiGraph, verbosity_level: VERBOSITY_LEVELS = 0, element_to_search: Optional[Node] = None, *args: Any, **kwargs: Any) -> None:

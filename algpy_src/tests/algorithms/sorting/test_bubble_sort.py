@@ -19,19 +19,14 @@ def test_bubble_sort_base(bs: BubbleSort) -> None:
     assert bs.worst_case_time_complexity == 'n^2'
     assert bs.worst_case_description == 'a fully unsorted array'
     assert bs.space_complexity == '1'
-    assert bs.generate_worst_case(10, descending=True) == range(1, 11)
-    assert bs.generate_worst_case(10, descending=False) == range(10, 0, -1)
+    assert bs.get_worst_case_arguments(10) == {'input_instance': range(1, 11), 'descending': True}
 
 
 def test_worst_case(bs: BubbleSort) -> None:
-    worst_case_ascending_sort = bs.generate_worst_case(10, descending=False)
     assert bs.n_comparisons == 0
     assert bs.n_swaps == 0
-    assert bs.run_algorithm(worst_case_ascending_sort, 0, descending=False) == list(range(1, 11))
-    assert bs.n_comparisons == 45
-    assert bs.n_swaps == 45
-    worst_case_descending_sort = bs.generate_worst_case(10, descending=True)
-    assert bs.run_algorithm(worst_case_descending_sort, 0,  descending=True) == list(range(10, 0, -1))
+    worst_case_args = bs.get_worst_case_arguments(10)
+    assert bs.run_algorithm(**worst_case_args) == list(range(10, 0, -1))
     assert bs.n_comparisons == 45
     assert bs.n_swaps == 45
     bs.reset_all_counters()

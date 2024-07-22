@@ -19,19 +19,14 @@ def test_insertion_sort_base(ins: InsertionSort) -> None:
     assert ins.worst_case_time_complexity == 'n^2'
     assert ins.worst_case_description == 'a fully unsorted array'
     assert ins.space_complexity == '1'
-    assert ins.generate_worst_case(10, descending=True) == range(1, 11)
-    assert ins.generate_worst_case(10, descending=False) == range(10, 0, -1)
+    assert ins.get_worst_case_arguments(10) == {'input_instance': range(1, 11), 'descending': True}
 
 
 def test_worst_case(ins: InsertionSort) -> None:
-    worst_case_ascending_sort = ins.generate_worst_case(10, descending=False)
     assert ins.n_comparisons == 0
     assert ins.n_swaps == 0
-    assert ins.run_algorithm(worst_case_ascending_sort, 0, descending=False) == list(range(1, 11))
-    assert ins.n_comparisons == 45
-    assert ins.n_swaps == 45
-    worst_case_descending_sort = ins.generate_worst_case(10, descending=True)
-    assert ins.run_algorithm(worst_case_descending_sort, 0,  descending=True) == list(range(10, 0, -1))
+    worst_case_args = ins.get_worst_case_arguments(10)
+    assert ins.run_algorithm(**worst_case_args) == list(range(10, 0, -1))
     assert ins.n_comparisons == 45
     assert ins.n_swaps == 45
     ins.reset_all_counters()

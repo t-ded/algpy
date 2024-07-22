@@ -51,8 +51,8 @@ class ExampleAlgorithm(Algorithm[Iterable[Comparable], int]):
     def space_complexity(self) -> str:
         return 'N/A'
 
-    def generate_worst_case(self, input_size: InputSize, *args: Any, **kwargs: Any) -> Iterable[Comparable]:
-        return [1]
+    def get_worst_case_arguments(self, input_size: InputSize) -> dict[str, Any]:
+        return {'input_instance': [1]}
 
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0,
                       *args: Any, **kwargs: Any) -> Optional[Iterable[Comparable]]:
@@ -97,8 +97,8 @@ class ExampleSortingAlgorithm(SortingAlgorithm):
     def is_stable(self) -> bool:
         return True
 
-    def generate_worst_case(self, input_size: int, *args: Any, **kwargs: Any) -> Iterable[Comparable]:
-        return [1, 2, 3]
+    def get_worst_case_arguments(self, input_size: int) -> dict[str, Any]:
+        return {'input_instance': [1, 2, 3]}
 
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
                       *args: Any, **kwargs: Any) -> list[Comparable]:
