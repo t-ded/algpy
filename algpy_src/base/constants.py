@@ -1,3 +1,4 @@
+from collections import namedtuple
 from typing import Literal, Protocol, TypeVar
 
 T = TypeVar('T')
@@ -19,6 +20,7 @@ VERBOSITY_LEVELS = Literal[0, 1, 2]
 
 ProblemInstance = TypeVar('ProblemInstance')
 InputSize = TypeVar('InputSize', bound=PrintableComparable)
+GraphSize = namedtuple('GraphSize', 'nodes edges', defaults=[0, 0])
 
 G = TypeVar('G')
 Node = TypeVar('Node')
