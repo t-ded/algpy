@@ -1,15 +1,15 @@
-from typing import TypeVar, Any
+from typing import TypeVar, Generic
 
 from algpy_src.data_structures.data_structure import DataStructure
 
 T = TypeVar('T')
 
 
-class Queue(DataStructure):
+class Queue(DataStructure, Generic[T]):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.queue = []
+        self.queue: list[T] = []
 
     @property
     def space_complexity(self) -> str:
@@ -27,7 +27,7 @@ class Queue(DataStructure):
     def is_empty(self) -> bool:
         return len(self.queue) == 0
 
-    def peek(self) -> Any:
+    def peek(self) -> T:
         """
         Returns the first element of the queue without removing it.
 
@@ -51,7 +51,7 @@ class Queue(DataStructure):
         self.queue.append(value)
         self.increment_n_ops()
 
-    def dequeue(self) -> Any:
+    def dequeue(self) -> T:
         """
         Remove element from the beginning of the queue.
 
@@ -63,9 +63,3 @@ class Queue(DataStructure):
         self.reset_n_ops()
         self.increment_n_ops()
         return self.queue.pop(0)
-
-    def print_time_complexity_info(self) -> None:
-        """
-        Print the time complexity information breakdown of the Queue data structure.
-        """
-        print('All basic queue operations are done in constant time')
