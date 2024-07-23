@@ -26,7 +26,7 @@ def test_worst_case(ins: InsertionSort) -> None:
     assert ins.n_comparisons == 0
     assert ins.n_swaps == 0
     worst_case_args = ins.get_worst_case_arguments(10)
-    assert ins.run_algorithm(**worst_case_args) == list(range(10, 0, -1))
+    assert ins.run_algorithm(**worst_case_args) == (True, list(range(10, 0, -1)))
     assert ins.n_comparisons == 45
     assert ins.n_swaps == 45
     ins.reset_all_counters()
@@ -53,6 +53,6 @@ def test_insertion_sort_run_algorithm(
         ins: InsertionSort, input_instance: Iterable[Comparable], descending: bool, expected_result: list[Comparable],
         expected_n_comparisons: int, expected_n_swaps: int
 ) -> None:
-    assert ins.run_algorithm(input_instance, 0, descending) == expected_result
+    assert ins.run_algorithm(input_instance, 0, descending) == (True, expected_result)
     assert ins.n_comparisons == expected_n_comparisons
     assert ins.n_swaps == expected_n_swaps

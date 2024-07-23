@@ -63,7 +63,7 @@ class InsertionSort(SortingAlgorithm):
         return {'input_instance': range(1, input_size + 1), 'descending': True}
 
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
-                      *args: Any, **kwargs: Any) -> list[Comparable]:
+                      *args: Any, **kwargs: Any) -> tuple[bool, list[Comparable]]:
         """
         Run function of the insertion sort algorithm implemented in a stable (relative order of same-valued keys remains) manner.
 
@@ -84,8 +84,8 @@ class InsertionSort(SortingAlgorithm):
             Additional keyword arguments passed to the running function.
         Returns
         -------
-        input_list : list[Comparable]
-            List copy of the given input instance iterable sorted in the required order.
+        result : tuple[bool, list[Comparable]]
+            Returns boolean value representing whether the algorithm terminated successfully (always True in this case) and List copy of the given input instance iterable sorted in the required order..
         """
         self.reset_all_counters()
         input_list: list[Comparable] = list(input_instance)
@@ -105,4 +105,4 @@ class InsertionSort(SortingAlgorithm):
             input_list[j + 1] = value
             print_problem_instance(input_list, verbosity_level, 2)
         print_problem_instance(input_list, verbosity_level, 1)
-        return input_list
+        return True, input_list

@@ -73,7 +73,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         raise NotImplementedError()
 
     @abstractmethod
-    def run_algorithm(self, input_instance: ProblemInstance, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any) -> Optional[ProblemInstance]:
+    def run_algorithm(self, input_instance: ProblemInstance, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any) -> tuple[bool, Optional[ProblemInstance]]:
         """
         The main run function of each algorithm.
         The algorithms should be able to internally count number of ops and should reset self.n_ops to 0 on each use of this method.
@@ -92,7 +92,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
 
         Returns
         -------
-        output_instance : Optional[ProblemInstance]
-            Returns input processed by the algorithm if relevant.
+        result : tuple[bool, Optional[ProblemInstance]]
+            Returns boolean value representing whether the algorithm terminated successfully and input processed by the algorithm if relevant.
         """
         raise NotImplementedError()

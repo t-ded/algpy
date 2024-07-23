@@ -69,5 +69,5 @@ class SortingAlgorithm(Algorithm[Iterable[Comparable], int]):
 
     @abstractmethod
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
-                      *args: Any, **kwargs: Any) -> list[Comparable]:
+                      *args: Any, **kwargs: Any) -> tuple[bool, list[Comparable]]:
         raise NotImplementedError()

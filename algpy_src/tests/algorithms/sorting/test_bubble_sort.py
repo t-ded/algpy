@@ -26,7 +26,7 @@ def test_worst_case(bs: BubbleSort) -> None:
     assert bs.n_comparisons == 0
     assert bs.n_swaps == 0
     worst_case_args = bs.get_worst_case_arguments(10)
-    assert bs.run_algorithm(**worst_case_args) == list(range(10, 0, -1))
+    assert bs.run_algorithm(**worst_case_args) == (True, list(range(10, 0, -1)))
     assert bs.n_comparisons == 45
     assert bs.n_swaps == 45
     bs.reset_all_counters()
@@ -53,6 +53,6 @@ def test_bubble_sort_run_algorithm(
         bs: BubbleSort, input_instance: Iterable[Comparable], descending: bool, expected_result: list[Comparable],
         expected_n_comparisons: int, expected_n_swaps: int
 ) -> None:
-    assert bs.run_algorithm(input_instance, 0, descending) == expected_result
+    assert bs.run_algorithm(input_instance, 0, descending) == (True, expected_result)
     assert bs.n_comparisons == expected_n_comparisons
     assert bs.n_swaps == expected_n_swaps
