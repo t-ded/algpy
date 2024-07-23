@@ -1,12 +1,15 @@
-from typing import Any, Optional
+from typing import Any
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node
+from algpy_src.base.utils import print_problem_instance
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph import Graph
+from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
+from algpy_src.data_structures.linear.queue import Queue
 
 
-class BFS(Algorithm[Graph | DiGraph, GraphSize]):
+class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
     """
     Breadth First Search algorithm.
     """
@@ -74,5 +77,52 @@ class BFS(Algorithm[Graph | DiGraph, GraphSize]):
             root += 1
         return {'input_instance': g, 'element_to_search': input_size.nodes + 1}
 
-    def run_algorithm(self, input_instance: Graph | DiGraph, verbosity_level: VERBOSITY_LEVELS = 0, element_to_search: Optional[Node] = None, *args: Any, **kwargs: Any) -> None:
-        raise NotImplementedError()
+    def run_algorithm(self, input_instance: Graph | DiGraph, verbosity_level: VERBOSITY_LEVELS = 0, element_to_search: Node | NoNode = NoNode(), *args: Any, **kwargs: Any) -> tuple[bool, None]:
+        """
+        Run function of the breadth first search (BFS) algorithm.
+
+        Parameters
+        ----------
+        input_instance : Graph | DiGraph
+            Graph in which to run the search.
+        verbosity_level : int (default 0)
+            Select the amount of information to print throughout run of the algorithm.
+            One of 0, 1, 2 with 0 referring to no printing, 1 leading to print of the given graph instance at the beginning and 2 meaning also print every expanded node.
+        element_to_search : Node | NoNode (default NoNode())
+            Element to look for in the graph. If not given, whole graph is traversed.
+        *args : Any
+            Additional arguments passed to the algorithm.
+        **kwargs : Any
+            Additional keyword arguments passed to the algorithm.
+
+        Returns
+        -------
+        result : tuple[bool, None]
+            Returns True in the first index if the element was found in the graph or if no element was given for search
+        """
+
+        self.reset_n_ops()
+        print_problem_instance(input_instance, verbosity_level, 1)
+        visited: set[Node] = set()
+        queue: Queue[Node] = Queue()
+
+        for node in input_instance.nodes:
+            if node not in visited:
+                visited.add(node)
+                queue.enqueue(node)
+                self.increment_n_ops()
+
+                while queue.size > 0:
+                    current = queue.dequeue()
+                    print_problem_instance(current, verbosity_level, 2)
+                    self.increment_n_ops()
+                    if current == element_to_search:
+                        return True, None
+
+                    for neighbor in input_instance.neighbors(node):
+                        if neighbor not in visited:
+                            visited.add(neighbor)
+                            queue.enqueue(neighbor)
+                            self.increment_n_ops()
+
+        return element_to_search == NoNode(), None
