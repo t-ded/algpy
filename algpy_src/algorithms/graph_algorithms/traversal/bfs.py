@@ -77,7 +77,8 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
             root += 1
         return {'input_instance': g, 'element_to_search': input_size.nodes + 1}
 
-    def run_algorithm(self, input_instance: Graph | DiGraph, verbosity_level: VERBOSITY_LEVELS = 0, element_to_search: Node | NoNode = NoNode(), *args: Any, **kwargs: Any) -> tuple[bool, None]:
+    def run_algorithm(self, input_instance: Graph | DiGraph, verbosity_level: VERBOSITY_LEVELS = 0, root: Node | NoNode = NoNode(),
+                      element_to_search: Node | NoNode = NoNode(), *args: Any, **kwargs: Any) -> tuple[bool, Graph | DiGraph]:
         """
         Run function of the breadth first search (BFS) algorithm.
 
@@ -87,7 +88,10 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
             Graph in which to run the search.
         verbosity_level : int (default 0)
             Select the amount of information to print throughout run of the algorithm.
-            One of 0, 1, 2 with 0 referring to no printing, 1 leading to print of the given graph instance at the beginning and 2 meaning also print every expanded node.
+            One of 0, 1, 2 with 0 referring to no printing, 1 leading to print of the traversal order nodes at the end and 2 meaning also print the traversal order nodes after every expanded node.
+        root : Node | NoNode (default NoNode())
+            Root node to start the traversal from. If not given, go in order of input_instance.nodes.
+            If more connected components are present in the graph, they are also traversed in order corresponding to input_instance.nodes.
         element_to_search : Node | NoNode (default NoNode())
             Element to look for in the graph. If not given, whole graph is traversed.
         *args : Any
@@ -97,16 +101,17 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
 
         Returns
         -------
-        result : tuple[bool, None]
-            Returns True in the first index if the element was found in the graph or if no element was given for search
+        result : tuple[bool, DiGraph]
+            Returns True in the first index if the element was found in the graph or if no element was given for search.
+            Also returns a new tree graph with node order corresponding to the order of traversal.
         """
 
         self.reset_n_ops()
-        print_problem_instance(input_instance, verbosity_level, 1)
+        traversal_graph: DiGraph = DiGraph()
         visited: set[Node] = set()
         queue: Queue[Node] = Queue()
 
-        for node in input_instance.nodes:
+        for node in [root] if root != NoNode() else [] + [node for node in input_instance.nodes if node != root]:
             if node not in visited:
                 visited.add(node)
                 queue.enqueue(node)
@@ -114,15 +119,18 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
 
                 while queue.size > 0:
                     current = queue.dequeue()
-                    print_problem_instance(current, verbosity_level, 2)
+                    print_problem_instance(traversal_graph.nodes, verbosity_level, 2)
+                    traversal_graph.add_node(current)
                     self.increment_n_ops()
                     if current == element_to_search:
-                        return True, None
+                        print_problem_instance(traversal_graph.nodes, verbosity_level, 1)
+                        return True, traversal_graph
 
-                    for neighbor in input_instance.neighbors(node):
+                    for neighbor in input_instance.neighbors(current):
                         if neighbor not in visited:
                             visited.add(neighbor)
                             queue.enqueue(neighbor)
                             self.increment_n_ops()
 
-        return element_to_search == NoNode(), None
+        print_problem_instance(traversal_graph.nodes, verbosity_level, 1)
+        return element_to_search == NoNode(), traversal_graph
