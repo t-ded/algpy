@@ -55,8 +55,8 @@ class ExampleAlgorithm(Algorithm[Iterable[Comparable], int]):
         return {'input_instance': [1]}
 
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0,
-                      *args: Any, **kwargs: Any) -> Optional[Iterable[Comparable]]:
-        return None
+                      *args: Any, **kwargs: Any) -> tuple[bool, Optional[Iterable[Comparable]]]:
+        return True, None
 
 
 class ExampleSortingAlgorithm(SortingAlgorithm):
@@ -101,5 +101,5 @@ class ExampleSortingAlgorithm(SortingAlgorithm):
         return {'input_instance': [1, 2, 3]}
 
     def run_algorithm(self, input_instance: Iterable[Comparable], verbosity_level: VERBOSITY_LEVELS = 0, descending: bool = True,
-                      *args: Any, **kwargs: Any) -> list[Comparable]:
-        return list(sorted(input_instance))
+                      *args: Any, **kwargs: Any) -> tuple[bool, list[Comparable]]:
+        return True, list(sorted(input_instance))
