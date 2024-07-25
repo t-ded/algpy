@@ -1,10 +1,15 @@
 import random
 from abc import ABC, abstractmethod
+from itertools import combinations
 from typing import Optional, Generic, Iterable, TypeVar
 
 from algpy_src.algorithms.algorithm import Algorithm
+from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
 from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
-from algpy_src.base.constants import InputSize, ProblemInstance, Comparable
+from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize
+from algpy_src.data_structures.graphs.base_graph import BaseGraph
+from algpy_src.data_structures.graphs.digraph import DiGraph
+from algpy_src.data_structures.graphs.graph import Graph
 
 A = TypeVar('A', bound=Algorithm)
 
@@ -50,6 +55,31 @@ class RandomInputGeneratorSortingAlgorithm(RandomInputGenerator[Iterable[Compara
         return (rng.randint(1, input_size) for _ in range(input_size))
 
 
+class RandomInputGeneratorGraphTraversalAlgorithm(RandomInputGenerator[BaseGraph, GraphSize]):
+    """
+    Random input generator for graph traversal algorithms (BFS and DFS).
+    Generates either a graph or digraph with desired number of nodes and randomly distributed edges between them
+    with input size being named tuple of integers specifying number of nodes and edges.
+    """
+
+    def __init__(self, seed: Optional[int] = None):
+        super().__init__(seed)
+
+    def generate_random_input(self, input_size: GraphSize) -> BaseGraph:
+
+        rng = random.Random(self.seed)
+        if rng.randint(0, 1) == 1:
+            graph: BaseGraph = DiGraph()
+        else:
+            graph = Graph()
+
+        graph.add_nodes_from(range(input_size.nodes))
+        random_edge_pairs = rng.sample(list(combinations(graph.nodes, 2)), input_size.edges)
+        graph.add_edges_from((source, target, None) for source, target in random_edge_pairs)
+
+        return graph
+
+
 def get_generator(algorithm: A) -> type[RandomInputGenerator]:
     """
     Assign appropriate random input generator to algorithm.
@@ -66,4 +96,6 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
     """
     if isinstance(algorithm, SortingAlgorithm):
         return RandomInputGeneratorSortingAlgorithm
+    if isinstance(algorithm, BreadthFirstSearch):
+        return RandomInputGeneratorGraphTraversalAlgorithm
     raise ValueError('No random input generator assigned for this algorithm class.')
