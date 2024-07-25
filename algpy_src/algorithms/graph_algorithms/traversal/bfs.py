@@ -68,8 +68,8 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
         g.add_nodes_from(range(0, input_size.nodes))
         num_edges = 0
         root = 0
-        while num_edges < input_size.edges and root < input_size.nodes:
-            for new_neighbour in range(root, input_size.nodes):
+        while num_edges < input_size.edges and root + 1 < input_size.nodes:
+            for new_neighbour in range(root + 1, input_size.nodes):
                 g.add_edge((root, new_neighbour, None))
                 num_edges += 1
                 if num_edges == input_size.edges:
