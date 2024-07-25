@@ -6,6 +6,7 @@ from algpy_src.base.utils import print_problem_instance
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
+from algpy_src.data_structures.graphs.traversal_graph import TraversalGraph
 from algpy_src.data_structures.linear.queue import Queue
 
 
@@ -78,7 +79,7 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
         return {'input_instance': g, 'element_to_search': input_size.nodes + 1}
 
     def run_algorithm(self, input_instance: Graph | DiGraph, verbosity_level: VERBOSITY_LEVELS = 0, root: Node | NoNode = NoNode(),
-                      element_to_search: Node | NoNode = NoNode(), *args: Any, **kwargs: Any) -> tuple[bool, Graph | DiGraph]:
+                      element_to_search: Node | NoNode = NoNode(), *args: Any, **kwargs: Any) -> tuple[bool, TraversalGraph]:
         """
         Run function of the breadth first search (BFS) algorithm.
 
@@ -101,13 +102,13 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
 
         Returns
         -------
-        result : tuple[bool, DiGraph]
+        result : tuple[bool, TraversalGraph]
             Returns True in the first index if the element was found in the graph or if no element was given for search.
             Also returns a new tree graph with node order corresponding to the order of traversal.
         """
 
         self.reset_n_ops()
-        traversal_graph: DiGraph = DiGraph()
+        traversal_graph: TraversalGraph = TraversalGraph()
         visited: set[Node] = set()
         queue: Queue[Node] = Queue()
 
