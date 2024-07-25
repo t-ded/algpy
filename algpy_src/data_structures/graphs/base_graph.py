@@ -68,6 +68,9 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
             for neighbour, data in self._adjacency_list[node].items():
                 self._adjacency_list[neighbour][node] = data
 
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, BaseGraph) and self._adjacency_list == other._adjacency_list
+
     @property
     @abstractmethod
     def name(self) -> str:
