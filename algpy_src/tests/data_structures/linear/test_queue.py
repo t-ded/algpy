@@ -37,6 +37,7 @@ def test_queue_in_out(queue: Queue, in_stream: Iterable[Any]) -> None:
         assert queue.peek() == element
 
         assert queue.dequeue() == element
+        assert queue.peek() is None
         with pytest.raises(IndexError):
-            queue.peek()
+            queue.dequeue()
         assert queue.is_empty is True
