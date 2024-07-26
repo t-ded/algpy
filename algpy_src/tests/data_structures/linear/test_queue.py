@@ -41,3 +41,23 @@ def test_queue_in_out(queue: Queue, in_stream: Iterable[Any]) -> None:
         with pytest.raises(IndexError):
             queue.dequeue()
         assert queue.is_empty is True
+
+
+@pytest.mark.parametrize(
+    ('in_stream', ),
+    [
+        pytest.param([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], id='Numbers'),
+        pytest.param(['a', 'b', 'c'], id='Letters'),
+        pytest.param(['a', 2, 'c', 4], id='Combination'),
+        pytest.param(['a', None, 'c'], id='Include None'),
+    ]
+)
+def test_ordering(queue: Queue, in_stream: list[Any]) -> None:
+
+    for element in in_stream:
+        queue.enqueue(element)
+
+    i = 0
+    while not queue.is_empty:
+        assert queue.dequeue() == in_stream[i]
+        i += 1
