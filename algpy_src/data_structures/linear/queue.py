@@ -9,7 +9,7 @@ class Queue(Container, Generic[T]):
 
     def __init__(self) -> None:
         super().__init__()
-        self.queue: list[T] = []
+        self._queue: list[T] = []
 
     @property
     def name(self) -> str:
@@ -81,11 +81,11 @@ class Queue(Container, Generic[T]):
 
     @property
     def size(self) -> int:
-        return len(self.queue)
+        return len(self._queue)
 
     @property
     def is_empty(self) -> bool:
-        return len(self.queue) == 0
+        return len(self._queue) == 0
 
     def peek(self) -> Optional[T]:
         """
@@ -98,7 +98,7 @@ class Queue(Container, Generic[T]):
         """
         if self.is_empty:
             return None
-        return self.queue[0]
+        return self._queue[0]
 
     def enqueue(self, value: T) -> None:
         """
@@ -110,7 +110,7 @@ class Queue(Container, Generic[T]):
             Element to add to the queue
         """
         self.reset_n_ops()
-        self.queue.append(value)
+        self._queue.append(value)
         self.increment_n_ops()
 
     def dequeue(self) -> T:
@@ -126,4 +126,4 @@ class Queue(Container, Generic[T]):
         self.increment_n_ops()
         if self.is_empty:
             raise IndexError('The queue is empty')
-        return self.queue.pop(0)
+        return self._queue.pop(0)

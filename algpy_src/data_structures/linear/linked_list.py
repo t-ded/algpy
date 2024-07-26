@@ -12,7 +12,7 @@ class LinkedList(Container):
 
     def __init__(self, linked_list_type: Literal['singly', 'doubly'] = 'singly') -> None:
         super().__init__()
-        self.head: Optional[LinkedListNode] = None
+        self._head: Optional[LinkedListNode] = None
         self.linked_list_type = linked_list_type
         if self.linked_list_type == 'doubly':
             self.tail: Optional[LinkedListNode] = None
@@ -20,9 +20,9 @@ class LinkedList(Container):
 
     def __repr__(self) -> str:
         str_repr = ''
-        if self.head is not None:
-            str_repr += f'{self.head.value} (head)'
-            current = self.head.successor
+        if self._head is not None:
+            str_repr += f'{self._head.value} (head)'
+            current = self._head.successor
             while current is not None:
                 str_repr += f' -> {current.value}'
                 current = current.successor
@@ -31,6 +31,10 @@ class LinkedList(Container):
     @property
     def name(self) -> str:
         return self.linked_list_type.capitalize() + ' Linked List'
+
+    @property
+    def head(self) -> Optional[LinkedListNode]:
+        return self._head
 
     @property
     def best_case_insert_time_complexity(self) -> str:
@@ -135,7 +139,7 @@ class LinkedList(Container):
             if index < 0:
                 index %= self.length
             if self.linked_list_type == 'singly' or index <= self.length / 2:
-                current = self.head
+                current = self._head
                 if current is not None:
                     for i in range(index):
                         if verbosity_level == 2:
@@ -164,12 +168,12 @@ class LinkedList(Container):
             Value for the node to hold.
         """
         new_node = LinkedListNode(data)
-        new_node.change_successor(self.head)
+        new_node.change_successor(self._head)
         if self.linked_list_type == 'doubly':
-            if self.head is not None:
-                self.head.change_predecessor(new_node)
+            if self._head is not None:
+                self._head.change_predecessor(new_node)
                 self.increment_n_ops()
-        self.head = new_node
+        self._head = new_node
         self.increment_n_ops(2)
         self.length += 1
 
@@ -203,7 +207,7 @@ class LinkedList(Container):
             Value for the node to hold.
         """
         new_node = LinkedListNode(data)
-        self.head = new_node
+        self._head = new_node
         self.increment_n_ops()
         if self.linked_list_type == 'doubly':
             self.tail = new_node
@@ -231,7 +235,7 @@ class LinkedList(Container):
         if index > self.length or (index < 0 and abs(index + 1) > self.length):
             logging.warning('Index out of range.')
         else:
-            if self.head is None:
+            if self._head is None:
                 self.insert_to_empty(data)
             else:
                 if index < 0:
@@ -263,15 +267,15 @@ class LinkedList(Container):
         """
         Delete the first node in the linked list (head).
         """
-        if self.head is not None:
-            if self.head.successor is not None:
-                new_head = self.head.successor
-                del self.head
-                self.head = new_head
-                self.head.change_predecessor(None)
+        if self._head is not None:
+            if self._head.successor is not None:
+                new_head = self._head.successor
+                del self._head
+                self._head = new_head
+                self._head.change_predecessor(None)
                 self.increment_n_ops(4)
             else:
-                self.head = None
+                self._head = None
                 self.increment_n_ops()
             self.length -= 1
 
@@ -334,7 +338,7 @@ class LinkedList(Container):
         self.reset_n_ops()
         if verbosity_level > 0:
             print(self)
-        if self.head is None:
+        if self._head is None:
             return
         if index is not None:
             if index >= self.length or (index < 0 and abs(index) > self.length):
@@ -343,7 +347,7 @@ class LinkedList(Container):
                 if index < 0:
                     index += self.length
                 if index == 0:
-                    if self.head.value == data:
+                    if self._head.value == data:
                         self.delete_head()
                     if self.length == 0:
                         self.tail = None
@@ -356,7 +360,7 @@ class LinkedList(Container):
                             self.delete_middle(preceding)
 
         else:
-            current = self.head
+            current = self._head
             if current is not None:
                 if current.value == data:
                     self.delete_head()
@@ -393,7 +397,7 @@ class LinkedList(Container):
         """
         self.reset_n_ops()
         location = None
-        current = self.head
+        current = self._head
         if current is not None:
             for i in range(self.length):
                 self.increment_n_ops()

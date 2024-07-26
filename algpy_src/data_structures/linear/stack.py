@@ -9,7 +9,7 @@ class Stack(Container, Generic[T]):
 
     def __init__(self) -> None:
         super().__init__()
-        self.stack: list[T] = []
+        self._stack: list[T] = []
 
     @property
     def name(self) -> str:
@@ -81,11 +81,11 @@ class Stack(Container, Generic[T]):
 
     @property
     def size(self) -> int:
-        return len(self.stack)
+        return len(self._stack)
 
     @property
     def is_empty(self) -> bool:
-        return len(self.stack) == 0
+        return len(self._stack) == 0
 
     def peek(self) -> Optional[T]:
         """
@@ -98,7 +98,7 @@ class Stack(Container, Generic[T]):
         """
         if self.is_empty:
             return None
-        return self.stack[-1]
+        return self._stack[-1]
 
     def push(self, value: T) -> None:
         """
@@ -110,7 +110,7 @@ class Stack(Container, Generic[T]):
             Element to add to the stack
         """
         self.reset_n_ops()
-        self.stack.append(value)
+        self._stack.append(value)
         self.increment_n_ops()
 
     def pop(self) -> T:
@@ -126,4 +126,4 @@ class Stack(Container, Generic[T]):
         self.increment_n_ops()
         if self.is_empty:
             raise IndexError('The stack is empty')
-        return self.stack.pop(-1)
+        return self._stack.pop(-1)
