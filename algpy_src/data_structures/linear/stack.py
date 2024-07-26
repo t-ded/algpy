@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Optional
 
 from algpy_src.data_structures.container import Container
 
@@ -87,15 +87,17 @@ class Stack(Container, Generic[T]):
     def is_empty(self) -> bool:
         return len(self.stack) == 0
 
-    def peek(self) -> T:
+    def peek(self) -> Optional[T]:
         """
         Returns the top element of the stack without removing it.
 
         Returns
         -------
-        head : Any
-            Element from the beginning of the stack.
+        head : Optional[Any]
+            Element from the beginning of the stack or None if the stack is empty.
         """
+        if self.is_empty:
+            return None
         return self.stack[-1]
 
     def push(self, value: T) -> None:
@@ -122,4 +124,6 @@ class Stack(Container, Generic[T]):
         """
         self.reset_n_ops()
         self.increment_n_ops()
+        if self.is_empty:
+            raise IndexError('The stack is empty')
         return self.stack.pop(-1)

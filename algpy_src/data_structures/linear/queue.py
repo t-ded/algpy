@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Optional
 
 from algpy_src.data_structures.container import Container
 
@@ -87,15 +87,17 @@ class Queue(Container, Generic[T]):
     def is_empty(self) -> bool:
         return len(self.queue) == 0
 
-    def peek(self) -> T:
+    def peek(self) -> Optional[T]:
         """
         Returns the first element of the queue without removing it.
 
         Returns
         -------
-        head : Any
-            Element from the beginning of the queue.
+        head : Optional[Any]
+            Element from the beginning of the queue or None if the queue is empty.
         """
+        if self.is_empty:
+            return None
         return self.queue[0]
 
     def enqueue(self, value: T) -> None:
@@ -122,4 +124,6 @@ class Queue(Container, Generic[T]):
         """
         self.reset_n_ops()
         self.increment_n_ops()
+        if self.is_empty:
+            raise IndexError('The queue is empty')
         return self.queue.pop(0)
