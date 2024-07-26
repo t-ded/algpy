@@ -2,13 +2,13 @@ import logging
 from typing import Optional, TypeVar, Literal
 
 from algpy_src.base.constants import VERBOSITY_LEVELS
-from algpy_src.data_structures.data_structure import DataStructure
+from algpy_src.data_structures.container import Container
 from algpy_src.data_structures.linear.linked_list_node import LinkedListNode
 
 T = TypeVar('T')
 
 
-class LinkedList(DataStructure):
+class LinkedList(Container):
 
     def __init__(self, linked_list_type: Literal['singly', 'doubly'] = 'singly') -> None:
         super().__init__()
