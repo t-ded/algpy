@@ -1,4 +1,4 @@
-from typing import Optional, override, TypeVar, Generic
+from typing import Optional, TypeVar, Generic
 
 from algpy_src.base.constants import Node, SingleEdgeData
 from algpy_src.data_structures.graphs.digraph import DiGraph
@@ -22,11 +22,9 @@ class FeatureGraph(DiGraph, Generic[F]):
         super().__init__(adjacency_list)
         self._node_features: dict[Node, F] = {}
 
-    @override
     def __eq__(self, other: object) -> bool:
         return isinstance(other, FeatureGraph) and self == other and self._node_features == other.node_features
 
-    @override
     @property
     def name(self) -> str:
         return 'Feature Graph'
@@ -59,7 +57,6 @@ class FeatureGraph(DiGraph, Generic[F]):
         super().add_node(node)
         self._node_features[node] = features
 
-    @override
     def remove_node(self, node: Node) -> None:
         """
         Remove a node from the graph.

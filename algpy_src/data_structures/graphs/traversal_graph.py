@@ -1,4 +1,4 @@
-from typing import Optional, override
+from typing import Optional
 
 from algpy_src.base.constants import Node, SingleEdgeData
 from algpy_src.data_structures.graphs.digraph import DiGraph
@@ -17,11 +17,9 @@ class TraversalGraph(DiGraph):
         """
         super().__init__(adjacency_list)
 
-    @override
     def __eq__(self, other: object) -> bool:
         return isinstance(other, TraversalGraph) and list(self._adjacency_list.items()) == list(other._adjacency_list.items())
 
-    @override
     @property
     def name(self) -> str:
         return 'Traversal Graph'
