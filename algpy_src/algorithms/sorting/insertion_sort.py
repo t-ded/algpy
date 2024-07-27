@@ -82,6 +82,7 @@ class InsertionSort(SortingAlgorithm):
             Additional arguments passed to the running function.
         kwargs : Any
             Additional keyword arguments passed to the running function.
+
         Returns
         -------
         result : tuple[bool, list[Comparable]]
