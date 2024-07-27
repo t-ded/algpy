@@ -62,7 +62,7 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
 
         Returns
         -------
-        run_algorithm_kwargs: dict[str, Any]
+        run_algorithm_kwargs : dict[str, Any]
             A dictionary with the created graph as 'input_instance' value and 'element_to_search' which is not present in the graph.
         """
         g: Graph = Graph()
