@@ -13,6 +13,12 @@ from algpy_src.tools.algorithm_input_generation.generate_increasing_input_size_s
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator
 from algpy_src.tools.complexity_info_display.complexity_info_displaying import print_time_complexity_info
 
+_has_matplotlib = True
+try:
+    import matplotlib.pyplot as plt  # type: ignore
+except ImportError:
+    _has_matplotlib = False
+
 
 class AlgorithmRuntimeAnalytic:
     """
@@ -37,7 +43,7 @@ class AlgorithmRuntimeAnalytic:
         self.runtime_analysis: Optional[AlgorithmRuntimeBreakdown] = None
         self.random_input_generator = get_generator(self.algorithm)(seed)
 
-    def get_runtime_analysis_single_instance(self, problem_instance: ProblemInstance, input_size: InputSize,
+    def get_runtime_analysis_single_instance(self, problem_instance: ProblemInstance, input_size: InputSize, override_n_repetitions: Optional[int] = None,
                                              **run_algorithm_kwargs) -> AlgorithmRuntimeSingle:
         """
         Run statistical runtime analysis of this analytic's algorithm on a single problem instance.
@@ -48,7 +54,9 @@ class AlgorithmRuntimeAnalytic:
             Problem instance to run the algorithm on.
         input_size : InputSize
             Size of the given problem instance.
-        run_algorithm_kwargs
+        override_n_repetitions : Optional[int] (default None)
+            If given, override the number self.n_repetitions for this runtime.
+        **run_algorithm_kwargs : dict[Any, Any]
             Additional keyword arguments to pass to the algorithm's run_algorithm() function call.
 
         Returns
@@ -59,7 +67,8 @@ class AlgorithmRuntimeAnalytic:
         runtimes: list[float] = []
         ops_counts: list[int] = []
 
-        for _ in range(self.n_repetitions):
+        n_repetitions = override_n_repetitions if override_n_repetitions is not None else self.n_repetitions
+        for _ in range(n_repetitions):
             start = time.time()
             self.algorithm.run_algorithm(problem_instance, 0, **run_algorithm_kwargs)
             runtimes.append(time.time() - start)
@@ -119,8 +128,9 @@ class AlgorithmRuntimeAnalytic:
         worst_case_input_size = max(input_sequence.keys())
         worst_case_arguments = self.algorithm.get_worst_case_arguments(worst_case_input_size)
         worst_case_instance = worst_case_arguments.pop('input_instance')
+        n_reps = 1 if self.algorithm.is_deterministic else None
         self.runtime_analysis.worst_case_breakdown = self.get_runtime_analysis_single_instance(
-            worst_case_instance, worst_case_input_size, **worst_case_arguments
+            worst_case_instance, worst_case_input_size, n_reps, **worst_case_arguments
         )
 
         for input_size, problem_instance in input_sequence.items():
@@ -148,12 +158,17 @@ class AlgorithmRuntimeAnalytic:
         if self.runtime_analysis.worst_case_breakdown is not None:
             print_delimiter('-', 10)
             print('Algorithm analysis on its worst case instance:')
+            if self.algorithm.is_deterministic:
+                time_info = f'{self.runtime_analysis.worst_case_breakdown.avg_secs:_.2f}'
+                n_ops_info = f'{int(self.runtime_analysis.worst_case_breakdown.avg_ops):_}'
+                reps_info = '1 repetition'
+            else:
+                time_info = f'{self.runtime_analysis.worst_case_breakdown.avg_secs:_.2f} ' + u'\u00B1' + f' {self.runtime_analysis.worst_case_breakdown.std_secs:_.2f}'
+                n_ops_info = f'{self.runtime_analysis.worst_case_breakdown.avg_ops:_.2f} ' + u'\u00B1' + f' {self.runtime_analysis.worst_case_breakdown.std_ops:_.2f}'
+                reps_info = f'{self.n_repetitions} repetitions'
             print(
-                f'  Run on worst case instance with problem size {self.runtime_analysis.worst_case_breakdown.input_size}',
-                f'took {self.runtime_analysis.worst_case_breakdown.avg_secs:_.2f}', u'\u00B1', f'{self.runtime_analysis.worst_case_breakdown.std_secs:_.2f} seconds',
-                f'and {self.runtime_analysis.worst_case_breakdown.avg_ops:_.2f}' + (u' \u00B1 ' if not self.algorithm.is_deterministic else '') +
-                (f'{self.runtime_analysis.worst_case_breakdown.std_ops:_.2f}' if not self.algorithm.is_deterministic else '') +
-                f' operations ({self.n_repetitions} repetitions)'
+                f'  Run on worst case instance with problem size {self.runtime_analysis.worst_case_breakdown.input_size:_}',
+                f'took {time_info} seconds and {n_ops_info} operations ({reps_info}).'
             )
 
         if self.runtime_analysis.per_case_breakdowns is not None:
@@ -161,14 +176,12 @@ class AlgorithmRuntimeAnalytic:
             print(f'Algorithm analysis on {"given" if self.runtime_analysis.used_random is False else "random"} instances:')
             for input_size, breakdown in self.runtime_analysis.per_case_breakdowns.items():
                 print(
-                    f'  Run on instance with problem size {input_size}',
+                    f'  Run on instance with problem size {input_size:_}',
                     f'took {breakdown.avg_secs:_.2f}', u'\u00B1', f'{breakdown.std_secs:_.2f} seconds',
                     f'and {breakdown.avg_ops:_.2f}', u'\u00B1', f'{breakdown.std_ops:_.2f} operations',
-                    f'({self.n_repetitions} repetitions)'
+                    f'({self.n_repetitions} repetitions).'
                 )
 
         print_delimiter('-', 10)
         print_gap()
 
-    def plot_runtime_analysis(self) -> None:
-        pass
