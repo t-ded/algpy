@@ -1,14 +1,14 @@
 import inspect
 import logging
 import time
-from typing import Optional, Iterable, cast
+from typing import Optional, Iterable, cast, Any
 
 import numpy as np
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.base.algorithm_runtime_breakdown import AlgorithmRuntimeBreakdown, AlgorithmRuntimeSingle
-from algpy_src.base.constants import ProblemInstance, InputSize
-from algpy_src.base.utils import print_delimiter, print_gap
+from algpy_src.base.constants import ProblemInstance, InputSize, METRICS_TO_PLOT
+from algpy_src.base.utils import print_delimiter, print_gap, underscore_formatter
 from algpy_src.tools.algorithm_input_generation.generate_increasing_input_size_sequence import generate_increasing_input_size_sequence
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator
 from algpy_src.tools.complexity_info_display.complexity_info_displaying import print_time_complexity_info
@@ -16,6 +16,7 @@ from algpy_src.tools.complexity_info_display.complexity_info_displaying import p
 _has_matplotlib = True
 try:
     import matplotlib.pyplot as plt  # type: ignore
+    import matplotlib.ticker as ticker  # type: ignore
 except ImportError:
     _has_matplotlib = False
 
@@ -185,3 +186,68 @@ class AlgorithmRuntimeAnalytic:
         print_delimiter('-', 10)
         print_gap()
 
+    def plot_runtime_analysis(self, save_path: Optional[str] = None, metric_to_plot: METRICS_TO_PLOT = 'both') -> None:
+        """
+        Function to plot runtime analysis assigned to this analytic obtained earlier and optionally save it.
+
+        Parameters
+        ----------
+        save_path : Optional[str] (default None)
+            If given, try saving the plot to the given path.
+        metric_to_plot : METRICS_TO_PLOT (default 'both')
+            One of 'both', 'time', 'n_ops' signifying which metric we want to plot.
+        """
+        if not _has_matplotlib:
+            logging.warning('Optional module matplotlib is not installed. Install it to enable plotting functionality.')
+            return
+
+        if self.runtime_analysis is None:
+            logging.warning(f'No runtime analysis performed yet, run {self.__class__.__name__}.get_runtime_analysis(...) first.')
+            return
+
+        if self.runtime_analysis.per_case_breakdowns is None:
+            logging.warning(f'No per case breakdown analysis performed yet, run {self.__class__.__name__}.get_runtime_analysis(...) with either input sequence or max_input_size parameter first.')
+            return
+
+        input_sizes = sorted(self.runtime_analysis.per_case_breakdowns.keys())
+        avg_secs = [self.runtime_analysis.per_case_breakdowns[size].avg_secs for size in input_sizes]
+        std_secs = [self.runtime_analysis.per_case_breakdowns[size].std_secs for size in input_sizes]
+        avg_ops = [self.runtime_analysis.per_case_breakdowns[size].avg_ops for size in input_sizes]
+        std_ops = [self.runtime_analysis.per_case_breakdowns[size].std_ops for size in input_sizes]
+
+        fig, ax1 = plt.subplots()
+        ax1.set_title(f'Runtime Analysis of the {self.algorithm.name} algorithm', y=1.07, fontsize=14)
+        fig.suptitle(f'Worst case time complexity O({self.algorithm.worst_case_time_complexity})', y=0.845, fontsize=12)
+
+        ops_axis = None
+        if metric_to_plot != 'n_ops':
+            self._plot_values(input_sizes, avg_secs, std_secs, ax1, color='tab:blue', xlabel='Input Size', ylabel='Time (seconds)')
+            if metric_to_plot == 'both':
+                ops_axis = ax1.twinx()
+        else:
+            ops_axis = ax1
+        if ops_axis is not None:
+            self._plot_values(input_sizes, avg_ops, std_ops, ops_axis, color='tab:red', xlabel='Input Size', ylabel='# Operations')
+
+        fig.tight_layout()
+
+        if save_path:
+            plt.savefig(save_path)
+        else:
+            plt.show()
+
+    @staticmethod
+    def _plot_values(
+            x_values_to_plot: list[int | float], y_values_to_plot: list[int | float], stds_to_plot: list[int | float], ax: Any,
+            label_fontsize: int = 10, color: str = 'tab:black', xlabel: str = '', ylabel: str = '', fmt: str = 'X'
+    ) -> None:
+
+        ax.set_xlabel(xlabel, fontsize=label_fontsize)
+        ax.set_ylabel(ylabel, color=color, fontsize=label_fontsize)
+        ax.errorbar(x_values_to_plot, y_values_to_plot, yerr=stds_to_plot, fmt=fmt, color=color, ecolor='lightgray', elinewidth=1.5, capsize=2.5)
+        ax.tick_params(axis='y', labelcolor=color)
+
+        if x_values_to_plot[-1] >= 1_000:
+            ax.xaxis.set_major_formatter(ticker.FuncFormatter(underscore_formatter))
+        if y_values_to_plot[-1] >= 1_000:
+            ax.yaxis.set_major_formatter(ticker.FuncFormatter(underscore_formatter))

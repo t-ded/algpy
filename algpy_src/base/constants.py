@@ -15,6 +15,7 @@ class PrintableComparable(Comparable, Protocol):
 
 
 COMPLEXITIES = Literal['both', 'time', 'space']
+METRICS_TO_PLOT = Literal['both', 'time', 'n_ops']
 TEST_SEED = 42
 VERBOSITY_LEVELS = Literal[0, 1, 2]
 
