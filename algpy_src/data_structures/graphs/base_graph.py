@@ -213,6 +213,35 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         """
         self._adjacency_list.setdefault(node, {})
 
+    def remove_nodes_from(self, nodes_to_remove: Iterable[Node]) -> None:
+        """
+        Remove a given bunch of nodes from the graph.
+
+        Parameters
+        ----------
+        nodes_to_remove : Iterable[Node]
+            Nodes to be removed from the graph.
+        """
+        for node in nodes_to_remove:
+            self.remove_node(node)
+
+    @affects_adjacency_matrix
+    def remove_node(self, node: Node) -> None:
+        """
+        Remove given node from the graph along with all its edges.
+
+        Parameters
+        ----------
+        node : Node
+            Node to be removed.
+            If not present in the graph, it is silently ignored.
+        """
+        if node in self.nodes:
+            for other_node in self.nodes:
+                if node in self._adjacency_list[other_node]:
+                    self.remove_edge((other_node, node, self._adjacency_list[other_node][node]))
+            del self._adjacency_list[node]
+
     def add_edges_from(self, edges: Iterable[Edge]) -> None:
         """
         Add multiple edges from an iterable.
@@ -248,6 +277,18 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
             The edge to add represented as a tuple of (source node, destination node, edge data).
         """
         raise NotImplementedError()
+
+    def remove_edges_from(self, edges_to_remove: Iterable[Edge | tuple[Node, Node]]) -> None:
+        """
+        Remove a given bunch of edges from the graph.
+
+        Parameters
+        ----------
+        edges_to_remove : Iterable[Edge | tuple[Node, Node]]
+            Edges to be removed from the graph, given either as tuple(s) (source node, destination node, edge data) or just (source node, destination node).
+        """
+        for edge in edges_to_remove:
+            self.remove_edge(*edge)
 
     @affects_adjacency_matrix
     @abstractmethod
