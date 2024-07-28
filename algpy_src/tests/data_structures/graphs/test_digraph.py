@@ -74,6 +74,12 @@ class TestDiGraph:
         assert g.adjacency_matrix == [[NoEdge(), 'Edge1'], [NoEdge(), NoEdge()]]
         assert g.get_edge_data(1, 2) == 'Edge1'
 
+        with pytest.raises(KeyError):
+            g.get_edge_data(1, 3)
+        with pytest.raises(KeyError):
+            g.get_edge_data(3, 1)
+        assert g.get_edge_data(2, 1) == NoEdge()
+
     def test_digraph_removing_edges(self, filled_digraph: DiGraph) -> None:
 
         g = filled_digraph
@@ -88,4 +94,35 @@ class TestDiGraph:
         assert g.edges == {(2, 3, 'Edge2')}
         g.remove_edge(2, 3, 'Edge2')
         assert g.adjacency_list == {1: {}, 2: {}, 3: {}}
+        assert g.edges == set()
+
+    def test_digraph_remove_edges_from(self, filled_digraph: DiGraph) -> None:
+        g = filled_digraph
+        g.remove_edges_from([(1, 2), (2, 3, 'Edge2'), (3, 4)])
+        assert g.adjacency_list == {1: {}, 2: {}, 3: {}}
+        assert g.edges == set()
+
+    def test_digraph_remove_node(self, filled_digraph) -> None:
+        g = filled_digraph
+
+        g.remove_node(1)
+        assert g.adjacency_list == {2: {3: 'Edge2'}, 3: {}}
+        assert g.edges == {(2, 3, 'Edge2')}
+
+        g.remove_node(1)
+        assert g.adjacency_list == {2: {3: 'Edge2'}, 3: {}}
+        assert g.edges == {(2, 3, 'Edge2')}
+
+        g.remove_node(3)
+        assert g.adjacency_list == {2: {}}
+        assert g.edges == set()
+
+        g.remove_node(2)
+        assert g.adjacency_list == {}
+        assert g.edges == set()
+
+    def test_digraph_remove_nodes_from(self, filled_digraph) -> None:
+        g = filled_digraph
+        g.remove_nodes_from([1, 2, 3])
+        assert g.adjacency_list == {}
         assert g.edges == set()
