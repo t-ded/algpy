@@ -76,6 +76,12 @@ class TestMultiDiGraph:
         assert g.adjacency_matrix == [[NoEdge(), {None, 'MultiEdge1', 'MultiEdge2'}], [NoEdge(), NoEdge()]]
         assert g.get_edge_data(1, 2) == {None, 'MultiEdge1', 'MultiEdge2'}
 
+        with pytest.raises(KeyError):
+            g.get_edge_data(1, 3)
+        with pytest.raises(KeyError):
+            g.get_edge_data(3, 1)
+        assert g.get_edge_data(2, 1) == NoEdge()
+
     def test_multidigraph_removing_edges(self, filled_multidigraph: MultiDiGraph) -> None:
 
         g = filled_multidigraph
@@ -90,3 +96,34 @@ class TestMultiDiGraph:
         g.remove_edge(2, 3, 'MultiEdge3')
         assert g.adjacency_list == {1: {}, 2: {3: {'MultiEdge4'}}, 3: {}}
         assert g.edges == {(2, 3, 'MultiEdge4')}
+
+    def test_multidigraph_remove_edges_from(self, filled_multidigraph: MultiDiGraph) -> None:
+        g = filled_multidigraph
+        g.remove_edges_from([(1, 2, 'MultiEdge1'), (2, 3, 'MultiEdge3'), (3, 4)])
+        assert g.adjacency_list == {1: {2: {'MultiEdge2'}}, 2: {}, 3: {}}
+        assert g.edges == {(1, 2, 'MultiEdge2')}
+
+    def test_multidigraph_remove_node(self, filled_multidigraph: MultiDiGraph) -> None:
+        g = filled_multidigraph
+
+        g.remove_node(2)
+        assert g.adjacency_list == {1: {}, 3: {}}
+        assert g.edges == set()
+
+        g.remove_node(2)
+        assert g.adjacency_list == {1: {}, 3: {}}
+        assert g.edges == set()
+
+        g.remove_node(3)
+        assert g.adjacency_list == {1: {}}
+        assert g.edges == set()
+
+        g.remove_node(1)
+        assert g.adjacency_list == {}
+        assert g.edges == set()
+
+    def test_multidigraph_remove_nodes_from(self, filled_multidigraph: MultiDiGraph) -> None:
+        g = filled_multidigraph
+        g.remove_nodes_from([1, 2, 3])
+        assert g.adjacency_list == {}
+        assert g.edges == set()
