@@ -70,6 +70,11 @@ class TestGraph:
         assert g.get_edge_data(1, 2) == 'Edge1'
         assert g.get_edge_data(2, 1) == 'Edge1'
 
+        with pytest.raises(KeyError):
+            g.get_edge_data(1, 3)
+        with pytest.raises(KeyError):
+            g.get_edge_data(3, 1)
+
     def test_graph_removing_edges(self, filled_graph: Graph) -> None:
 
         g = filled_graph
@@ -84,4 +89,35 @@ class TestGraph:
         assert g.edges == {(2, 3, 'Edge2')}
         g.remove_edge(2, 3, 'Edge2')
         assert g.adjacency_list == {1: {}, 2: {}, 3: {}}
+        assert g.edges == set()
+
+    def test_graph_remove_edges_from(self, filled_graph: Graph) -> None:
+        g = filled_graph
+        g.remove_edges_from([(1, 2), (2, 3, 'Edge2'), (3, 4)])
+        assert g.adjacency_list == {1: {}, 2: {}, 3: {}}
+        assert g.edges == set()
+
+    def test_graph_remove_node(self, filled_graph: Graph) -> None:
+        g = filled_graph
+
+        g.remove_node(1)
+        assert g.adjacency_list == {2: {3: 'Edge2'}, 3: {2: 'Edge2'}}
+        assert g.edges == {(2, 3, 'Edge2')}
+
+        g.remove_node(1)
+        assert g.adjacency_list == {2: {3: 'Edge2'}, 3: {2: 'Edge2'}}
+        assert g.edges == {(2, 3, 'Edge2')}
+
+        g.remove_node(2)
+        assert g.adjacency_list == {3: {}}
+        assert g.edges == set()
+
+        g.remove_node(3)
+        assert g.adjacency_list == {}
+        assert g.edges == set()
+
+    def test_graph_remove_nodes_from(self, filled_graph: Graph) -> None:
+        g = filled_graph
+        g.remove_nodes_from([1, 2, 3])
+        assert g.adjacency_list == {}
         assert g.edges == set()

@@ -102,7 +102,7 @@ class TestDiGraph:
         assert g.adjacency_list == {1: {}, 2: {}, 3: {}}
         assert g.edges == set()
 
-    def test_digraph_remove_node(self, filled_digraph) -> None:
+    def test_digraph_remove_node(self, filled_digraph: DiGraph) -> None:
         g = filled_digraph
 
         g.remove_node(1)
@@ -121,7 +121,7 @@ class TestDiGraph:
         assert g.adjacency_list == {}
         assert g.edges == set()
 
-    def test_digraph_remove_nodes_from(self, filled_digraph) -> None:
+    def test_digraph_remove_nodes_from(self, filled_digraph: DiGraph) -> None:
         g = filled_digraph
         g.remove_nodes_from([1, 2, 3])
         assert g.adjacency_list == {}
