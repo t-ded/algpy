@@ -23,7 +23,7 @@ class FeatureGraph(DiGraph, Generic[F]):
         self._node_features: dict[Node, F] = {}
 
     def __eq__(self, other: object) -> bool:
-        return isinstance(other, FeatureGraph) and self == other and self._node_features == other.node_features
+        return isinstance(other, FeatureGraph) and self._adjacency_list == other.adjacency_list and self._node_features == other.node_features
 
     @property
     def name(self) -> str:
@@ -40,6 +40,18 @@ class FeatureGraph(DiGraph, Generic[F]):
             Dictionary of node features assigned to each node.
         """
         return self._node_features
+
+    def add_nodes_with_features_from(self, node_features_mapping: dict[Node, F]) -> None:
+        """
+        Add nodes along with their features from a bunch.
+
+        Parameters
+        ----------
+        node_features_mapping : dict[Node, F]
+            Dictionary of node : node features pairs to add as nodes.
+        """
+        for node, feature in node_features_mapping.items():
+            self.add_node_with_features(node, feature)
 
     @affects_adjacency_matrix
     def add_node_with_features(self, node: Node, features: F) -> None:
@@ -83,6 +95,6 @@ class FeatureGraph(DiGraph, Generic[F]):
         -------
         node_features : F | NoNode
             Node features of the given node.
-            Returns NoNode() object if the node is not present in the graph.
+            Returns NoNode() object if the node is not present in the graph or does not have features assigned.
         """
         return self._node_features.get(node, NoNode())
