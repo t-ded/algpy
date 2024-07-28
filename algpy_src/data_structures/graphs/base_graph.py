@@ -238,11 +238,19 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         """
         if node in self.nodes:
             for other_node in self.nodes:
-                if node in self._adjacency_list[other_node]:
-                    print(other_node, node)
-                    self.remove_edge(other_node, node, self._adjacency_list[other_node][node])
-            for neighbour, edge in self._adjacency_list[node].items():
-                self.edges.discard((node, neighbour, edge))
+                edge_data: EdgeData | NoEdge = self._adjacency_list[other_node].get(node, NoEdge())
+                if edge_data != NoEdge():
+                    if isinstance(edge_data, set):
+                        for single_edge_data in list(edge_data):
+                            self.remove_edge(other_node, node, single_edge_data)
+                    else:
+                        self.remove_edge(other_node, node, edge_data)
+            for neighbour, edge in list(self._adjacency_list[node].items()):
+                if isinstance(edge, set):
+                    for single_edge_data in list(edge):
+                        self.remove_edge(node, neighbour, single_edge_data)
+                else:
+                    self.remove_edge(node, neighbour, edge)
             del self._adjacency_list[node]
 
     def add_edges_from(self, edges: Iterable[Edge]) -> None:
