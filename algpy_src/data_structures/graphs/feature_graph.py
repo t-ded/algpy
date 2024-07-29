@@ -3,6 +3,7 @@ from typing import Optional, TypeVar, Generic
 from algpy_src.base.constants import Node, SingleEdgeData
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph_utils.affects_adjacency_matrix import affects_adjacency_matrix
+from algpy_src.data_structures.graphs.graph_utils.no_feature_object import NoFeature
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 
 F = TypeVar('F')
@@ -82,7 +83,7 @@ class FeatureGraph(DiGraph, Generic[F]):
         super().remove_node(node)
         self._node_features.pop(node)
 
-    def get_node_features(self, node: Node) -> F | NoNode:
+    def get_node_features(self, node: Node) -> F | NoNode | NoFeature:
         """
         Return node features of the given node.
 
@@ -93,8 +94,10 @@ class FeatureGraph(DiGraph, Generic[F]):
 
         Returns
         -------
-        node_features : F | NoNode
+        node_features : F | NoNode | NoFeature
             Node features of the given node.
-            Returns NoNode() object if the node is not present in the graph or does not have features assigned.
+            Returns NoNode() object if the node is not present in the graph and NoFeature() object if it does not have features assigned.
         """
-        return self._node_features.get(node, NoNode())
+        if node not in self.nodes:
+            return NoNode()
+        return self._node_features.get(node, NoFeature())
