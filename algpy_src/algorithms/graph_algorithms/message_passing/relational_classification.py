@@ -1,11 +1,14 @@
-from typing import Any
+from typing import Any, Generic, cast
+
+import numpy as np
 
 from algpy_src.algorithms.algorithm import Algorithm
-from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS
+from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
+from algpy_src.data_structures.graphs.graph_utils.no_feature_object import NoFeature
 
 
-class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize]):
+class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Generic[Node]):
     """
     Relational classification message passing algorithm (explained in more detail in https://www.youtube.com/watch?v=QUO-HQ44EDc)
     """
@@ -66,16 +69,48 @@ class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize]):
         feature_graph.add_node_with_features(1, 0)
         feature_graph.add_node_with_features(3, 1)
         feature_graph.add_edges_from([(1, 2, None), (3, 2, None)])
-        return {'input_instance': feature_graph, 'max_iterations': 10_000}
+        return {'input_instance': feature_graph, 'max_iterations': 10_000, 'convergence_threshold': 0}
 
     def run_algorithm(
             self, input_instance: FeatureGraph, verbosity_level: VERBOSITY_LEVELS = 0,
-            max_iterations: int = 100_000,
+            max_iterations: int = 100_000, convergence_threshold: float = 0.01, classification_threshold: float = 0.5,
             *args: Any, **kwargs: Any
     ) -> tuple[bool, FeatureGraph]:
 
-        raise NotImplementedError()
-        # label_assignment: dict[Node, float] = defaultdict(lambda: 0.5)
-        # if ground_truth is not None:
-        #     label_assignment.update(ground_truth)
+        # TODO: Add docstring
 
+        for node, neighbourhood in input_instance.adjacency_list.items():
+            if not all(isinstance(edge_data, (int, float, bool)) for edge_data in neighbourhood.values()):
+                raise ValueError('Relational classification algorithm can only be ran with numerical edge values.')
+
+        nodes_without_label: set[Node] = set()
+        for node in input_instance.nodes:
+            inp_feature = input_instance.get_node_features(node)
+            if inp_feature == NoFeature():
+                nodes_without_label.add(node)
+                input_instance.add_node_with_features(node, 0.5)
+            elif not isinstance(inp_feature, (int, float, bool)) or not 0 <= inp_feature <= 1:
+                raise ValueError('Relational classification algorithm can only be ran with numerical node feature values between 0 and 1.')
+
+        max_label_change = np.inf
+        n_iterations = 0
+        while max_label_change > convergence_threshold and n_iterations < max_iterations:
+
+            for node in nodes_without_label:
+
+                norm_constant = 0
+                prob_sum = 0
+                for neighbour, edge_data in input_instance.adjacency_list[node].items():
+                    norm_constant += edge_data
+                    prob_sum += edge_data * input_instance.get_node_features(neighbour)
+
+                new_prob = 1 / norm_constant * prob_sum
+                max_label_change = max(max_label_change, abs(new_prob - cast(float, input_instance.get_node_features(node))))
+                input_instance.add_node_with_features(node, new_prob)
+
+            n_iterations += 1
+
+        for node in nodes_without_label:
+            input_instance.add_node_with_features(node, 1 if cast(float, input_instance.get_node_features(node)) > classification_threshold else 0)
+
+        return n_iterations >= max_iterations, input_instance
