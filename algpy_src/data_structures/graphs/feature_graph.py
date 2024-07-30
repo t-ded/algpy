@@ -1,7 +1,7 @@
 from typing import Optional, TypeVar, Generic
 
 from algpy_src.base.constants import Node, SingleEdgeData
-from algpy_src.data_structures.graphs.digraph import DiGraph
+from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.graphs.graph_utils.affects_adjacency_matrix import affects_adjacency_matrix
 from algpy_src.data_structures.graphs.graph_utils.no_feature_object import NoFeature
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
@@ -9,7 +9,7 @@ from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 F = TypeVar('F')
 
 
-class FeatureGraph(DiGraph, Generic[F]):
+class FeatureGraph(Graph, Generic[F]):
 
     def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, SingleEdgeData]]] = None) -> None:
         """
