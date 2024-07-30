@@ -157,6 +157,28 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         return self._adjacency_list
 
     @property
+    def adjacency_list_transposed(self) -> dict[Node, dict[Node, EdgeData]]:
+        """
+        Getter for transposed adjacency list representation of the graph.
+
+        Returns
+        -------
+        adjacency_list_transposed: dict[Node, dict[Node, EdgeData]]
+            If the graph is directed, return an adjacency list with all edges having opposite direction.
+            Otherwise, simply return the actual adjacency list.
+        """
+        if self.is_directed:
+            adjacency_list_transposed: dict[Node, dict[Node, EdgeData]] = {}
+            for node, neighbourhood in self._adjacency_list.items():
+                adjacency_list_transposed.setdefault(node, {})
+                for neighbour, edge_data in neighbourhood.items():
+                    if neighbour not in adjacency_list_transposed:
+                        adjacency_list_transposed[neighbour] = {}
+                    adjacency_list_transposed[neighbour][node] = edge_data
+            return adjacency_list_transposed
+        return self._adjacency_list
+
+    @property
     def adjacency_matrix(self) -> list[list[EdgeData | NoEdge]]:
         """
         Getter for the adjacency matrix of the graph.

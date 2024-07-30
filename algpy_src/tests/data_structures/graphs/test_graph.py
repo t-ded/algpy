@@ -50,6 +50,9 @@ class TestGraph:
         assert g.edges == {(1, 2, 'Edge1'), (1, 3, 'Edge2'), (1, 4, 'Edge3')}
         assert g.number_of_edges == 3
 
+    def test_graph_adjacency_list_transposed(self, filled_graph: Graph) -> None:
+        assert filled_graph.adjacency_list_transposed == filled_graph.adjacency_list
+
     def test_graph_adding_edges(self, empty_graph: Graph) -> None:
 
         g = empty_graph

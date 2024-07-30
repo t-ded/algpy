@@ -57,6 +57,9 @@ class TestMultiGraph:
         assert g.edges == {(1, 2, 'MultiEdge1'), (1, 3, 'MultiEdge2'), (1, 4, 'MultiEdge3')}
         assert g.number_of_edges == 3
 
+    def test_multigraph_adjacency_list_transposed(self, filled_multigraph: MultiGraph) -> None:
+        assert filled_multigraph.adjacency_list_transposed == filled_multigraph.adjacency_list
+
     def test_multigraph_adding_edges(self, empty_multigraph: MultiGraph) -> None:
 
         g = empty_multigraph

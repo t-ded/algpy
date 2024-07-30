@@ -56,6 +56,9 @@ class TestDiGraph:
         assert g.edges == {(1, 2, 'Edge1'), (1, 3, 'Edge2'), (1, 4, 'Edge3')}
         assert g.number_of_edges == 3
 
+    def test_digraph_adjacency_list_transposed(self, filled_digraph: DiGraph) -> None:
+        assert filled_digraph.adjacency_list_transposed == {1: {}, 2: {1: 'Edge1'}, 3: {2: 'Edge2'}}
+
     def test_digraph_adding_edges(self, empty_digraph: DiGraph) -> None:
 
         g = empty_digraph
