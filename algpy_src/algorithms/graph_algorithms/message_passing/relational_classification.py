@@ -3,13 +3,13 @@ from typing import Any, Generic, cast
 import numpy as np
 
 from algpy_src.algorithms.algorithm import Algorithm
-from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node
+from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node, EdgeData
 from algpy_src.base.utils import print_problem_instance
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
 from algpy_src.data_structures.graphs.graph_utils.no_feature_object import NoFeature
 
 
-class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Generic[Node]):
+class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Generic[Node, EdgeData]):
     """
     Relational classification message passing algorithm (explained in more detail in https://www.youtube.com/watch?v=QUO-HQ44EDc)
     """
@@ -49,7 +49,7 @@ class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Gene
     def space_complexity(self) -> str:
         return '|V|'
 
-    def get_worst_case_arguments(self, input_size: GraphSize) -> dict[str, Any]:
+    def get_worst_case_arguments(self, input_size: GraphSize = GraphSize(*(1, 1))) -> dict[str, Any]:
         """
         Generate a FeatureGraph with 3 nodes and 2 edges for which the method does not converge.
         In the worst case, this would lead to an infinite loop - max number of iterations is specified for the worst case arguments, too, to avoid this.
@@ -57,20 +57,19 @@ class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Gene
 
         Parameters
         ----------
-        input_size : GraphSize
+        input_size : GraphSize (default GraphSize(*(1, 1)))
             Tuple of n_nodes, n_edges with desired graph size.
-            Is not used for this algorithm's worst case arguments generation.
+            Is not used for this algorithm's worst case arguments generation since it would not influence the result (running into max iterations) anyhow.
 
         Returns
         -------
         run_algorithm_kwargs : dict[str, Any]
             A dictionary with the created FeatureGraph as 'input_instance' value and 'max_iterations' set to sufficiently high number.
         """
-        feature_graph: FeatureGraph = FeatureGraph()
+        feature_graph: FeatureGraph = FeatureGraph({1: {2: True}})
         feature_graph.add_node_with_features(1, 0)
-        feature_graph.add_node_with_features(3, 1)
-        feature_graph.add_edges_from([(1, 2, None), (3, 2, None)])
-        return {'input_instance': feature_graph, 'max_iterations': 10_000, 'convergence_threshold': 0}
+        feature_graph.add_node_with_features(2, 1)
+        return {'input_instance': feature_graph, 'max_iterations': 1_000, 'convergence_threshold': -0.01}
 
     def run_algorithm(
             self, input_instance: FeatureGraph, verbosity_level: VERBOSITY_LEVELS = 0,
@@ -127,14 +126,16 @@ class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Gene
         n_iterations = 0
         while max_label_change > convergence_threshold and n_iterations < max_iterations:
 
+            max_label_change = 0
             for node in nodes_without_label:
 
-                norm_constant = 0
-                prob_sum = 0
+                norm_constant = 0.0
+                prob_sum = 0.0
+
                 for neighbour, edge_data in input_instance.adjacency_list[node].items():
                     self.increment_n_ops()
                     norm_constant += edge_data
-                    prob_sum += edge_data * input_instance.get_node_features(neighbour)
+                    prob_sum += edge_data * cast(float, input_instance.get_node_features(neighbour))
 
                 new_prob = 1 / norm_constant * prob_sum
                 max_label_change = max(max_label_change, abs(new_prob - cast(float, input_instance.get_node_features(node))))
@@ -147,4 +148,4 @@ class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Gene
         for node in nodes_without_label:
             input_instance.add_node_with_features(node, 1 if cast(float, input_instance.get_node_features(node)) > classification_threshold else 0)
 
-        return n_iterations >= max_iterations, input_instance
+        return n_iterations < max_iterations, input_instance
