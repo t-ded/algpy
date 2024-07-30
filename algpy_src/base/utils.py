@@ -32,6 +32,7 @@ def print_gap(n: int = 3) -> None:
 def print_problem_instance(instance: ProblemInstance, verbosity_level: VERBOSITY_LEVELS, min_verbosity_level: int = 1) -> None:
     """
     Convenience function to print the given ProblemInstance if the current verbosity_level is greater than or equal to min_verbosity_level.
+
     Parameters
     ----------
     instance : ProblemInstance
