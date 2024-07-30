@@ -169,6 +169,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
             Adjacency matrix representation of the graph object represented as a list of lists with edges represented either by the data itself or set of data in case of a multigraph.
             Symmetrical for undirected graph.
         """
+        self.reset_n_ops()
         if not self._adjacency_matrix_is_actual:
             self._build_adjacency_matrix()
             self._adjacency_matrix_is_actual = True
@@ -182,6 +183,7 @@ class BaseGraph(DataStructure, Generic[Node, EdgeData]):
         for u in self.nodes:
             neighbours: list[EdgeData | NoEdge] = []
             for v in self.nodes:
+                self.increment_n_ops()
                 if v in self._adjacency_list[u]:
                     neighbours.append(self._adjacency_list[u][v])
                 else:

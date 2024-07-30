@@ -33,8 +33,6 @@ def line_feature_graph_with_features(line_feature_graph_empty_features: FeatureG
 def test_feature_inequality(line_feature_graph_empty_features: FeatureGraph, line_feature_graph_with_features: FeatureGraph) -> None:
     fg1 = line_feature_graph_empty_features
     fg2 = line_feature_graph_with_features
-    print(fg1.node_features)
-    print(fg2.node_features)
     assert fg1 != fg2
 
 
