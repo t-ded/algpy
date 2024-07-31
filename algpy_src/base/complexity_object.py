@@ -25,12 +25,12 @@ class ComplexityObject(ABC):
 
     def increment_n_ops(self, increment: int = 1) -> None:
         """
-        Convenience method to increment self.n_ops
+        Convenience method to increment n_ops count of the given complexity object.
         """
         self._n_ops += increment
 
     def reset_n_ops(self) -> None:
         """
-        Convenience method to reset self.n_ops
+        Convenience method to reset n_ops count of the given complexity object.
         """
         self._n_ops = 0
