@@ -1,9 +1,9 @@
-import logging
 from typing import Any
 
 import numpy as np
 
 from algpy_src.data_structures.data_structure import DataStructure
+from algpy_src.data_structures.system_design.load_task import LoadTask
 
 
 class Server(DataStructure):
@@ -23,12 +23,18 @@ class Server(DataStructure):
             Identifier for the server.
         """
         super().__init__()
-        self._load = 0.0
         self._capacity = capacity
         self._identifier = identifier
+        self._tasks: list[LoadTask] = []
 
     def __str__(self) -> str:
-        return f'Server (id={self._identifier}, current_load={self._load}), capacity={self._capacity}'
+        return f'Server (id={self._identifier}, current_load={self.current_load}, capacity={self._capacity})'
+
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, Server) and self._identifier == other._identifier
+
+    def __hash__(self) -> int:
+        return hash(self._identifier)
 
     @property
     def name(self) -> str:
@@ -48,46 +54,48 @@ class Server(DataStructure):
 
     @property
     def current_load(self) -> float:
-        return self._load
+        return sum(task.size for task in self._tasks)
 
-    def can_handle_load(self, load: float) -> bool:
+    @property
+    def tasks(self) -> list[LoadTask]:
+        return self._tasks
+
+    def can_handle_task(self, task: LoadTask) -> bool:
         """
-        Convenience function to check if adding given load overflows capacity of the server.
+        Convenience function to check if adding given load task overflows capacity of the server.
 
         Parameters
         ----------
-        load : float
-            New load to be added to the current load of the server.
+        task : LoadTask
+            New load task to be added to the current load of the server.
 
         Returns
         -------
         can_handle : bool
-            Whether the given new load can be handled by the server.
+            Whether the given new task can be handled by the server.
         """
-        return self._load + load <= self._capacity
+        return self.current_load + task.size <= self._capacity
 
-    def add_load(self, load: float) -> None:
+    def add_task(self, task: LoadTask) -> None:
         """
-        Adds a new load to the server. If this overflows capacity, MemoryError is raised.
+        Adds a new load task to the server. If this overflows capacity, MemoryError is raised.
 
         Parameters
         ----------
-        load : float
+        task : LoadTask
             Load to add to the current load of the server.
         """
-        if not self.can_handle_load(load):
+        if not self.can_handle_task(task):
             raise MemoryError('Capacity of the server exceeded')
-        self._load += load
+        self._tasks.append(task)
 
-    def remove_load(self, load: float) -> None:
+    def remove_task(self, task: LoadTask) -> None:
         """
-        Removes desired load from the server. If the desired amount is more than present amount, all present load is removed.
+        Removes desired load task from the server.
 
         Parameters
         ----------
-        load : float
-            Load to remove from the current load of the server.
+        task : LoadTask
+            Load task to remove from the current load of the server.
         """
-        if self._load - load < 0:
-            logging.warning(f'Tried removing more load than currently present in server {self.identifier}. Removing all present load instead.')
-        self._load = max(0.0, self._load - load)
+        self._tasks.remove(task)
