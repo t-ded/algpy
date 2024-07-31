@@ -42,16 +42,31 @@ What sets AlgPy apart from other DSA libraries:
    pytest
    ```
 
+## Repository Structure
+The algpy repository is organized to facilitate learning and contribution. Below is a brief explanation of the main directories and their purposes:
+
+* ```.github/```: Contains GitHub-specific files such as workflows, issue templates, and contribution guidelines.
+* ```algpy_src/```: The primary source directory for the project. This is where the main modules and implementations of data structures and algorithms reside.
+    * ```algorithms/```: One of primary implementation folders, storing submodules such as ```graph_algorithms/```, ```sorting/``` etc.
+    * ```base/```: Stores base objects used in other modules.
+    * ```data_structures/```: One of primary implementation folders, storing submodules such as ```graphs/```, ```hash_based/``` etc.
+    * ```tests/```: Includes unit tests for the project to ensure code reliability and correctness. Directory structure should match that of ```algpy_src/```.
+    * ```tools/```: Utility functionalities for end-user experiments with provided algorithms and data structures. Provides tooling such as runtime analysis, input generation etc.
+* ```docs/```: Contains documentation files. This includes detailed explanations of various data structures and algorithms, how-to guides, and other educational resources.
+* ```examples/```: Provides example scripts demonstrating how to use the various data structures and algorithms implemented in algpy and how to try provided tools.
+
 ## Contributing
-AlgPy has been meant as an open-sourced initiative since beginning. There are so many ways to contribute and none of them is less appreciated than any other - some ideas:
+AlgPy has been meant as an open-sourced initiative since beginning. There are so many ways to contribute and none of them is less appreciated than any other -
+here are some quickstart ideas (and you can find more detailed information in our [contributing guidelines](CONTRIBUTING.md)):
 
 * Miss a data structure? Feel free to add it!
 * Miss an algorithm? Feel free to add it! Think you can use an already implemented data structure for it? Even better.
-* Have you tried an algorithm and the tools but found out you would be curious about some other feature in the inside? Add a new tool!
+Feel like there is a data structure you are missing and need to implement it? The best case!
+* Have you tried an algorithm and the tools but found out you would be curious about some other feature inside? Add a new tool!
 * Have you used AlgPy to solve a LeetCode problem? Present your solution!
 * Do you miss an explanation somewhere in the docs or found a mistake in there? Let us know!
 
-Before going forward with contributing, please read our [contributing guidelines](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md).
+Before going forward with contributing, please read our [code of conduct](CODE_OF_CONDUCT.md).
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
