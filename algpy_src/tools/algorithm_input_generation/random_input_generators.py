@@ -5,6 +5,7 @@ from typing import Optional, Generic, Iterable, TypeVar
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
+from algpy_src.algorithms.graph_algorithms.traversal.dfs import DepthFirstSearch
 from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
 from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
@@ -96,6 +97,6 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
     """
     if isinstance(algorithm, SortingAlgorithm):
         return RandomInputGeneratorSortingAlgorithm
-    if isinstance(algorithm, BreadthFirstSearch):
+    if isinstance(algorithm, BreadthFirstSearch) | isinstance(algorithm, DepthFirstSearch):
         return RandomInputGeneratorGraphTraversalAlgorithm
     raise ValueError('No random input generator assigned for this algorithm class.')
