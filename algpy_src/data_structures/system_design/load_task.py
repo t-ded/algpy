@@ -1,3 +1,4 @@
+from algpy_src.base.utils import underscore_formatter
 from algpy_src.data_structures.data_structure import DataStructure
 
 
@@ -13,6 +14,9 @@ class LoadTask(DataStructure):
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, LoadTask) and self._identifier == other._identifier
+
+    def __str__(self) -> str:
+        return f'LoadTask (id={self._identifier}, size={underscore_formatter(self._size) if self.size > 1_000 else self.size})'
 
     @property
     def name(self) -> str:

@@ -2,6 +2,7 @@ from typing import Any
 
 import numpy as np
 
+from algpy_src.base.utils import underscore_formatter
 from algpy_src.data_structures.data_structure import DataStructure
 from algpy_src.data_structures.system_design.load_task import LoadTask
 
@@ -28,7 +29,8 @@ class Server(DataStructure):
         self._tasks: list[LoadTask] = []
 
     def __str__(self) -> str:
-        return f'Server (id={self._identifier}, current_load={self.current_load}, capacity={self._capacity})'
+        return (f'Server (id={self._identifier}, current_load={underscore_formatter(self.current_load) if self.current_load > 1_000 else self.current_load}, '
+                f'capacity={underscore_formatter(self._capacity) if self._capacity > 1_000 else self._capacity})')
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, Server) and self._identifier == other._identifier
