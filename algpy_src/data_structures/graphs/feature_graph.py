@@ -11,7 +11,7 @@ F = TypeVar('F')
 
 class FeatureGraph(Graph, Generic[F]):
 
-    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, SingleEdgeData]]] = None) -> None:
+    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, SingleEdgeData]]] = None, node_features: Optional[dict[Node, F]] = None) -> None:
         """
         Constructor of the FeatureGraph class.
 
@@ -19,9 +19,14 @@ class FeatureGraph(Graph, Generic[F]):
         ----------
         adjacency_list : adjacency_list: Optional[dict[Node, dict[Node, SingleEdgeData]]] (default None)
             Optional adjacency list from which to build the traversal graph.
+        node_features : Optional[dict[Node, F]] (default None)
+            Node features mapping to start the graph from. If any nodes present here are not in the adjacency list, they are silently added.
         """
         super().__init__(adjacency_list)
-        self._node_features: dict[Node, F] = {}
+        if node_features is None:
+            node_features = {}
+        self._node_features: dict[Node, F] = node_features
+        self.add_nodes_from(set(node_features.keys()) - set(self._adjacency_list.keys()))
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, FeatureGraph) and self._adjacency_list == other.adjacency_list and self._node_features == other.node_features
