@@ -4,12 +4,14 @@ from itertools import combinations
 from typing import Optional, Generic, Iterable, TypeVar
 
 from algpy_src.algorithms.algorithm import Algorithm
+from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
 from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
 from algpy_src.algorithms.graph_algorithms.traversal.dfs import DepthFirstSearch
 from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
 from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.digraph import DiGraph
+from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
 from algpy_src.data_structures.graphs.graph import Graph
 
 A = TypeVar('A', bound=Algorithm)
@@ -20,7 +22,7 @@ class RandomInputGenerator(ABC, Generic[ProblemInstance, InputSize]):
     Base class for random input generators.
     """
 
-    def __init__(self, seed: Optional[int] = None):
+    def __init__(self, seed: Optional[int] = None) -> None:
         self.seed = seed
 
     @abstractmethod
@@ -48,7 +50,7 @@ class RandomInputGeneratorSortingAlgorithm(RandomInputGenerator[Iterable[Compara
     Generates an iterable of random integers with input size being integer specifying number of items.
     """
 
-    def __init__(self, seed: Optional[int] = None):
+    def __init__(self, seed: Optional[int] = None) -> None:
         super().__init__(seed)
 
     def generate_random_input(self, input_size: int) -> Iterable[Comparable]:
@@ -63,7 +65,7 @@ class RandomInputGeneratorGraphTraversalAlgorithm(RandomInputGenerator[BaseGraph
     with input size being named tuple of integers specifying number of nodes and edges.
     """
 
-    def __init__(self, seed: Optional[int] = None):
+    def __init__(self, seed: Optional[int] = None) -> None:
         super().__init__(seed)
 
     def generate_random_input(self, input_size: GraphSize) -> BaseGraph:
@@ -79,6 +81,35 @@ class RandomInputGeneratorGraphTraversalAlgorithm(RandomInputGenerator[BaseGraph
         graph.add_edges_from((source, target, None) for source, target in random_edge_pairs)
 
         return graph
+
+
+class RandomInputGeneratorGraphRelationalClassificationAlgorithm(RandomInputGenerator[FeatureGraph, GraphSize]):
+    """
+    Random input generator for algorithm of relational classification on feature graphs.
+    Generates a graph with desired number of nodes and randomly distributed edges between them
+    with input size being named tuple of integers specifying number of nodes and edges.
+    Then, random ground truth labels are added to randomly sampled half of the nodes.
+    """
+
+    def __init__(self, seed: Optional[int] = None) -> None:
+        super().__init__(seed)
+
+    def generate_random_input(self, input_size: GraphSize) -> FeatureGraph:
+
+        feature_graph: FeatureGraph = FeatureGraph()
+
+        for node in range(input_size.nodes):
+            rng = random.Random(self.seed + node if self.seed is not None else self.seed)
+            if rng.uniform(0, 1) > 0.5:
+                feature_graph.add_node_with_features(node, rng.randint(0, 1))
+            else:
+                feature_graph.add_node(node)
+
+        rng = random.Random(self.seed)
+        random_edge_pairs = rng.sample(list(combinations(feature_graph.nodes, 2)), input_size.edges)
+        feature_graph.add_edges_from((source, target, None) for source, target in random_edge_pairs)
+
+        return feature_graph
 
 
 def get_generator(algorithm: A) -> type[RandomInputGenerator]:
@@ -99,4 +130,6 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
         return RandomInputGeneratorSortingAlgorithm
     if isinstance(algorithm, BreadthFirstSearch) | isinstance(algorithm, DepthFirstSearch):
         return RandomInputGeneratorGraphTraversalAlgorithm
+    if isinstance(algorithm, RelationalClassificationAlgorithm):
+        return RandomInputGeneratorGraphRelationalClassificationAlgorithm
     raise ValueError('No random input generator assigned for this algorithm class.')
