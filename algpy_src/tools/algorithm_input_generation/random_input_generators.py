@@ -7,12 +7,15 @@ from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
 from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
 from algpy_src.algorithms.graph_algorithms.traversal.dfs import DepthFirstSearch
+from algpy_src.algorithms.load_balancing.round_robin import RoundRobinAlgorithm
 from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
-from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize
+from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize, LoadBalancingTaskSize
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
 from algpy_src.data_structures.graphs.graph import Graph
+from algpy_src.data_structures.system_design.load_task import LoadTask
+from algpy_src.data_structures.system_design.server import Server
 
 A = TypeVar('A', bound=Algorithm)
 
@@ -97,19 +100,41 @@ class RandomInputGeneratorGraphRelationalClassificationAlgorithm(RandomInputGene
     def generate_random_input(self, input_size: GraphSize) -> FeatureGraph:
 
         feature_graph: FeatureGraph = FeatureGraph()
+        rng = random.Random(self.seed)
 
         for node in range(input_size.nodes):
-            rng = random.Random(self.seed + node if self.seed is not None else self.seed)
             if rng.uniform(0, 1) > 0.5:
                 feature_graph.add_node_with_features(node, rng.randint(0, 1))
             else:
                 feature_graph.add_node(node)
 
-        rng = random.Random(self.seed)
         random_edge_pairs = rng.sample(list(combinations(feature_graph.nodes, 2)), input_size.edges)
         feature_graph.add_edges_from((source, target, None) for source, target in random_edge_pairs)
 
         return feature_graph
+
+
+class RandomInputGeneratorLoadBalancingAlgorithms(RandomInputGenerator[tuple[Iterable[LoadTask], list[Server]], LoadBalancingTaskSize]):
+    """
+    Random input generator for load balancing algorithms.
+    Generates a sequence of tasks with random loads and a sequence of available servers with random capacities.
+    """
+
+    def __init__(self, seed: Optional[int] = None) -> None:
+        super().__init__(seed)
+
+    def generate_random_input(self, input_size: LoadBalancingTaskSize) -> tuple[list[LoadTask], list[Server]]:
+
+        rng = random.Random(self.seed)
+        tasks: list[LoadTask] = []
+        servers: list[Server] = []
+
+        for i in range(input_size.num_tasks):
+            tasks.append(LoadTask(f'random_{i}', rng.uniform(0, 10 ** 5)))
+        for j in range(input_size.num_servers):
+            servers.append(Server(rng.randint(0, 10 ** 8), f'random_{j}'))
+
+        return tasks, servers
 
 
 def get_generator(algorithm: A) -> type[RandomInputGenerator]:
@@ -132,4 +157,6 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
         return RandomInputGeneratorGraphTraversalAlgorithm
     if isinstance(algorithm, RelationalClassificationAlgorithm):
         return RandomInputGeneratorGraphRelationalClassificationAlgorithm
+    if isinstance(algorithm, RoundRobinAlgorithm):
+        return RandomInputGeneratorLoadBalancingAlgorithms
     raise ValueError('No random input generator assigned for this algorithm class.')
