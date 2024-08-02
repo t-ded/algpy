@@ -29,8 +29,9 @@ class Server(DataStructure):
         self._tasks: list[LoadTask] = []
 
     def __str__(self) -> str:
-        return (f'Server (id={self._identifier}, current_load={underscore_formatter(self.current_load) if self.current_load > 1_000 else self.current_load}, '
-                f'capacity={underscore_formatter(self._capacity) if self._capacity > 1_000 else self._capacity})')
+        load_str = underscore_formatter(self.current_load) if self.current_load > 1_000 else self.current_load
+        capacity_str = underscore_formatter(self._capacity) if (self._capacity is not np.inf and self._capacity > 1_000) else self._capacity
+        return f'Server (id={self._identifier}, current_load={load_str}, capacity={capacity_str})'
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, Server) and self._identifier == other._identifier
