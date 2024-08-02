@@ -24,7 +24,7 @@ class RoundRobinAlgorithm(Algorithm[tuple[Iterable[LoadTask], list[Server]], Loa
 
     @property
     def name(self) -> str:
-        return 'RoundRobin'
+        return 'Round Robin'
 
     @property
     def is_deterministic(self) -> bool:
@@ -73,7 +73,7 @@ class RoundRobinAlgorithm(Algorithm[tuple[Iterable[LoadTask], list[Server]], Loa
     def run_algorithm(
             self, input_instance: tuple[Iterable[LoadTask], list[Server]], verbosity_level: VERBOSITY_LEVELS = 0,
             server_weights: Optional[dict[Server, int]] = None, *args: Any, **kwargs: Any
-    ) -> tuple[bool, Optional[tuple[Iterable[LoadTask], list[Server]]]]:
+    ) -> tuple[bool, tuple[Iterable[LoadTask], list[Server]]]:
         """
         Run function of the Round Robin algorithm. Iterates over provided servers and assigns the next task in a sequence to them until all tasks are assigned or no more can fit.
         This algorithm assumes the silent overflow ignoring variant, which skips any tasks that the current server in the sequence cannot fit.
@@ -98,7 +98,7 @@ class RoundRobinAlgorithm(Algorithm[tuple[Iterable[LoadTask], list[Server]], Loa
         -------
         result : tuple[bool, tuple[Iterable[LoadTask], Iterable[Server]]]
             Returns True in the first index if all tasks were assigned, otherwise False.
-            Also returns back the initial list of servers with tasks assigned to them.
+            Also returns back tuple of the unassigned tasks and the initial list of servers with tasks assigned to them.
         """
 
         self.reset_n_ops()
