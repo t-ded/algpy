@@ -112,7 +112,7 @@ class DepthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
         visited: set[Node] = set()
         stack: Stack[Node] = Stack()
 
-        for node in [root] if root != NoNode() else [] + [node for node in input_instance.nodes if node != root]:
+        for node in [root] if root != NoNode() else input_instance.nodes:
             if node not in visited:
                 visited.add(node)
                 stack.push(node)

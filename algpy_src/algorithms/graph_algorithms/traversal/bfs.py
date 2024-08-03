@@ -112,7 +112,7 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
         visited: set[Node] = set()
         queue: Queue[Node] = Queue()
 
-        for node in [root] if root != NoNode() else [] + [node for node in input_instance.nodes if node != root]:
+        for node in [root] if root != NoNode() else input_instance.nodes:
             if node not in visited:
                 visited.add(node)
                 queue.enqueue(node)
