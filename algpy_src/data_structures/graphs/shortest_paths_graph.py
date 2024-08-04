@@ -1,11 +1,11 @@
 from algpy_src.base.constants import Node, SingleEdgeData
-from algpy_src.data_structures.graphs.graph import Graph
+from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 from algpy_src.data_structures.graphs.traversal_graph import TraversalGraph
 from algpy_src.data_structures.linear.stack import Stack
 
 
-class ShortestPathsGraph(Graph):
+class ShortestPathsGraph(DiGraph):
 
     def __init__(self, adjacency_list: dict[Node, dict[Node, SingleEdgeData]], shortest_path_lengths: dict[Node, dict[Node, int | float]],
                  shortest_path_predecessors: dict[Node, dict[Node, Node | NoNode]]) -> None:
@@ -71,16 +71,20 @@ class ShortestPathsGraph(Graph):
             return None
         shortest_path_nodes: Stack[Node] = Stack()
         shortest_path_nodes.push(target)
+        if target == source:
+            one_node_traversal_graph = TraversalGraph()
+            one_node_traversal_graph.add_node(source)
+            return one_node_traversal_graph
 
         predecessor = self._shortest_path_predecessors[source][target]
         while not isinstance(predecessor, NoNode):
             shortest_path_nodes.push(predecessor)
             if predecessor == source:
                 return self._reconstruct_path(shortest_path_nodes)
+            predecessor = self._shortest_path_predecessors[source][predecessor]
         return None
 
-    @staticmethod
-    def _reconstruct_path(reverse_order_nodes: Stack[Node]) -> TraversalGraph:
+    def _reconstruct_path(self, reverse_order_nodes: Stack[Node]) -> TraversalGraph:
         """
         Convenience function to reconstruct the path from a stack of nodes in reverse order.
 
@@ -100,7 +104,7 @@ class ShortestPathsGraph(Graph):
 
         while not reverse_order_nodes.is_empty:
             following = reverse_order_nodes.pop()
-            path_graph.add_edge(current, following)
+            path_graph.add_edge((current, following, self._adjacency_list[current].get(following, 0)))
             current = following
 
         return path_graph
