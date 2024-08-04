@@ -6,7 +6,6 @@ from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 from algpy_src.data_structures.graphs.shortest_paths_graph import ShortestPathsGraph
-from algpy_src.data_structures.graphs.traversal_graph import TraversalGraph
 
 
 class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
@@ -101,7 +100,7 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
 
         Returns
         -------
-        result : tuple[bool, ShortestPathsGraph | TraversalGraph]
+        result : tuple[bool, ShortestPathsGraph]
             Returns True in the first index if the shortest path to target was found or if no target was specified.
             Also returns a ShortestPathsGraph object carrying the respective path lengths and predecessor and capable of reconstructing the path.
         """
