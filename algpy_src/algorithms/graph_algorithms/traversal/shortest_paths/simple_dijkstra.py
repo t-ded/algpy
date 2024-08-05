@@ -8,7 +8,7 @@ from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 from algpy_src.data_structures.graphs.shortest_paths_graph import ShortestPathsGraph
 
 
-class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
+class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
     """
     Dijkstra's shortest path(s) algorithm.
     """
@@ -90,7 +90,7 @@ class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
             One of 0, 1, 2 with 0 referring to no printing, 1 leading to print the shortest path traversal graph at the end and
             2 meaning also print the shortest path traversal graph after every expanded node.
         source : Node | NoNode (default NoNode())
-            Root node to find the shortest path(s) from. If not given, shortest paths from all nodes.
+            Root node to find the shortest path(s) from. If not given, shortest paths from all nodes are found.
         target : Node | NoNode (default NoNode())
             Target node to find the shortest path(s) to. If not given, shortest paths to all nodes are found.
         *args : Any
