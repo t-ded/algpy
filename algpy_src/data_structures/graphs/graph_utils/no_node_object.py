@@ -1,12 +1,7 @@
-from typing import Generic
-
-from algpy_src.base.constants import Node
-
-
-class NoNode(Generic[Node]):
+class NoNode:
 
     def __repr__(self) -> str:
-        return 'NoEdge'
+        return 'NoNode'
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, NoNode)

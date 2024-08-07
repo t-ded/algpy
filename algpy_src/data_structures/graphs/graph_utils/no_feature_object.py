@@ -1,9 +1,4 @@
-from typing import Generic, TypeVar
-
-F = TypeVar('F')
-
-
-class NoFeature(Generic[F]):
+class NoFeature:
 
     def __repr__(self) -> str:
         return 'NoFeature'

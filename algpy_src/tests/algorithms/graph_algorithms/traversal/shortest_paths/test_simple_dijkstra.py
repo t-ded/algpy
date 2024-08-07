@@ -38,6 +38,7 @@ def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
         shortest_path_predecessors={0: {0: NoNode(), 1: 0, 2: 0, 3: 0, 4: 0}, 1: {0: 0, 1: NoNode(), 2: 2, 3: 0, 4: 0}, 2: {0: 0, 1: 1, 2: NoNode, 3: 0, 4: 0},
                                     3: {0: 0, 1: 0, 2: 0, 3: NoNode(), 4: 0}, 4: {0: 0, 1: 0, 2: 0, 3: 0, 4: NoNode()}}
     )
+    print(shortest_path_graph)
     # assert dijkstra.run_algorithm(**worst_case_args) == (
     #     True,
     #     shortest_path_graph
@@ -47,17 +48,18 @@ def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
 
 # TODO
 @pytest.mark.parametrize(
-    ('input_adjacency_list', 'element_to_search', 'expected_traversal_order', 'expected_n_ops'),
+    ('input_adjacency_list', 'source', 'target', 'expected_path_lengths', 'shortest_path_predecessors', 'expected_n_ops'),
     [
-        pytest.param({}, 1, [], 0, id='Empty graph with element to search'),
-        pytest.param({}, NoNode(), [], 0, id='Empty graph with no element to search'),
-        pytest.param({1: {2: None}, 2: {3: None}, 3: {4: None}, 4: {}}, 1, [1], 2, id='Line graph with element to search in root'),
-        pytest.param({1: {2: None}, 2: {3: None}, 3: {4: None}, 4: {}}, 4, [1, 2, 3, 4], 8, id='Line graph with element to search as last'),
-        pytest.param({1: {2: None, 4: None, 6: None}, 2: {3: None}, 3: {}, 4: {5: None}, 5: {}, 6: {7: None}, 7: {}}, 8, [1, 2, 4, 6, 3, 5, 7], 14, id='Star graph with two layers'),
+        # pytest.param({}, 1, [], 0, id='Empty graph with source and target nodes'),
+        # pytest.param({}, NoNode(), [], 0, id='Empty graph with no element to search'),
+        # pytest.param({1: {2: None}, 2: {3: None}, 3: {4: None}, 4: {}}, 1, [1], 2, id='Line graph with element to search in root'),
+        # pytest.param({1: {2: None}, 2: {3: None}, 3: {4: None}, 4: {}}, 4, [1, 2, 3, 4], 8, id='Line graph with element to search as last'),
+        # pytest.param({1: {2: None, 4: None, 6: None}, 2: {3: None}, 3: {}, 4: {5: None}, 5: {}, 6: {7: None}, 7: {}}, 8, [1, 2, 4, 6, 3, 5, 7], 14, id='Star graph with two layers'),
     ]
 )
 def test_dijkstra_run_algorithm(
-        dijkstra: DijkstraShortestPathsAlgorithm, input_adjacency_list: dict[Node, dict[Node, SingleEdgeData]], element_to_search: Node,
-        expected_traversal_order: list[Node], expected_n_ops: int
+        dijkstra: DijkstraShortestPathsAlgorithm, input_adjacency_list: dict[Node, dict[Node, SingleEdgeData]],
+        source: Node | NoNode, target: Node | NoNode, expected_path_lengths: dict[Node, dict[Node, int]],
+        shortest_path_predecessors: dict[Node, dict[Node, Node]], expected_n_ops: int
 ) -> None:
     pass
