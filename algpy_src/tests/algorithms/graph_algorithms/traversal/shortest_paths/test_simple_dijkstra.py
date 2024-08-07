@@ -1,7 +1,10 @@
+from typing import Optional
+
 import pytest
 
 from algpy_src.algorithms.graph_algorithms.traversal.shortest_paths.simple_dijkstra import DijkstraShortestPathsAlgorithm
 from algpy_src.base.constants import GraphSize, SingleEdgeData, Node
+from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 from algpy_src.data_structures.graphs.shortest_paths_graph import ShortestPathsGraph
@@ -46,20 +49,71 @@ def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
     # assert dijkstra.n_ops == 10
 
 
-# TODO
+@pytest.mark.skip(reason='Dijkstra run algorithm not implemented yet')
 @pytest.mark.parametrize(
     ('input_adjacency_list', 'source', 'target', 'expected_path_lengths', 'shortest_path_predecessors', 'expected_n_ops'),
     [
-        # pytest.param({}, 1, [], 0, id='Empty graph with source and target nodes'),
-        # pytest.param({}, NoNode(), [], 0, id='Empty graph with no element to search'),
-        # pytest.param({1: {2: None}, 2: {3: None}, 3: {4: None}, 4: {}}, 1, [1], 2, id='Line graph with element to search in root'),
-        # pytest.param({1: {2: None}, 2: {3: None}, 3: {4: None}, 4: {}}, 4, [1, 2, 3, 4], 8, id='Line graph with element to search as last'),
-        # pytest.param({1: {2: None, 4: None, 6: None}, 2: {3: None}, 3: {}, 4: {5: None}, 5: {}, 6: {7: None}, 7: {}}, 8, [1, 2, 4, 6, 3, 5, 7], 14, id='Star graph with two layers'),
+        pytest.param({}, 1, 1, {}, {}, 0, id='Empty graph with source and target nodes'),
+        pytest.param({}, NoNode(), NoNode(), {}, {}, 0, id='Empty graph with no source or target node'),
+        pytest.param(
+            {1: {2: 1}, 2: {3: 1}, 3: {}}, 1, 1,
+            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
+            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            0, id='Line graph with head as both source and target node'
+        ),
+        pytest.param(
+            {1: {2: 1}, 2: {3: 1}, 3: {}}, NoNode(), NoNode(),
+            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
+            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            9, id='Line graph with no source or target node'
+        ),
+        pytest.param(
+            {1: {2: 1}, 2: {3: 1}, 3: {}}, 1, NoNode(),
+            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
+            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            3, id='Line graph with head as source but no target node'
+        ),
+        pytest.param(
+            {1: {2: 1}, 2: {3: 1}, 3: {}}, NoNode(), 3,
+            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
+            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            3, id='Line graph with no source but tail as target node'
+        ),
+        pytest.param(
+            {1: {2: 1}, 2: {3: 1}, 3: {}}, 1, 2,
+            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
+            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            1, id='Line graph with head source and its child as target node'
+        ),
+        pytest.param(
+            {0: {1: 1, 2: 1, 3: 1, 4: 1}, 1: {}, 2: {}, 3: {}, 4: {}}, 0, NoNode(),
+            {0: {0: 0, 1: 1, 2: 1, 3: 1, 4: 1}},
+            {0: {0: NoNode(), 1: 0, 2: 0, 3: 0, 4: 0}},
+            3, id='Circular graph with center as source and no target node'
+        ),
+        pytest.param(
+            {0: {1: 5, 2: 1}, 1: {}, 2: {1: 1}}, 0, 1,
+            {0: {0: 0, 1: 2, 2: 1}},
+            {0: {0: NoNode(), 1: 2, 2: 0}},
+            3, id='Triangle with shortcut'
+        ),
+        pytest.param(
+            {0: {1: -1}, 1: {0: 0}}, 0, 1,
+            None, None, 3, id='Does not support negative cycle'
+        ),
     ]
 )
 def test_dijkstra_run_algorithm(
         dijkstra: DijkstraShortestPathsAlgorithm, input_adjacency_list: dict[Node, dict[Node, SingleEdgeData]],
-        source: Node | NoNode, target: Node | NoNode, expected_path_lengths: dict[Node, dict[Node, int]],
-        shortest_path_predecessors: dict[Node, dict[Node, Node]], expected_n_ops: int
+        source: Node | NoNode, target: Node | NoNode, expected_path_lengths: Optional[dict[Node, dict[Node, int | float]]],
+        shortest_path_predecessors: Optional[dict[Node, dict[Node, Node | NoNode]]], expected_n_ops: int
 ) -> None:
-    pass
+
+    digraph = DiGraph(input_adjacency_list)
+
+    if expected_path_lengths is None or shortest_path_predecessors is None:
+        with pytest.raises(ValueError):
+            dijkstra.run_algorithm(digraph, source=source, target=target)
+    else:
+        expected_shortest_path_graph = ShortestPathsGraph(input_adjacency_list, expected_path_lengths, shortest_path_predecessors)
+
