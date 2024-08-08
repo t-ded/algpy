@@ -14,7 +14,7 @@ def dll() -> LinkedList:
 
 
 def traverse_and_check_equals_expected_sequence(ll: LinkedList, expected_state: list[T]):
-    assert ll.length == len(expected_state)
+    assert len(ll) == len(expected_state)
     if len(expected_state) == 0:
         assert ll.head is None
         assert ll.tail is None
@@ -68,7 +68,7 @@ class TestDoublyLinkedList:
         assert dll.head.value == 'A'
         assert dll.head.predecessor is None
         assert dll.head.successor is None
-        assert dll.length == 1
+        assert len(dll) == 1
 
     def test_insert_to_empty_via_insert(self, dll: LinkedList) -> None:
         assert dll.head is None
@@ -78,7 +78,7 @@ class TestDoublyLinkedList:
         assert dll.head.value == 'A'
         assert dll.head.predecessor is None
         assert dll.head.successor is None
-        assert dll.length == 1
+        assert len(dll) == 1
 
     def test_insert_index_out_of_bounds_does_nothing(self, dll: LinkedList, caplog) -> None:
 

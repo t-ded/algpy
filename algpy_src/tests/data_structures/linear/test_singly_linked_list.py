@@ -22,14 +22,14 @@ def traverse_and_check_equals_expected_sequence(ll: LinkedList, expected_state: 
             assert current is not None
             assert current.value == value
             current = current.successor
-        assert ll.length == len(expected_state)
+        assert len(ll) == len(expected_state)
 
 
 class TestSinglyLinkedList:
 
     def test_singly_linked_list_base(self, sll: LinkedList) -> None:
         assert sll.name == 'Singly Linked List'
-        assert sll.length == 0
+        assert len(sll) == 0
 
         assert sll.best_case_insert_time_complexity == '1'
         assert sll.best_case_insert_description == 'index 0'
@@ -57,7 +57,7 @@ class TestSinglyLinkedList:
         assert sll.head.value == 'A'
         assert sll.head.predecessor is None
         assert sll.head.successor is None
-        assert sll.length == 1
+        assert len(sll) == 1
 
     def test_insert_to_empty_via_insert(self, sll: LinkedList) -> None:
         assert sll.head is None
@@ -67,7 +67,7 @@ class TestSinglyLinkedList:
         assert sll.head.value == 'A'
         assert sll.head.predecessor is None
         assert sll.head.successor is None
-        assert sll.length == 1
+        assert len(sll) == 1
 
     def test_insert_index_out_of_bounds_does_nothing(self, sll: LinkedList, caplog) -> None:
 
