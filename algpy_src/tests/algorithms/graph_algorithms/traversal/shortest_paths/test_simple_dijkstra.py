@@ -28,7 +28,7 @@ def test_dijkstra_base(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
         'source': 0, 'target': NoNode()
     }
 
-
+@pytest.mark.skip(reason='Dijkstra run algorithm not implemented yet')
 def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
 
     assert dijkstra.n_ops == 0
@@ -41,17 +41,16 @@ def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
         shortest_path_predecessors={0: {0: NoNode(), 1: 0, 2: 0, 3: 0, 4: 0}, 1: {0: 0, 1: NoNode(), 2: 2, 3: 0, 4: 0}, 2: {0: 0, 1: 1, 2: NoNode, 3: 0, 4: 0},
                                     3: {0: 0, 1: 0, 2: 0, 3: NoNode(), 4: 0}, 4: {0: 0, 1: 0, 2: 0, 3: 0, 4: NoNode()}}
     )
-    print(shortest_path_graph)
-    # assert dijkstra.run_algorithm(**worst_case_args) == (
-    #     True,
-    #     shortest_path_graph
-    # )
-    # assert dijkstra.n_ops == 10
+    assert dijkstra.run_algorithm(**worst_case_args) == (
+        True,
+        shortest_path_graph
+    )
+    assert dijkstra.n_ops == 10
 
 
 @pytest.mark.skip(reason='Dijkstra run algorithm not implemented yet')
 @pytest.mark.parametrize(
-    ('input_adjacency_list', 'source', 'target', 'expected_path_lengths', 'shortest_path_predecessors', 'expected_n_ops'),
+    ('input_adjacency_list', 'source', 'target', 'expected_path_lengths', 'expected_path_predecessors', 'expected_n_ops'),
     [
         pytest.param({}, 1, 1, {}, {}, 0, id='Empty graph with source and target nodes'),
         pytest.param({}, NoNode(), NoNode(), {}, {}, 0, id='Empty graph with no source or target node'),
@@ -101,19 +100,34 @@ def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
             {0: {1: -1}, 1: {0: 0}}, 0, 1,
             None, None, 3, id='Does not support negative cycle'
         ),
+        pytest.param(
+            {0: {1: None}}, 0, 1,
+            {0: {0: 0, 1: 1}}, {0: NoNode(), 1: 0}, 1, id='None weights are filled on demand'
+        ),
+        pytest.param(
+            {0: {1: 'Non-numeric-value'}}, 0, 1,
+            None, None, 1, id='Does not support invalid weight values'
+        ),
     ]
 )
 def test_dijkstra_run_algorithm(
         dijkstra: DijkstraShortestPathsAlgorithm, input_adjacency_list: dict[Node, dict[Node, SingleEdgeData]],
         source: Node | NoNode, target: Node | NoNode, expected_path_lengths: Optional[dict[Node, dict[Node, int | float]]],
-        shortest_path_predecessors: Optional[dict[Node, dict[Node, Node | NoNode]]], expected_n_ops: int
+        expected_path_predecessors: Optional[dict[Node, dict[Node, Node | NoNode]]], expected_n_ops: int
 ) -> None:
 
     digraph = DiGraph(input_adjacency_list)
 
-    if expected_path_lengths is None or shortest_path_predecessors is None:
+    if expected_path_lengths is None or expected_path_predecessors is None:
         with pytest.raises(ValueError):
             dijkstra.run_algorithm(digraph, source=source, target=target)
     else:
-        expected_shortest_path_graph = ShortestPathsGraph(input_adjacency_list, expected_path_lengths, shortest_path_predecessors)
+        expected_shortest_path_graph = ShortestPathsGraph(input_adjacency_list, expected_path_lengths, expected_path_predecessors)
+        result, sp_graph = dijkstra.run_algorithm(digraph, source=source, target=target, fill_weight_value=1)
 
+        if (source != NoNode() and expected_path_lengths == {}) or (target != NoNode() and expected_path_predecessors == {}):
+            assert result is False
+        else:
+            assert result is True
+
+        assert sp_graph == expected_shortest_path_graph
