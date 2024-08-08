@@ -1,12 +1,14 @@
-from typing import Any, Optional
+from typing import Any, Optional, cast
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node
+from algpy_src.base.utils import print_problem_instance
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 from algpy_src.data_structures.graphs.shortest_paths_graph import ShortestPathsGraph
 from algpy_src.data_structures.graphs.trees.heaps.fibonacci_heap import FibonacciHeap
+from algpy_src.data_structures.graphs.trees.heaps.heap_node import HeapNode
 
 
 class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
@@ -117,24 +119,24 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
         target_node_found = True if target == NoNode() else False
 
         for src in sources:
-            success, single_source_sp_lengths, single_source_sp_predecessors = self._run_algorithm_single_source(
-                input_instance, src, shortest_paths_lengths,
-                shortest_paths_predecessors, target, verbosity_level, fill_weight_value
-            )
+            success, single_source_sp_lengths, single_source_sp_predecessors = self._run_algorithm_single_source(input_instance, src, target, verbosity_level, fill_weight_value)
             if success:
                 target_node_found = True
             shortest_paths_lengths[src] = single_source_sp_lengths
             shortest_paths_predecessors[src] = single_source_sp_predecessors
 
         if not target_node_found:
-            return False, ShortestPathsGraph(input_instance.adjacency_list, {}, {})
-        return True, ShortestPathsGraph(input_instance.adjacency_list, shortest_paths_lengths, shortest_paths_predecessors)
+            return_graph = ShortestPathsGraph(input_instance.adjacency_list, {}, {})
+        else:
+            return_graph = ShortestPathsGraph(input_instance.adjacency_list, shortest_paths_lengths, shortest_paths_predecessors)
+
+        print_problem_instance(return_graph, verbosity_level, 1)
+        return target_node_found, return_graph
 
     @staticmethod
     def _run_algorithm_single_source(
-            input_instance: Graph | DiGraph, source: Node,
-            shortest_path_lengths_found_so_far: dict[Node, dict[Node, int | float]], shortest_paths_predecessors_found_so_far: dict[Node, dict[Node, Node | NoNode]],
-            target: Node | NoNode = NoNode(), verbosity_level: VERBOSITY_LEVELS = 0, fill_weight_value: Optional[float | int] = None
+            input_instance: Graph | DiGraph, source: Node, target: Node | NoNode = NoNode(),
+            verbosity_level: VERBOSITY_LEVELS = 0, fill_weight_value: Optional[float | int] = None
     ) -> tuple[bool, dict[Node, int | float], dict[Node, Node | NoNode]]:
         """
         Convenience run function of Dijkstra's uni-directional shortest path(s) algorithm with a single source.
@@ -145,10 +147,6 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
             Graph in which to run the search.
         source : Node
             Root node to find the shortest path(s) from. Has to be given.
-        shortest_path_lengths_found_so_far: dict[Node, dict[Node, int | float]]
-            Shortest paths dict for other nodes than the current source that the current run may utilise.
-        shortest_paths_predecessors_found_so_far: dict[Node, dict[Node, Node | NoNode]]
-            Predecessors for other nodes than the current source for the respective shortest paths found so far.
         target : Node | NoNode (default NoNode())
             Target node to find the shortest path(s) to. If not given, shortest paths to all nodes are found.
         verbosity_level : int (default 0)
@@ -168,9 +166,30 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
         sp_predecessors: dict[Node, Node | NoNode] = {source: NoNode()}
         target_node_found = True if target == NoNode() else False
 
-        # TODO: Use Fibonacci heap as priority queue
-        to_visit: FibonacciHeap[Node, float | int] = FibonacciHeap()
+        to_visit: FibonacciHeap[Node, int | float] = FibonacciHeap()
+        for node in input_instance.nodes:
+            priority = float('inf') if node != source else 0
+            to_visit.insert(node, priority)
+
         while to_visit:
-            v_min = to_visit.extract_min()
+            if to_visit.get_min_node() == NoNode():
+                break
+            v_min = cast(HeapNode, to_visit.extract_min_node()).key
+            print_problem_instance(sp_lengths, verbosity_level, 2)
+
+            if v_min == target:
+                return True, sp_lengths, sp_predecessors
+
+            for neighbour in input_instance.neighbors(v_min):
+                weight = input_instance.get_edge_data(v_min, neighbour)
+                if weight is None:
+                    weight = fill_weight_value
+                if not isinstance(weight, int | float):
+                    raise ValueError('Edge weight is not of numeric type.')
+
+                alt = sp_lengths.get(v_min, float('inf')) + weight
+                if alt < sp_lengths.get(neighbour, float('inf')):
+                    sp_lengths[neighbour] = alt
+                    sp_predecessors[neighbour] = v_min
 
         return target_node_found, sp_lengths, sp_predecessors
