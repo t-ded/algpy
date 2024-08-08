@@ -33,6 +33,14 @@ class ShortestPathsGraph(DiGraph):
     def name(self) -> str:
         return 'Shortest Paths Graph'
 
+    @property
+    def shortest_path_lengths(self) -> dict[Node, dict[Node, int | float]]:
+        return self._shortest_path_lengths
+
+    @property
+    def shortest_path_predecessors(self) -> dict[Node, dict[Node, Node | NoNode]]:
+        return self._shortest_path_predecessors
+
     def shortest_path_length(self, source: Node, target: Node) -> int | float:
         """
         Return length of the shortest path between two nodes or inf if such path does not exist.
