@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Optional
 
 from algpy_src.base.constants import Comparable
 from algpy_src.data_structures.linear.linked_list_node import LinkedListNode
@@ -28,8 +28,11 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
         self._degree: int = 0
         self._mark: bool = False
 
-        self._parent = None
-        self._child = None
+        self._parent: Optional[HeapNode] = None
+        self._child: Optional[HeapNode] = None
+
+        self._successor: HeapNode = self
+        self._predecessor: HeapNode = self
 
     def __le__(self, other: HeapNode) -> bool:
         return self._priority <= other._priority
@@ -44,3 +47,58 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
     @property
     def priority(self) -> _V:
         return self._priority
+
+    @property
+    def degree(self) -> int:
+        return self._degree
+
+    @property
+    def parent(self) -> Optional[HeapNode]:
+        return self._parent
+
+    @property
+    def child(self) -> Optional[HeapNode]:
+        return self._child
+
+    def set_mark(self, mark: bool) -> None:
+        self._mark = mark
+
+    def add_child(self, key: _K, priority: _V) -> None:
+        if self._child is None:
+            self._child = HeapNode(key, priority)
+        else:
+            current = self._child
+            while current.successor != self._child:
+                if current.successor is None:
+                    raise IndexError('Fibonacci heap sibling layer is expected to be circular.')
+                current = current.successor
+            new_child: HeapNode = HeapNode(key, priority)
+            current.add_successor(new_child)
+            new_child.add_predecessor(current)
+        self._degree += 1
+
+    def change_children_root(self, new_child_root: Optional[HeapNode]) -> None:
+        del self._child
+        self._child = new_child_root
+
+    def remove_children_root(self) -> None:
+        if self._child is not None and self._child != self._child.successor:
+            self._degree = min(0, self._degree - 1)
+            self._child = self._child.successor
+        else:
+            self._child = None
+
+    def remove_children(self) -> None:
+        self._child = None
+        self._degree = 0
+
+    def add_parent(self, key: _K, priority: _V) -> None:
+        self._parent = HeapNode(key, priority)
+
+    def change_parent(self, new_parent: Optional[HeapNode]) -> None:
+        del self._parent
+        self._parent = new_parent
+
+    def remove_parent(self) -> None:
+        del self._parent
+        self._parent = None
