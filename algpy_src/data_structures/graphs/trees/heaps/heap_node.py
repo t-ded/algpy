@@ -75,9 +75,12 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
     def set_mark(self, mark: bool) -> None:
         self._mark = mark
 
-    def add_child(self, key: _K, priority: _V) -> None:
+    def create_and_add_child(self, key: _K, priority: _V) -> None:
+        self.add_child(HeapNode(key, priority))
+
+    def add_child(self, child: HeapNode) -> None:
         if self._child is None:
-            self._child = HeapNode(key, priority)
+            self._child = child
             self._child.change_parent(self)
         else:
             current = self._child
@@ -85,12 +88,11 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
                 if current.successor is None:
                     raise IndexError('Fibonacci heap sibling layer is expected to be circular.')
                 current = current.successor
-            new_child: HeapNode = HeapNode(key, priority)
-            new_child.change_parent(self)
-            new_child.change_successor(current.successor)
-            new_child.change_predecessor(current)
-            current.change_successor(new_child)
-            self._child.change_predecessor(new_child)
+            child.change_parent(self)
+            child.change_successor(current.successor)
+            child.change_predecessor(current)
+            current.change_successor(child)
+            self._child.change_predecessor(child)
 
         self._degree += 1
 
