@@ -151,7 +151,7 @@ class LinkedList(Container):
                     for i in range(index):
                         if verbosity_level == 2:
                             print(current)
-                        if current.successor is not None:
+                        if current is not None and current.successor is not None:
                             current = current.successor
                             self.increment_n_ops()
             elif self.linked_list_type == 'doubly':
@@ -160,7 +160,7 @@ class LinkedList(Container):
                     for i in range(self._length - index - 1):
                         if verbosity_level == 2:
                             print(current)
-                        if current.predecessor is not None:
+                        if current is not None and current.predecessor is not None:
                             current = current.predecessor
                             self.increment_n_ops()
         return current
@@ -174,7 +174,7 @@ class LinkedList(Container):
         data : Any
             Value for the node to hold.
         """
-        new_node = LinkedListNode(data)
+        new_node: LinkedListNode = LinkedListNode(data)
         new_node.change_successor(self._head)
         if self.linked_list_type == 'doubly':
             if self._head is not None:
@@ -193,7 +193,7 @@ class LinkedList(Container):
         data : Any
             Value for the node to hold.
         """
-        new_node = LinkedListNode(data)
+        new_node: LinkedListNode = LinkedListNode(data)
         tail = self.traverse(self._length)
         if tail is not None:
             tail.change_successor(new_node)
@@ -213,7 +213,7 @@ class LinkedList(Container):
         data : Any
             Value for the node to hold.
         """
-        new_node = LinkedListNode(data)
+        new_node: LinkedListNode = LinkedListNode(data)
         self._head = new_node
         self.increment_n_ops()
         if self.linked_list_type == 'doubly':
@@ -256,7 +256,7 @@ class LinkedList(Container):
                     if preceding is not None:
                         following = preceding.successor
                         if following is not None:
-                            new_node = LinkedListNode(data)
+                            new_node: LinkedListNode = LinkedListNode(data)
                             new_node.change_successor(following)
                             preceding.change_successor(new_node)
                             if self.linked_list_type == 'doubly':
@@ -277,9 +277,9 @@ class LinkedList(Container):
         if self._head is not None:
             if self._head.successor is not None:
                 new_head = self._head.successor
+                new_head.remove_predecessor()
                 del self._head
                 self._head = new_head
-                self._head.change_predecessor(None)
                 self.increment_n_ops(4)
             else:
                 self._head = None
@@ -298,7 +298,7 @@ class LinkedList(Container):
         if preceding.successor is not None:
             if preceding.successor.successor is None:
                 preceding.remove_successor()
-                preceding.change_successor(None)
+                preceding.remove_successor()
                 if self.linked_list_type == 'doubly':
                     self._tail = preceding
                     self.increment_n_ops()
@@ -408,10 +408,11 @@ class LinkedList(Container):
         if current is not None:
             for i in range(self._length):
                 self.increment_n_ops()
-                if current.value == data:
+                if current is not None and current.value == data:
                     return i
-                if current.successor is None:
+                if current is not None and current.successor is None:
                     break
-                current = current.successor
+                if current is not None:
+                    current = current.successor
 
         return location
