@@ -78,6 +78,7 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
     def add_child(self, key: _K, priority: _V) -> None:
         if self._child is None:
             self._child = HeapNode(key, priority)
+            self._child.change_parent(self)
         else:
             current = self._child
             while current.successor != self._child:
@@ -85,20 +86,42 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
                     raise IndexError('Fibonacci heap sibling layer is expected to be circular.')
                 current = current.successor
             new_child: HeapNode = HeapNode(key, priority)
-            current.add_successor(new_child)
-            new_child.add_predecessor(current)
+            new_child.change_parent(self)
+            new_child.change_successor(current.successor)
+            new_child.change_predecessor(current)
+            current.change_successor(new_child)
+            self._child.change_predecessor(new_child)
+
         self._degree += 1
 
-    def change_children_root(self, new_child_root: Optional[HeapNode]) -> None:
-        del self._child
-        self._child = new_child_root
+    def change_children_root(self, new_child_root: HeapNode) -> None:
+        new_child_root.change_parent(self)
+        if self._degree == 0 or self._child is None:
+            self._child = new_child_root
+            self._degree = 1
+        elif self._degree == 1 and self._child is not None:
+            del self._child
+            self._child = new_child_root
+        elif self._degree > 1 and self._child is not None:
+            new_child_root.change_successor(self._child.successor)
+            if self._child.successor is not None:
+                self._child.successor.change_predecessor(new_child_root)
+            new_child_root.change_predecessor(self._child.predecessor)
+            if self._child.predecessor is not None:
+                self._child.predecessor.change_successor(new_child_root)
+            del self._child
+            self._child = new_child_root
 
     def remove_children_root(self) -> None:
         if self._child is not None and self._child != self._child.successor:
-            self._degree = min(0, self._degree - 1)
+            if self._child.predecessor is None or self._child.successor is None:
+                raise IndexError("Heap node's children root does not have predecessor or successor")
+            self._child.predecessor.change_successor(self._child.successor)
+            self._child.successor.change_predecessor(self._child.predecessor)
             self._child = self._child.successor
         else:
             self._child = None
+        self._degree = max(0, self._degree - 1)
 
     def remove_children(self) -> None:
         self._child = None
