@@ -5,23 +5,23 @@ from algpy_src.data_structures.linear.linked_list_node import LinkedListNode
 
 
 @pytest.fixture
-def ll_node():
+def ll_node() -> LinkedListNode:
     return LinkedListNode(TEST_SEED)
 
 
-def test_basic_node_operations(ll_node: LinkedListNode):
+def test_basic_node_operations(ll_node: LinkedListNode) -> None:
     node = ll_node
     assert node.value == TEST_SEED
     assert node.successor is None
     assert node.predecessor is None
-    assert repr(node) == f'LinkedListNode (value={TEST_SEED}, successor=None, predecessor=None)'
+    assert repr(node) == f'LinkedListNode ((value={TEST_SEED}), successor=None, predecessor=None)'
 
     node.add_successor(TEST_SEED + 1)
-    assert repr(node) == f'LinkedListNode (value={TEST_SEED}, successor={TEST_SEED + 1}, predecessor=None)'
+    assert repr(node) == f'LinkedListNode ((value={TEST_SEED}), successor=(value={TEST_SEED + 1}), predecessor=None)'
     assert node.successor is not None
     assert node.successor.value == TEST_SEED + 1
     node.add_predecessor(TEST_SEED - 1)
-    assert repr(node) == f'LinkedListNode (value={TEST_SEED}, successor={TEST_SEED + 1}, predecessor={TEST_SEED - 1})'
+    assert repr(node) == f'LinkedListNode ((value={TEST_SEED}), successor=(value={TEST_SEED + 1}), predecessor=(value={TEST_SEED - 1}))'
     assert node.predecessor is not None
     assert node.predecessor.value == TEST_SEED - 1
 
@@ -36,5 +36,5 @@ def test_basic_node_operations(ll_node: LinkedListNode):
     assert node.predecessor.value == TEST_SEED - 2
     assert node.predecessor == new_predecessor
 
-    assert str(node) == str(TEST_SEED)
-    assert repr(node) == f'LinkedListNode (value={TEST_SEED}, successor={TEST_SEED + 2}, predecessor={TEST_SEED - 2})'
+    assert str(node) == f'(value={TEST_SEED})'
+    assert repr(node) == f'LinkedListNode ((value={TEST_SEED}), successor=(value={TEST_SEED + 2}), predecessor=(value={TEST_SEED - 2}))'

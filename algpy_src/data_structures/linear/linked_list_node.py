@@ -15,13 +15,13 @@ class LinkedListNode(Generic[T, LLN]):
 
     def __repr__(self) -> str:
         return (
-            f'{self.__class__.__name__} (value={self._value!r}, '
-            f'successor={self._successor._value if self._successor else None}, '
-            f'predecessor={self._predecessor._value if self._predecessor else None})'
+            f'{self.__class__.__name__} ({str(self)}, '
+            f'successor={str(self._successor) if self._successor else None}, '
+            f'predecessor={str(self._predecessor) if self._predecessor else None})'
         )
 
     def __str__(self) -> str:
-        return str(self._value)
+        return f'(value={self._value!r})'
 
     @classmethod
     def new_node(cls: Type[LLN], value: T) -> LLN:

@@ -40,9 +40,21 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
     def __lt__(self, other: HeapNode) -> bool:
         return self._priority < other._priority
 
+    def __repr__(self) -> str:
+        return (
+            f'{self.__class__.__name__} ({str(self)}, '
+            f'successor={str(self._successor) if self._successor else None}, '
+            f'predecessor={str(self._predecessor) if self._predecessor else None}, '
+            f'parent={str(self._parent) if self._parent else None}, '
+            f'child={str(self._child) if self._child else None})'
+        )
+
+    def __str__(self) -> str:
+        return f'(value={self._value!r}, priority={self._priority})'
+
     @property
     def key(self) -> _K:
-        return self.value
+        return self._value
 
     @property
     def priority(self) -> _V:
