@@ -5,6 +5,7 @@ from algpy_src.data_structures.graphs.trees.heaps.heap_node import HeapNode
 
 TEST_PRIO = 1
 
+
 @pytest.fixture
 def heap_node() -> HeapNode:
     return HeapNode(TEST_SEED, TEST_PRIO)
@@ -23,7 +24,8 @@ def test_basic_node_properties(heap_node: HeapNode) -> None:
     assert node.parent is None
     assert node.child is None
 
-    assert repr(node) == f'HeapNode ((value={TEST_SEED}, priority={TEST_PRIO}), successor=(value={TEST_SEED}, priority={TEST_PRIO}), predecessor=(value={TEST_SEED}, priority={TEST_PRIO}), parent=None, child=None)'
+    assert (repr(node) == f'HeapNode ((value={TEST_SEED}, priority={TEST_PRIO}), successor=(value={TEST_SEED}, ' +
+            f'priority={TEST_PRIO}), predecessor=(value={TEST_SEED}, priority={TEST_PRIO}), parent=None, child=None)')
     assert str(node) == f'(value={TEST_SEED}, priority={TEST_PRIO})'
 
     higher_priority_node = HeapNode(TEST_SEED, 2)
