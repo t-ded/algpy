@@ -42,7 +42,7 @@ class LinkedListNode(Generic[T, LLN]):
     def add_successor(self, value: T) -> None:
         self._successor = self.new_node(value)
 
-    def change_successor(self, new_successor: Optional[LLN]) -> None:
+    def change_successor(self, new_successor: LLN) -> None:
         del self._successor
         self._successor = new_successor
 
@@ -53,7 +53,7 @@ class LinkedListNode(Generic[T, LLN]):
     def add_predecessor(self, value: T) -> None:
         self._predecessor = self.new_node(value)
 
-    def change_predecessor(self, new_predecessor: Optional[LLN]) -> None:
+    def change_predecessor(self, new_predecessor: LLN) -> None:
         del self._predecessor
         self._predecessor = new_predecessor
 
