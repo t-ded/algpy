@@ -35,9 +35,13 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
         self._predecessor: HeapNode = self
 
     def __le__(self, other: HeapNode) -> bool:
+        if not isinstance(other, HeapNode):
+            raise NotImplementedError('Cannot compare HeapNode object with non-HeapNode object')
         return self._priority <= other._priority
 
     def __lt__(self, other: HeapNode) -> bool:
+        if not isinstance(other, HeapNode):
+            raise NotImplementedError('Cannot compare HeapNode object with non-HeapNode object')
         return self._priority < other._priority
 
     def __repr__(self) -> str:
