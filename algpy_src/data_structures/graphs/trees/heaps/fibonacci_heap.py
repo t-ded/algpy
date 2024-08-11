@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import TypeVar, Generic, cast
+import math
+from typing import TypeVar, Generic, Iterator
 
 from algpy_src.base.constants import Comparable
 from algpy_src.data_structures.container import Container
@@ -22,6 +23,9 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         self._num_nodes: int = 0
         self._min_root: HeapNode | NoNode = NoNode()
         self._root_list_root: HeapNode | NoNode = NoNode()
+
+    def __len__(self) -> int:
+        return self._num_nodes
 
     @property
     def name(self) -> str:
@@ -108,12 +112,10 @@ class FibonacciHeap(Container, Generic[_K, _V]):
             The inserted heap node.
         """
         heap_node = HeapNode(key, priority)
-        heap_node.change_successor(heap_node)
-        heap_node.change_predecessor(heap_node)
         self._merge_with_root_list(heap_node)
         self._num_nodes += 1
 
-        if self._min_root == NoNode() or heap_node.priority < cast(HeapNode, self._min_root).priority:
+        if isinstance(self._min_root, NoNode) or heap_node < self._min_root:
             self._min_root = heap_node
         return heap_node
 
@@ -129,10 +131,15 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         if isinstance(self._root_list_root, NoNode):
             self._root_list_root = node
         else:
-            node.change_successor(self._root_list_root)
-            node.change_predecessor(self._root_list_root)
-            self._root_list_root.change_successor(node)
-            self._root_list_root.change_predecessor(node)
+            current = self._root_list_root
+            while current.successor != self._root_list_root:
+                if current.predecessor is None:
+                    raise ValueError('Fibonacci heap sibling layer is expected to be circular.')
+                current = current.predecessor
+            node.change_successor(current.successor)
+            node.change_predecessor(current)
+            current.successor.change_predecessor(node)
+            current.change_successor(node)
 
     def _union(self, other: FibonacciHeap) -> FibonacciHeap:
         """
@@ -192,4 +199,113 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         min_priority_node : HeapNode | NoNode
             The heap node associated with the minimum priority or NoNode() object if the heap is empty.
         """
-        raise NotImplementedError
+        min_node: HeapNode | NoNode = self._min_root
+        if not isinstance(min_node, NoNode):
+
+            if min_node.child is not None:
+                children = list(self._get_siblings(min_node.child))
+                for child in children:
+                    self._merge_with_root_list(child)
+                    child.remove_parent()
+
+            self._remove_from_root_list(min_node)
+            self._consolidate()
+
+        return min_node
+
+    def _get_siblings(self, node: HeapNode) -> Iterator[HeapNode]:
+        """
+        Convenience method to recursively iterate over successor of the given node, its successor and so on.
+
+        Parameters
+        ----------
+        node : HeapNode
+            Root node to start the iteration from (and end the iteration at, non-inclusively)
+
+        Returns
+        -------
+        layer : Iterator[HeapNode]
+            Generator of one layer of siblings starting with the given root node.
+        """
+        it_len = 0
+        current: HeapNode = node
+        while True:
+            yield current
+            it_len += 1
+            if current.successor is None or it_len > self._num_nodes:
+                raise ValueError('Fibonacci heap sibling layer is expected to be circular.')
+            if current.successor == node:
+                break
+            current = current.successor
+
+    def _remove_from_root_list(self, node: HeapNode) -> None:
+        """
+        Convenience method to remove the given node from the root list.
+
+        Parameters
+        ----------
+        node : HeapNode
+            The node in the root list to be removed.
+        """
+        root_list = list(self._get_siblings(node))
+
+        if len(root_list) == 1:
+            if node != self._root_list_root or node != self._min_root:
+                raise AttributeError('Root list of Fibonacci heap contains one node but attempting to remove node that is not equal to main root or min root.')
+            self._root_list_root = NoNode()
+            self._min_root = NoNode()
+
+        elif len(root_list) > 1:
+            if node.predecessor is None or node.successor is None:
+                raise ValueError('Fibonacci heap sibling layer is expected to be circular.')
+            node.predecessor.change_successor(node.successor)
+            node.successor.change_predecessor(node.predecessor)
+
+            if node == self._root_list_root:
+                self._root_list_root = node.successor
+            if node == self._min_root:
+                self._min_root = min(root for root in root_list if root != node)
+
+        node.change_predecessor(node)
+        node.change_successor(node)
+        self._num_nodes -= 1
+
+    def _consolidate(self) -> None:
+        """
+        Consolidate the heap following an extract min operation to reduce the number of unique roots
+        in the root list and make node degrees as unique as possible.
+        """
+        if isinstance(self._root_list_root, NoNode):
+            return
+
+        degree_table: list[HeapNode | None] = [None] * int(math.log(self._num_nodes, 2) + 1)
+        root_list_layer: list[HeapNode] = list(self._get_siblings(self._root_list_root))
+
+        for i in range(len(root_list_layer)):
+            root = root_list_layer[i]
+            deg = root.degree
+            while (node_with_deg := degree_table[deg]) is not None:
+                if node_with_deg < root:
+                    root, node_with_deg = node_with_deg, node_with_deg
+                self._heap_link(node_with_deg, root)
+                degree_table[deg] = None
+                deg += 1
+            degree_table[deg] = root
+
+        self._min_root = min(node for node in degree_table if node is not None)
+
+    def _heap_link(self, to_be_child: HeapNode, to_be_parent: HeapNode) -> None:
+        """
+        Re-link two nodes from the root layer in a way that one of them is child of another.
+
+        Parameters
+        ----------
+        to_be_child : HeapNode
+            The new child of the other given node.
+        to_be_parent : HeapNode
+            The new parent of the other given node.
+        """
+        self._remove_from_root_list(to_be_child)
+        self._num_nodes += 1
+        to_be_child.set_mark(False)
+        to_be_parent.add_child(to_be_child)
