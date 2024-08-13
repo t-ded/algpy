@@ -309,3 +309,75 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         self._num_nodes += 1
         to_be_child.set_mark(False)
         to_be_parent.add_child(to_be_child)
+
+    def find(self, key: _K) -> HeapNode | NoNode:
+        """
+        Find node with the given key from the root list.
+
+        Parameters
+        ----------
+        key : _K
+            Searched-for key.
+
+        Returns
+        -------
+        node : HeapNode | NoNode
+            Returns node with the given key or NoNode() object in case such node is not present.
+        """
+        # TODO
+        return NoNode()
+
+    def decrease_priority(self, node: HeapNode, new_priority: int | float) -> None:
+        """
+        Change priority of the given node and consolidate the heap in a way that the heap property is maintained.
+
+        Parameters
+        ----------
+        node : HeapNode
+            Node whose priority is to be decreased.
+        new_priority : int | float
+            New priority for the given node.
+        """
+        if new_priority > node.key:
+            return
+        node.change_priority(new_priority)
+
+        parent = node.parent
+        if parent is not None and node < parent:
+            pass
+            self._cut(node, parent)
+            self._cascading_cut(parent)
+        if node < self._min_root:
+            self._min_root = node
+
+    def _cut(self, node: HeapNode, parent: HeapNode) -> None:
+        """
+        Cut node from its parent and move it to the root list.
+
+        Parameters
+        ----------
+        node : HeapNode
+            Child node to cut.
+        parent : HeapNode
+            Parent node to cut from.
+        """
+        parent.remove_child(node)
+        node.set_mark(False)
+        self._merge_with_root_list(node)
+
+    def _cascading_cut(self, node: HeapNode) -> None:
+        """
+        Cut given node's parents in cascade.
+
+        Parameters
+        ----------
+        node : HeapNode
+            Node whose parent to start the cascade from
+        """
+        parent = node.parent
+        if parent is not None:
+            if node.mark is False:
+                node.set_mark(True)
+            else:
+                self._cut(node, parent)
+                self._cascading_cut(parent)
