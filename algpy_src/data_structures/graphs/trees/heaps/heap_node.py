@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TypeVar, Generic, Optional
 
 from algpy_src.base.constants import Comparable
+from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 from algpy_src.data_structures.linear.linked_list_node import LinkedListNode
 
 _K = TypeVar('_K')
@@ -34,12 +35,16 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
         self._successor: HeapNode = self
         self._predecessor: HeapNode = self
 
-    def __le__(self, other: HeapNode) -> bool:
+    def __le__(self, other: HeapNode | NoNode) -> bool:
+        if isinstance(other, NoNode):
+            return True
         if not isinstance(other, HeapNode):
             raise NotImplementedError('Cannot compare HeapNode object with non-HeapNode object')
         return self._priority <= other._priority
 
-    def __lt__(self, other: HeapNode) -> bool:
+    def __lt__(self, other: HeapNode | NoNode) -> bool:
+        if isinstance(other, NoNode):
+            return True
         if not isinstance(other, HeapNode):
             raise NotImplementedError('Cannot compare HeapNode object with non-HeapNode object')
         return self._priority < other._priority
