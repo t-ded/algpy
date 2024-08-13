@@ -84,6 +84,15 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
     def change_priority(self, new_priority: _V) -> None:
         self._priority = new_priority
 
+    def change_degree(self, new_degree: int) -> None:
+        self._degree = new_degree
+
+    def increment_degree(self) -> None:
+        self._degree += 1
+
+    def decrement_degree(self) -> None:
+        self._degree -= 1
+
     def set_mark(self, mark: bool) -> None:
         self._mark = mark
 
