@@ -154,9 +154,7 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
         self._parent = HeapNode(key, priority)
 
     def change_parent(self, new_parent: Optional[HeapNode]) -> None:
-        del self._parent
         self._parent = new_parent
 
     def remove_parent(self) -> None:
-        del self._parent
         self._parent = None
