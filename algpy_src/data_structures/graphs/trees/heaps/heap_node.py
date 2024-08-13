@@ -74,6 +74,10 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
         return self._degree
 
     @property
+    def mark(self) -> bool:
+        return self._mark
+
+    @property
     def parent(self) -> Optional[HeapNode]:
         return self._parent
 
@@ -123,7 +127,6 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
             self._child = new_child_root
             self.change_degree(1)
         elif self._degree == 1 and self._child is not None:
-            del self._child
             self._child = new_child_root
         elif self._degree > 1 and self._child is not None:
             new_child_root.change_successor(self._child.successor)
@@ -132,7 +135,6 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
             new_child_root.change_predecessor(self._child.predecessor)
             if self._child.predecessor is not None:
                 self._child.predecessor.change_successor(new_child_root)
-            del self._child
             self._child = new_child_root
 
     def remove_children_root(self) -> None:
@@ -145,6 +147,31 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
         else:
             self._child = None
         self.decrement_degree()
+
+    def remove_child(self, child: HeapNode) -> None:
+        child.remove_parent()
+        if self._degree == 0 or self._child is None:
+            return
+        elif self._degree == 1 and self._child is not None:
+            if self._child == child:
+                self._child = None
+        else:
+            current = self._child
+            if current == child:
+                self._child = current.successor
+                if current.successor is not None:
+                    current.successor.change_predecessor(current.predecessor)
+                if current.predecessor is not None:
+                    current.predecessor.change_successor(current.successor)
+            else:
+                while current.successor != self._child:
+                    if current.successor is None:
+                        raise IndexError('Fibonacci heap sibling layer is expected to be circular.')
+                    if current.successor == child:
+                        current.change_successor(current.successor.successor)
+                        if current.successor.successor is not None:
+                            current.successor.successor.change_predecessor(current)
+                    current = current.successor
 
     def remove_children(self) -> None:
         self._child = None
