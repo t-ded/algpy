@@ -115,13 +115,13 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
             current.change_successor(child)
             self._child.change_predecessor(child)
 
-        self._degree += 1
+        self.increment_degree()
 
     def change_children_root(self, new_child_root: HeapNode) -> None:
         new_child_root.change_parent(self)
         if self._degree == 0 or self._child is None:
             self._child = new_child_root
-            self._degree = 1
+            self.change_degree(1)
         elif self._degree == 1 and self._child is not None:
             del self._child
             self._child = new_child_root
@@ -144,11 +144,11 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
             self._child = self._child.successor
         else:
             self._child = None
-        self._degree = max(0, self._degree - 1)
+        self.decrement_degree()
 
     def remove_children(self) -> None:
         self._child = None
-        self._degree = 0
+        self.change_degree(0)
 
     def add_parent(self, key: _K, priority: _V) -> None:
         self._parent = HeapNode(key, priority)
