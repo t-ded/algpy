@@ -76,6 +76,9 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
     def child(self) -> Optional[HeapNode]:
         return self._child
 
+    def change_priority(self, new_priority: _V) -> None:
+        self._priority = new_priority
+
     def set_mark(self, mark: bool) -> None:
         self._mark = mark
 
