@@ -112,12 +112,28 @@ class FibonacciHeap(Container, Generic[_K, _V]):
             The inserted heap node.
         """
         heap_node = HeapNode(key, priority)
-        self._merge_with_root_list(heap_node)
+        return self.insert_node(heap_node)
+
+    def insert_node(self, node: HeapNode) -> HeapNode:
+        """
+        Insert the given HeapNode object to the heap.
+
+        Parameters
+        ----------
+        node : HeapNode
+            The heap node to be inserted.
+
+        Returns
+        ----------
+        heap_node : HeapNode
+            The inserted heap node.
+        """
+        self._merge_with_root_list(node)
         self._num_nodes += 1
 
-        if isinstance(self._min_root, NoNode) or heap_node < self._min_root:
-            self._min_root = heap_node
-        return heap_node
+        if isinstance(self._min_root, NoNode) or node < self._min_root:
+            self._min_root = node
+        return node
 
     def _merge_with_root_list(self, node: HeapNode) -> None:
         """
@@ -324,7 +340,40 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         node : HeapNode | NoNode
             Returns node with the given key or NoNode() object in case such node is not present.
         """
-        # TODO
+        if isinstance(self._root_list_root, NoNode):
+            return NoNode()
+
+        for root in self._get_siblings(self._root_list_root):
+            result = self._find_recursive(root, key)
+            if not isinstance(result, NoNode):
+                return result
+
+        return NoNode()
+
+    def _find_recursive(self, node: HeapNode, key: _K) -> HeapNode | NoNode:
+        """
+        Convenience method to recursively traverse node's children trying to find the given key.
+
+        Parameters
+        ----------
+        node : HeapNode
+            Root to start the traversal from.
+        key : _K
+            Key to look for.
+
+        Returns
+        -------
+        found : HeapNode | NoNode
+            NoNode() object if given key not found in the subtree formed by given node, otherwise the HeapNode() object holding that key.
+        """
+        if node.key == key:
+            return node
+        if key < node.key or node.child is None:
+            return NoNode()
+        for child in self._get_siblings(node.child):
+            result = self._find_recursive(child, key)
+            if not isinstance(result, NoNode):
+                return result
         return NoNode()
 
     def decrease_priority(self, node: HeapNode, new_priority: int | float) -> None:
