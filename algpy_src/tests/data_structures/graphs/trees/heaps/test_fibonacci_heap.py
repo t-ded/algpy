@@ -3,6 +3,7 @@ import pytest
 from algpy_src.base.constants import TEST_SEED
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 from algpy_src.data_structures.graphs.trees.heaps.fibonacci_heap import FibonacciHeap
+from algpy_src.data_structures.graphs.trees.heaps.heap_node import HeapNode
 
 TEST_PRIORITY = 10
 
@@ -10,6 +11,54 @@ TEST_PRIORITY = 10
 @pytest.fixture
 def fib_heap() -> FibonacciHeap:
     return FibonacciHeap()
+
+
+@pytest.fixture
+def complex_fib_heap() -> FibonacciHeap:
+    fh: FibonacciHeap[int, int] = FibonacciHeap()
+
+    # Left branch
+    node_35: HeapNode[int, int] = HeapNode(35, 35)
+    node_46: HeapNode[int, int] = HeapNode(46, 46)
+    node_26: HeapNode[int, int] = HeapNode(26, 26)
+    node_26.add_child(node_35)
+    node_24: HeapNode[int, int] = HeapNode(24, 24)
+    node_24.add_child(node_26)
+    node_24.add_child(node_46)
+
+    node_30: HeapNode[int, int] = HeapNode(30, 30)
+    node_17: HeapNode[int, int] = HeapNode(17, 17)
+    node_17.add_child(node_30)
+
+    node_23: HeapNode[int, int] = HeapNode(23, 23)
+
+    root_7: HeapNode[int, int] = HeapNode(7, 7)
+    root_7.add_child(node_24)
+    root_7.add_child(node_17)
+    root_7.add_child(node_23)
+
+    # Middle branch
+    node_52: HeapNode[int, int] = HeapNode(52, 52)
+    node_21: HeapNode[int, int] = HeapNode(21, 21)
+    node_21.add_child(node_52)
+
+    node_39: HeapNode[int, int] = HeapNode(39, 39)
+
+    root_18: HeapNode[int, int] = HeapNode(18, 18)
+    root_18.add_child(node_21)
+    root_18.add_child(node_39)
+
+    # Right branch
+    node_41: HeapNode[int, int] = HeapNode(41, 41)
+    root_38: HeapNode[int, int] = HeapNode(38, 38)
+    root_38.add_child(node_41)
+
+    # Fib heap
+    fh.insert_node(root_7)
+    fh.insert_node(root_18)
+    fh.insert_node(root_38)
+
+    return fh
 
 
 def test_fibonacci_heap_base(fib_heap: FibonacciHeap) -> None:
