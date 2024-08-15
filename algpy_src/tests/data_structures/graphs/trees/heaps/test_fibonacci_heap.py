@@ -119,3 +119,25 @@ def test_min_node_extraction_nodes_in_root_list(fib_heap: FibonacciHeap) -> None
     new_min_node = fib_heap.get_min_node()
     assert not isinstance(new_min_node, NoNode) and new_min_node.key == TEST_SEED - 3
     assert len(fib_heap) == 4
+
+
+def test_find_and_decrease_key(complex_fib_heap: FibonacciHeap[int, int]) -> None:
+
+    min_node = complex_fib_heap.get_min_node()
+    node_7 = complex_fib_heap.find(key=7)
+    assert node_7 == min_node
+    assert not isinstance(node_7, NoNode) and node_7.key == 7
+    assert node_7.degree == 3
+    assert node_7.successor is not None and node_7.successor.key == 18
+    assert node_7.successor.degree == 2
+    assert node_7.predecessor is not None and node_7.predecessor.key == 38
+    assert node_7.predecessor.degree == 1
+
+    node_46 = complex_fib_heap.find(key=46)
+    assert not isinstance(node_46, NoNode)
+    complex_fib_heap.decrease_priority(node_46, new_priority=15)
+    assert node_46.priority == 15
+    assert node_46.degree == 0
+    assert node_46.child is None
+    assert node_46.successor is not None and node_46.successor == node_7
+    assert node_7.predecessor is not None and node_7.predecessor == node_46
