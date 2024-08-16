@@ -371,12 +371,11 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         """
         if node.key == key:
             return node
-        if key < node.key or node.child is None:
-            return NoNode()
-        for child in self._get_siblings(node.child):
-            result = self._find_recursive(child, key)
-            if not isinstance(result, NoNode):
-                return result
+        if node.child is not None:
+            for child in self._get_siblings(node.child):
+                result = self._find_recursive(child, key)
+                if not isinstance(result, NoNode):
+                    return result
         return NoNode()
 
     def decrease_priority(self, node: HeapNode, new_priority: int | float) -> None:
