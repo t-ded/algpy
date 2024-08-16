@@ -95,6 +95,10 @@ class FibonacciHeap(Container, Generic[_K, _V]):
     def worst_case_search_description(self) -> str:
         return 'search for item not present in degenerate heap'
 
+    @property
+    def is_empty(self) -> bool:
+        return self._num_nodes == 0
+
     def insert(self, key: _K, priority: _V) -> HeapNode:
         """
         Insert a given key associated with a comparable priority used to maintain the heap property of the keys.
