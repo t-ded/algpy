@@ -159,6 +159,7 @@ class FibonacciHeap(Container, Generic[_K, _V]):
             self._root_list_root.change_predecessor(node)
             tail.change_successor(node)
 
+
     def _union(self, other: FibonacciHeap) -> FibonacciHeap:
         """
         Create a union of two Fibonacci heaps.
@@ -395,7 +396,6 @@ class FibonacciHeap(Container, Generic[_K, _V]):
 
         parent = node.parent
         if parent is not None and node < parent:
-            pass
             self._cut(node, parent)
             self._cascading_cut(parent)
         if node < self._min_root:
