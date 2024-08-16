@@ -108,7 +108,7 @@ def test_min_node_extraction_one_node(fib_heap: FibonacciHeap) -> None:
         assert len(fib_heap) == 0
 
 
-def test_min_node_extraction_nodes_in_root_list(fib_heap: FibonacciHeap) -> None:
+def test_min_node_extraction_nodes_in_root_list_decreasing_priority(fib_heap: FibonacciHeap) -> None:
 
     for i in range(5):
         fib_heap.insert(TEST_SEED - i, TEST_PRIORITY - i)
@@ -118,6 +118,19 @@ def test_min_node_extraction_nodes_in_root_list(fib_heap: FibonacciHeap) -> None
 
     new_min_node = fib_heap.get_min_node()
     assert not isinstance(new_min_node, NoNode) and new_min_node.key == TEST_SEED - 3
+    assert len(fib_heap) == 4
+
+
+def test_min_node_extraction_nodes_in_root_list_increasing_priority(fib_heap: FibonacciHeap) -> None:
+
+    for i in range(5):
+        fib_heap.insert(TEST_SEED + i, TEST_PRIORITY + i)
+
+    min_node = fib_heap.extract_min_node()
+    assert not isinstance(min_node, NoNode) and min_node.key == TEST_SEED
+
+    new_min_node = fib_heap.get_min_node()
+    assert not isinstance(new_min_node, NoNode) and new_min_node.key == TEST_SEED + 1
     assert len(fib_heap) == 4
 
 
