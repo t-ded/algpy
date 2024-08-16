@@ -131,7 +131,7 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         self._merge_with_root_list(node)
         self._num_nodes += 1
 
-        if isinstance(self._min_root, NoNode) or node < self._min_root:
+        if node < self._min_root:
             self._min_root = node
         return node
 
@@ -147,15 +147,13 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         if isinstance(self._root_list_root, NoNode):
             self._root_list_root = node
         else:
-            current = self._root_list_root
-            while current.successor != self._root_list_root:
-                if current.predecessor is None:
-                    raise ValueError('Fibonacci heap sibling layer is expected to be circular.')
-                current = current.predecessor
-            node.change_successor(current.successor)
-            node.change_predecessor(current)
-            current.successor.change_predecessor(node)
-            current.change_successor(node)
+            if self._root_list_root.predecessor is None:
+                raise ValueError('Fibonacci heap sibling layer is expected to be circular.')
+            tail = self._root_list_root.predecessor
+            node.change_successor(self._root_list_root)
+            node.change_predecessor(tail)
+            self._root_list_root.change_predecessor(node)
+            tail.change_successor(node)
 
     def _union(self, other: FibonacciHeap) -> FibonacciHeap:
         """
@@ -224,6 +222,7 @@ class FibonacciHeap(Container, Generic[_K, _V]):
                     self._merge_with_root_list(child)
                     child.remove_parent()
 
+            min_node.remove_children()
             self._remove_from_root_list(min_node)
             self._consolidate()
 
@@ -274,13 +273,13 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         elif len(root_list) > 1:
             if node.predecessor is None or node.successor is None:
                 raise ValueError('Fibonacci heap sibling layer is expected to be circular.')
-            node.predecessor.change_successor(node.successor)
-            node.successor.change_predecessor(node.predecessor)
-
             if node == self._root_list_root:
                 self._root_list_root = node.successor
             if node == self._min_root:
                 self._min_root = min(root for root in root_list if root != node)
+
+            node.predecessor.change_successor(node.successor)
+            node.successor.change_predecessor(node.predecessor)
 
         node.change_predecessor(node)
         node.change_successor(node)
@@ -302,7 +301,7 @@ class FibonacciHeap(Container, Generic[_K, _V]):
             deg = root.degree
             while (node_with_deg := degree_table[deg]) is not None:
                 if node_with_deg < root:
-                    root, node_with_deg = node_with_deg, node_with_deg
+                    root, node_with_deg = node_with_deg, root
                 self._heap_link(node_with_deg, root)
                 degree_table[deg] = None
                 deg += 1
