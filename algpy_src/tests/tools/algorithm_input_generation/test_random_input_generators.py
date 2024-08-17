@@ -3,6 +3,7 @@ import pytest
 from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
 from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
 from algpy_src.algorithms.graph_algorithms.traversal.dfs import DepthFirstSearch
+from algpy_src.algorithms.graph_algorithms.traversal.shortest_paths.simple_dijkstra import DijkstraShortestPathsAlgorithm
 from algpy_src.algorithms.load_balancing.round_robin import RoundRobinAlgorithm
 from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
 from algpy_src.algorithms.sorting.insertion_sort import InsertionSort
@@ -21,6 +22,7 @@ def test_get_generators() -> None:
     assert get_generator(ExampleSortingAlgorithm()) == RandomInputGeneratorSortingAlgorithm
     assert get_generator(BreadthFirstSearch()) == RandomInputGeneratorGraphTraversalAlgorithm
     assert get_generator(DepthFirstSearch()) == RandomInputGeneratorGraphTraversalAlgorithm
+    assert get_generator(DijkstraShortestPathsAlgorithm()) == RandomInputGeneratorGraphTraversalAlgorithm
     assert get_generator(RelationalClassificationAlgorithm()) == RandomInputGeneratorGraphRelationalClassificationAlgorithm
     assert get_generator(RoundRobinAlgorithm()) == RandomInputGeneratorLoadBalancingAlgorithms
     with pytest.raises(ValueError):
@@ -33,6 +35,9 @@ def test_random_input_generators():
         0: {1: None, 4: None, 2: None}, 1: {0: None, 2: None, 4: None}, 2: {1: None, 0: None}, 3: {}, 4: {0: None, 1: None}
     }
     assert get_generator(DepthFirstSearch())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))).adjacency_list == {
+        0: {1: None, 4: None, 2: None}, 1: {0: None, 2: None, 4: None}, 2: {1: None, 0: None}, 3: {}, 4: {0: None, 1: None}
+    }
+    assert get_generator(DijkstraShortestPathsAlgorithm())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))).adjacency_list == {
         0: {1: None, 4: None, 2: None}, 1: {0: None, 2: None, 4: None}, 2: {1: None, 0: None}, 3: {}, 4: {0: None, 1: None}
     }
     assert get_generator(RelationalClassificationAlgorithm())(TEST_SEED).generate_random_input(input_size=GraphSize(*(20, 20))) == FeatureGraph(

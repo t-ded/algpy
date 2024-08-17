@@ -7,6 +7,7 @@ from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
 from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
 from algpy_src.algorithms.graph_algorithms.traversal.dfs import DepthFirstSearch
+from algpy_src.algorithms.graph_algorithms.traversal.shortest_paths.simple_dijkstra import DijkstraShortestPathsAlgorithm
 from algpy_src.algorithms.load_balancing.round_robin import RoundRobinAlgorithm
 from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
 from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize, LoadBalancingTaskSize
@@ -63,7 +64,7 @@ class RandomInputGeneratorSortingAlgorithm(RandomInputGenerator[Iterable[Compara
 
 class RandomInputGeneratorGraphTraversalAlgorithm(RandomInputGenerator[BaseGraph, GraphSize]):
     """
-    Random input generator for graph traversal algorithms (BFS and DFS).
+    Random input generator for graph traversal algorithms (BFS and DFS or shortest paths algorithms).
     Generates either a graph or digraph with desired number of nodes and randomly distributed edges between them
     with input size being named tuple of integers specifying number of nodes and edges.
     """
@@ -153,7 +154,7 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
     """
     if isinstance(algorithm, SortingAlgorithm):
         return RandomInputGeneratorSortingAlgorithm
-    if isinstance(algorithm, BreadthFirstSearch) | isinstance(algorithm, DepthFirstSearch):
+    if isinstance(algorithm, BreadthFirstSearch) | isinstance(algorithm, DepthFirstSearch) | isinstance(algorithm, DijkstraShortestPathsAlgorithm):
         return RandomInputGeneratorGraphTraversalAlgorithm
     if isinstance(algorithm, RelationalClassificationAlgorithm):
         return RandomInputGeneratorGraphRelationalClassificationAlgorithm
