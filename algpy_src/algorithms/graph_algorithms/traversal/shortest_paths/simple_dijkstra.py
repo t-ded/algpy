@@ -1,4 +1,4 @@
-from typing import Any, Optional, cast
+from typing import Any, Optional
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node
@@ -8,7 +8,6 @@ from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 from algpy_src.data_structures.graphs.shortest_paths_graph import ShortestPathsGraph
 from algpy_src.data_structures.graphs.trees.heaps.fibonacci_heap import FibonacciHeap
-from algpy_src.data_structures.graphs.trees.heaps.heap_node import HeapNode
 
 
 class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
@@ -41,7 +40,7 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
 
     @property
     def worst_case_time_complexity(self) -> str:
-        return '|V| * [|E| + |V|* log(|V|)]'
+        return '|V| * [|E| + |V| * log(|V|)]'
 
     @property
     def worst_case_description(self) -> str:
@@ -77,7 +76,7 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
                 if num_edges == input_size.edges:
                     break
             root += 1
-        return {'input_instance': g, 'source': 0, 'target': NoNode()}
+        return {'input_instance': g, 'source': NoNode(), 'target': NoNode()}
 
     def run_algorithm(self, input_instance: Graph | DiGraph, verbosity_level: VERBOSITY_LEVELS = 0, source: Node | NoNode = NoNode(),
                       target: Node | NoNode = NoNode(), fill_weight_value: Optional[float | int] = None, *args: Any, **kwargs: Any) -> tuple[bool, ShortestPathsGraph]:
@@ -109,6 +108,7 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
             Returns True in the first index if the shortest path to target was found or if no target was specified.
             Also returns a ShortestPathsGraph object carrying the respective path lengths and predecessor and capable of reconstructing the path.
         """
+        self.reset_n_ops()
         if source != NoNode() and source not in input_instance.nodes or target != NoNode() and target not in input_instance.nodes:
             raise ValueError('Either source or target node which are not present in the graph were given.')
 
@@ -133,9 +133,8 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
         print_problem_instance(return_graph, verbosity_level, 1)
         return target_node_found, return_graph
 
-    @staticmethod
     def _run_algorithm_single_source(
-            input_instance: Graph | DiGraph, source: Node, target: Node | NoNode = NoNode(),
+            self, input_instance: Graph | DiGraph, source: Node, target: Node | NoNode = NoNode(),
             verbosity_level: VERBOSITY_LEVELS = 0, fill_weight_value: Optional[float | int] = None
     ) -> tuple[bool, dict[Node, int | float], dict[Node, Node | NoNode]]:
         """
@@ -171,14 +170,17 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
             priority = float('inf') if node != source else 0
             to_visit.insert(node, priority)
 
-        while to_visit:
-            if to_visit.get_min_node() == NoNode():
-                break
-            v_min = cast(HeapNode, to_visit.extract_min_node()).key
+        while not to_visit.is_empty:
+            self.increment_n_ops()
+            min_node = to_visit.extract_min_node()
+            if isinstance(min_node, NoNode):
+                raise IndexError('Fibonacci heap is said to not be empty while the extracted min node is a NoNode() object.')
+            v_min = min_node.key
             print_problem_instance(sp_lengths, verbosity_level, 2)
 
             if v_min == target:
-                return True, sp_lengths, sp_predecessors
+                self.increment_n_ops(to_visit.n_ops)
+                return min_node.priority < float('inf'), sp_lengths, sp_predecessors
 
             for neighbour in input_instance.neighbors(v_min):
                 weight = input_instance.get_edge_data(v_min, neighbour)
@@ -186,10 +188,17 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
                     weight = fill_weight_value
                 if not isinstance(weight, int | float):
                     raise ValueError('Edge weight is not of numeric type.')
+                if weight < 0:
+                    raise ValueError("Dijkstra's shortest path algorithm expects non-negative weights.")
 
                 alt = sp_lengths.get(v_min, float('inf')) + weight
                 if alt < sp_lengths.get(neighbour, float('inf')):
+                    neighbour_in_heap = to_visit.find(neighbour)
+                    if isinstance(neighbour_in_heap, NoNode):
+                        continue
+                    to_visit.decrease_priority(neighbour_in_heap, alt)
                     sp_lengths[neighbour] = alt
                     sp_predecessors[neighbour] = v_min
 
+        self.increment_n_ops(to_visit.n_ops)
         return target_node_found, sp_lengths, sp_predecessors
