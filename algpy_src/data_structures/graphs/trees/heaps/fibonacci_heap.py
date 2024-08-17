@@ -158,6 +158,9 @@ class FibonacciHeap(Container, Generic[_K, _V]):
             node.change_predecessor(tail)
             self._root_list_root.change_predecessor(node)
             tail.change_successor(node)
+            if node.parent is not None:
+                node.parent.remove_child(node)
+                node.remove_parent()
 
 
     def _union(self, other: FibonacciHeap) -> FibonacciHeap:
@@ -298,7 +301,7 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         if isinstance(self._root_list_root, NoNode):
             return
 
-        degree_table: list[HeapNode | None] = [None] * int(math.log(self._num_nodes, 2) + 1)
+        degree_table: list[HeapNode | None] = [None] * (math.ceil(math.log(self._num_nodes, 2)) + 1)
         root_list_layer: list[HeapNode] = list(self._get_siblings(self._root_list_root))
 
         for i in range(len(root_list_layer)):
@@ -390,7 +393,7 @@ class FibonacciHeap(Container, Generic[_K, _V]):
         new_priority : int | float
             New priority for the given node.
         """
-        if new_priority > node.key:
+        if new_priority > node.priority:
             return
         node.change_priority(new_priority)
 
