@@ -20,15 +20,15 @@ def test_dijkstra_base(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
     assert dijkstra.best_case_time_complexity == '1'
     assert dijkstra.best_case_description == 'starting from searched for element'
     assert dijkstra.average_case_time_complexity == '|E| + |V| * log(|V|)'
-    assert dijkstra.worst_case_time_complexity == '|V| * [|E| + |V|* log(|V|)]'
+    assert dijkstra.worst_case_time_complexity == '|V| * [|E| + |V| * log(|V|)]'
     assert dijkstra.worst_case_description == 'all-pairs shortest paths'
     assert dijkstra.space_complexity == '|V| ^ 2'
     assert dijkstra.get_worst_case_arguments(GraphSize(*(5, 5))) == {
         'input_instance': Graph({0: {1: 1, 2: 1, 3: 1, 4: 1}, 1: {0: 1, 2: 1}, 2: {0: 1, 1: 1}, 3: {0: 1}, 4: {0: 1}}),
-        'source': 0, 'target': NoNode()
+        'source': NoNode(), 'target': NoNode()
     }
 
-@pytest.mark.skip(reason='Dijkstra run algorithm not implemented yet')
+
 def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
 
     assert dijkstra.n_ops == 0
@@ -37,51 +37,51 @@ def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
     shortest_path_graph = ShortestPathsGraph(
         adjacency_list=worst_case_args['input_instance'].adjacency_list,
         shortest_path_lengths={0: {0: 0, 1: 1, 2: 1, 3: 1, 4: 1}, 1: {0: 1, 1: 0, 2: 1, 3: 2, 4: 2}, 2: {0: 1, 1: 1, 2: 0, 3: 2, 4: 2},
-                               3: {0: 1, 1: 2, 2: 2, 3: 0, 4: 2}, 4: {0: 1, 1: 2, 2: 2, 3: 2, 4: 1}},
-        shortest_path_predecessors={0: {0: NoNode(), 1: 0, 2: 0, 3: 0, 4: 0}, 1: {0: 0, 1: NoNode(), 2: 2, 3: 0, 4: 0}, 2: {0: 0, 1: 1, 2: NoNode, 3: 0, 4: 0},
-                                    3: {0: 0, 1: 0, 2: 0, 3: NoNode(), 4: 0}, 4: {0: 0, 1: 0, 2: 0, 3: 0, 4: NoNode()}}
+                               3: {0: 1, 1: 2, 2: 2, 3: 0, 4: 2}, 4: {0: 1, 1: 2, 2: 2, 3: 2, 4: 0}},
+        shortest_path_predecessors={0: {0: NoNode(), 1: 0, 2: 0, 3: 0, 4: 0}, 1: {0: 1, 1: NoNode(), 2: 1, 3: 0, 4: 0}, 2: {0: 2, 1: 2, 2: NoNode(), 3: 0, 4: 0},
+                                    3: {0: 3, 1: 0, 2: 0, 3: NoNode(), 4: 0}, 4: {0: 4, 1: 0, 2: 0, 3: 0, 4: NoNode()}}
     )
     assert dijkstra.run_algorithm(**worst_case_args) == (
         True,
         shortest_path_graph
     )
-    assert dijkstra.n_ops == 10
+    assert dijkstra.n_ops == 25  # TODO: Update when Fib heap n_ops counting is implemented
 
 
-@pytest.mark.skip(reason='Dijkstra run algorithm not implemented yet')
 @pytest.mark.parametrize(
     ('input_adjacency_list', 'source', 'target', 'expected_path_lengths', 'expected_path_predecessors', 'expected_n_ops'),
     [
-        pytest.param({}, 1, 1, {}, {}, 0, id='Empty graph with source and target nodes'),
+        pytest.param({}, 1, 1, None, None, 0, id='Empty graph with source and target nodes'),
         pytest.param({}, NoNode(), NoNode(), {}, {}, 0, id='Empty graph with no source or target node'),
+        pytest.param({1: {}, 2: {}}, 1, 2, {}, {}, 0, id='Disconnected nodes'),
         pytest.param(
             {1: {2: 1}, 2: {3: 1}, 3: {}}, 1, 1,
-            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
-            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            {1: {1: 0}},
+            {1: {1: NoNode()}},
             0, id='Line graph with head as both source and target node'
         ),
         pytest.param(
             {1: {2: 1}, 2: {3: 1}, 3: {}}, NoNode(), NoNode(),
-            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
-            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            {1: {1: 0, 2: 1, 3: 2}, 2: {2: 0, 3: 1}, 3: {3: 0}},
+            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {2: NoNode(), 3: 2}, 3: {3: NoNode()}},
             9, id='Line graph with no source or target node'
         ),
         pytest.param(
             {1: {2: 1}, 2: {3: 1}, 3: {}}, 1, NoNode(),
-            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
-            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            {1: {1: 0, 2: 1, 3: 2}},
+            {1: {1: NoNode(), 2: 1, 3: 2}},
             3, id='Line graph with head as source but no target node'
         ),
         pytest.param(
             {1: {2: 1}, 2: {3: 1}, 3: {}}, NoNode(), 3,
-            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
-            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
-            3, id='Line graph with no source but tail as target node'
+            {1: {1: 0, 2: 1, 3: 2}, 2: {2: 0, 3: 1}, 3: {3: 0}},
+            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {2: NoNode(), 3: 2}, 3: {3: NoNode()}},
+            9, id='Line graph with no source but tail as target node'
         ),
         pytest.param(
             {1: {2: 1}, 2: {3: 1}, 3: {}}, 1, 2,
-            {1: {1: 0, 2: 1, 3: 2}, 2: {1: float('inf'), 2: 0, 3: 1}, 3: {1: float('inf'), 2: float('inf'), 3: 0}},
-            {1: {1: NoNode(), 2: 1, 3: 2}, 2: {1: NoNode(), 2: NoNode(), 3: 2}, 3: {1: NoNode(), 2: NoNode(), 3: NoNode()}},
+            {1: {1: 0, 2: 1}},
+            {1: {1: NoNode(), 2: 1}},
             1, id='Line graph with head source and its child as target node'
         ),
         pytest.param(
@@ -98,11 +98,11 @@ def test_worst_case(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
         ),
         pytest.param(
             {0: {1: -1}, 1: {0: 0}}, 0, 1,
-            None, None, 3, id='Does not support negative cycle'
+            None, None, 3, id='Does not support negative weights'
         ),
         pytest.param(
             {0: {1: None}}, 0, 1,
-            {0: {0: 0, 1: 1}}, {0: NoNode(), 1: 0}, 1, id='None weights are filled on demand'
+            {0: {0: 0, 1: 1}}, {0: {0: NoNode(), 1: 0}}, 1, id='None weights are filled on demand'
         ),
         pytest.param(
             {0: {1: 'Non-numeric-value'}}, 0, 1,
