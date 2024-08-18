@@ -8,7 +8,9 @@ from algpy_src.algorithms.load_balancing.round_robin import RoundRobinAlgorithm
 from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
 from algpy_src.algorithms.sorting.insertion_sort import InsertionSort
 from algpy_src.base.constants import TEST_SEED, GraphSize, LoadBalancingTaskSize
+from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
+from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.system_design.load_task import LoadTask
 from algpy_src.data_structures.system_design.server import Server
 from algpy_src.tests.test_utils.example_base_objects import ExampleAlgorithm, ExampleSortingAlgorithm
@@ -16,30 +18,47 @@ from algpy_src.tools.algorithm_input_generation.random_input_generators import g
     RandomInputGeneratorGraphRelationalClassificationAlgorithm, RandomInputGeneratorLoadBalancingAlgorithms
 
 
+@pytest.fixture
+def graph_traversal_random_input() -> BaseGraph:
+    return Graph(adjacency_list={0: {1: None, 4: None, 2: None}, 1: {0: None, 2: None, 4: None}, 2: {1: None, 0: None}, 3: {}, 4: {0: None, 1: None}})
+
+
 def test_get_generators() -> None:
-    assert get_generator(InsertionSort()) == RandomInputGeneratorSortingAlgorithm
-    assert get_generator(BubbleSort()) == RandomInputGeneratorSortingAlgorithm
-    assert get_generator(ExampleSortingAlgorithm()) == RandomInputGeneratorSortingAlgorithm
-    assert get_generator(BreadthFirstSearch()) == RandomInputGeneratorGraphTraversalAlgorithm
-    assert get_generator(DepthFirstSearch()) == RandomInputGeneratorGraphTraversalAlgorithm
-    assert get_generator(DijkstraShortestPathsAlgorithm()) == RandomInputGeneratorGraphTraversalAlgorithm
-    assert get_generator(RelationalClassificationAlgorithm()) == RandomInputGeneratorGraphRelationalClassificationAlgorithm
-    assert get_generator(RoundRobinAlgorithm()) == RandomInputGeneratorLoadBalancingAlgorithms
+
+    # Base or Example Algorithms
     with pytest.raises(ValueError):
         get_generator(ExampleAlgorithm())
 
+    # Sorting Algorithms
+    assert get_generator(InsertionSort()) == RandomInputGeneratorSortingAlgorithm
+    assert get_generator(BubbleSort()) == RandomInputGeneratorSortingAlgorithm
+    assert get_generator(ExampleSortingAlgorithm()) == RandomInputGeneratorSortingAlgorithm
 
-def test_random_input_generators():
+    # Graph Traversal Algorithms
+    assert get_generator(BreadthFirstSearch()) == RandomInputGeneratorGraphTraversalAlgorithm
+    assert get_generator(DepthFirstSearch()) == RandomInputGeneratorGraphTraversalAlgorithm
+    assert get_generator(DijkstraShortestPathsAlgorithm()) == RandomInputGeneratorGraphTraversalAlgorithm
+
+    # Message Passing Algorithms
+    assert get_generator(RelationalClassificationAlgorithm()) == RandomInputGeneratorGraphRelationalClassificationAlgorithm
+
+    # Load Balancing Algorithms
+    assert get_generator(RoundRobinAlgorithm()) == RandomInputGeneratorLoadBalancingAlgorithms
+
+
+def test_random_input_generators(graph_traversal_random_input: BaseGraph) -> None:
+
+    # Base or Example Algorithms
+
+    # Sorting Algorithms
     assert list(get_generator(ExampleSortingAlgorithm())(TEST_SEED).generate_random_input(input_size=10)) == [2, 1, 5, 4, 4, 3, 2, 9, 2, 10]
-    assert get_generator(BreadthFirstSearch())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))).adjacency_list == {
-        0: {1: None, 4: None, 2: None}, 1: {0: None, 2: None, 4: None}, 2: {1: None, 0: None}, 3: {}, 4: {0: None, 1: None}
-    }
-    assert get_generator(DepthFirstSearch())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))).adjacency_list == {
-        0: {1: None, 4: None, 2: None}, 1: {0: None, 2: None, 4: None}, 2: {1: None, 0: None}, 3: {}, 4: {0: None, 1: None}
-    }
-    assert get_generator(DijkstraShortestPathsAlgorithm())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))).adjacency_list == {
-        0: {1: None, 4: None, 2: None}, 1: {0: None, 2: None, 4: None}, 2: {1: None, 0: None}, 3: {}, 4: {0: None, 1: None}
-    }
+
+    # Graph Traversal Algorithms
+    assert get_generator(BreadthFirstSearch())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))) == graph_traversal_random_input
+    assert get_generator(DepthFirstSearch())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))) == graph_traversal_random_input
+    assert get_generator(DijkstraShortestPathsAlgorithm())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))) == graph_traversal_random_input
+
+    # Message Passing Algorithms
     assert get_generator(RelationalClassificationAlgorithm())(TEST_SEED).generate_random_input(input_size=GraphSize(*(20, 20))) == FeatureGraph(
         adjacency_list={
             0: {18: None, 12: None}, 1: {14: None, 3: None, 8: None}, 2: {15: None}, 3: {1: None, 8: None, 9: None},
@@ -53,6 +72,8 @@ def test_random_input_generators():
             11: 0, 12: 1, 15: 0, 18: 1, 19: 1
         }
     )
+
+    # Load Balancing Algorithms
     assert get_generator(RoundRobinAlgorithm())(TEST_SEED).generate_random_input(input_size=LoadBalancingTaskSize(*(5, 1))) == (
         [
             LoadTask(identifier='random_0', size=0.0), LoadTask(identifier='random_1', size=0.0), LoadTask(identifier='random_2', size=0.0),
