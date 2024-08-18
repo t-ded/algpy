@@ -4,12 +4,7 @@ from itertools import combinations
 from typing import Optional, Generic, Iterable, TypeVar
 
 from algpy_src.algorithms.algorithm import Algorithm
-from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
-from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
-from algpy_src.algorithms.graph_algorithms.traversal.dfs import DepthFirstSearch
-from algpy_src.algorithms.graph_algorithms.traversal.shortest_paths.simple_dijkstra import DijkstraShortestPathsAlgorithm
-from algpy_src.algorithms.load_balancing.round_robin import RoundRobinAlgorithm
-from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
+from algpy_src.algorithms.base.algorithm_properties import AlgorithmFamily
 from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize, LoadBalancingTaskSize
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.digraph import DiGraph
@@ -152,12 +147,12 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
     random_input_generator : RandomInputGenerator subclass
         Appropriate random input generator.
     """
-    if isinstance(algorithm, SortingAlgorithm):
+    if algorithm.algorithm_family == AlgorithmFamily.SORTING:
         return RandomInputGeneratorSortingAlgorithm
-    if isinstance(algorithm, BreadthFirstSearch) | isinstance(algorithm, DepthFirstSearch) | isinstance(algorithm, DijkstraShortestPathsAlgorithm):
+    if algorithm.algorithm_family == AlgorithmFamily.GRAPH_TRAVERSAL:
         return RandomInputGeneratorGraphTraversalAlgorithm
-    if isinstance(algorithm, RelationalClassificationAlgorithm):
+    if algorithm.algorithm_family == AlgorithmFamily.MESSAGE_PASSING:
         return RandomInputGeneratorGraphRelationalClassificationAlgorithm
-    if isinstance(algorithm, RoundRobinAlgorithm):
+    if algorithm.algorithm_family == AlgorithmFamily.LOAD_BALANCING:
         return RandomInputGeneratorLoadBalancingAlgorithms
     raise ValueError('No random input generator assigned for this algorithm class.')

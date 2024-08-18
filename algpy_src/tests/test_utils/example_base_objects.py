@@ -42,8 +42,7 @@ class ExampleSortingAlgorithm(SortingAlgorithm):
     def algorithm_properties(self) -> SortingAlgorithmProperties:
         return SortingAlgorithmProperties(
             name='Example Sorting Algorithm',
-            algorithm_family=AlgorithmFamily.EXAMPLE,
-            **{field: value for field, value in vars(super().algorithm_properties).items() if field not in ['name', 'algorithm_family']},
+            **{field: value for field, value in vars(super().algorithm_properties).items() if field not in ['name']},
         )
 
     def get_worst_case_arguments(self, input_size: int) -> dict[str, Any]:
