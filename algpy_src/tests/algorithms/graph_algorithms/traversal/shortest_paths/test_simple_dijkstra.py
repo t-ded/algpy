@@ -22,7 +22,7 @@ def test_dijkstra_base(dijkstra: DijkstraShortestPathsAlgorithm) -> None:
     assert dijkstra.average_case_time_complexity == '|E| + |V| * log(|V|)'
     assert dijkstra.worst_case_time_complexity == '|V| * [|E| + |V| * log(|V|)]'
     assert dijkstra.worst_case_description == 'all-pairs shortest paths'
-    assert dijkstra.space_complexity == '|V| ^ 2'
+    assert dijkstra.space_complexity == '|V|^2'
     assert dijkstra.get_worst_case_arguments(GraphSize(*(5, 5))) == {
         'input_instance': Graph({0: {1: 1, 2: 1, 3: 1, 4: 1}, 1: {0: 1, 2: 1}, 2: {0: 1, 1: 1}, 3: {0: 1}, 4: {0: 1}}),
         'source': NoNode(), 'target': NoNode()

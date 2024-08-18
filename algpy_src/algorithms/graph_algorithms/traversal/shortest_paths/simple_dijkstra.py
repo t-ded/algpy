@@ -1,6 +1,7 @@
 from typing import Any, Optional
 
 from algpy_src.algorithms.algorithm import Algorithm
+from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
 from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node
 from algpy_src.base.utils import print_problem_instance
 from algpy_src.data_structures.graphs.digraph import DiGraph
@@ -19,36 +20,18 @@ class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
         super().__init__()
 
     @property
-    def name(self) -> str:
-        return "Uni-directional Dijsktra's Shortest Path(s) Algorithm"
-
-    @property
-    def is_deterministic(self) -> bool:
-        return True
-
-    @property
-    def best_case_time_complexity(self) -> str:
-        return '1'
-
-    @property
-    def best_case_description(self) -> str:
-        return 'starting from searched for element'
-
-    @property
-    def average_case_time_complexity(self) -> str:
-        return '|E| + |V| * log(|V|)'
-
-    @property
-    def worst_case_time_complexity(self) -> str:
-        return '|V| * [|E| + |V| * log(|V|)]'
-
-    @property
-    def worst_case_description(self) -> str:
-        return 'all-pairs shortest paths'
-
-    @property
-    def space_complexity(self) -> str:
-        return '|V| ^ 2'
+    def algorithm_properties(self) -> AlgorithmProperties:
+        return AlgorithmProperties(
+            name="Uni-directional Dijsktra's Shortest Path(s) Algorithm",
+            algorithm_family=AlgorithmFamily.GRAPH_TRAVERSAL,
+            is_deterministic=True,
+            best_case_time_complexity='1',
+            best_case_description='starting from searched for element',
+            average_case_time_complexity='|E| + |V| * log(|V|)',
+            worst_case_time_complexity='|V| * [|E| + |V| * log(|V|)]',
+            worst_case_description='all-pairs shortest paths',
+            space_complexity='|V|^2',
+        )
 
     def get_worst_case_arguments(self, input_size: GraphSize) -> dict[str, Any]:
         """

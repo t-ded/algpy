@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from typing import Optional, Generic, Any
 
+from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
 from algpy_src.base.complexity_object import ComplexityObject
 from algpy_src.base.constants import VERBOSITY_LEVELS, ProblemInstance, InputSize
 
@@ -16,43 +17,50 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
 
     @property
     @abstractmethod
+    def algorithm_properties(self) -> AlgorithmProperties:
+        return AlgorithmProperties(
+            name='Generic Algorithm Class',
+            algorithm_family=AlgorithmFamily.BASE_CLASS,
+            is_deterministic=True,
+            best_case_time_complexity='N/A',
+            best_case_description='N/A',
+            average_case_time_complexity='N/A',
+            worst_case_time_complexity='N/A',
+            worst_case_description='N/A',
+            space_complexity='N/A',
+        )
+
+    @property
     def name(self) -> str:
-        return 'Generic Algorithm Class'
+        return self.algorithm_properties.name
 
     @property
-    @abstractmethod
     def is_deterministic(self) -> bool:
-        raise NotImplementedError()
+        return self.algorithm_properties.is_deterministic
 
     @property
-    @abstractmethod
     def best_case_time_complexity(self) -> str:
-        return 'N/A'
+        return self.algorithm_properties.best_case_time_complexity
 
     @property
-    @abstractmethod
     def best_case_description(self) -> str:
-        return 'N/A'
+        return self.algorithm_properties.best_case_description
 
     @property
-    @abstractmethod
     def average_case_time_complexity(self) -> str:
-        return 'N/A'
+        return self.algorithm_properties.average_case_time_complexity
 
     @property
-    @abstractmethod
     def worst_case_time_complexity(self) -> str:
-        return 'N/A'
+        return self.algorithm_properties.worst_case_time_complexity
 
     @property
-    @abstractmethod
     def worst_case_description(self) -> str:
-        return 'N/A'
+        return self.algorithm_properties.worst_case_description
 
     @property
-    @abstractmethod
     def space_complexity(self) -> str:
-        return 'N/A'
+        return self.algorithm_properties.space_complexity
 
     @abstractmethod
     def get_worst_case_arguments(self, input_size: InputSize) -> dict[str, Any]:

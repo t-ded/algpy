@@ -1,5 +1,6 @@
 from typing import Iterable, Any
 
+from algpy_src.algorithms.base.algorithm_properties import SortingAlgorithmProperties, AlgorithmFamily
 from algpy_src.algorithms.sorting.sorting_algorithm import SortingAlgorithm
 from algpy_src.base.constants import Comparable, VERBOSITY_LEVELS
 from algpy_src.base.utils import print_problem_instance
@@ -11,40 +12,19 @@ class BubbleSort(SortingAlgorithm):
         super().__init__()
 
     @property
-    def name(self) -> str:
-        return 'Bubble Sort'
-
-    @property
-    def is_deterministic(self) -> bool:
-        return True
-
-    @property
-    def best_case_time_complexity(self) -> str:
-        return 'n'
-
-    @property
-    def best_case_description(self) -> str:
-        return 'a fully sorted array'
-
-    @property
-    def average_case_time_complexity(self) -> str:
-        return 'n^2'
-
-    @property
-    def worst_case_time_complexity(self) -> str:
-        return 'n^2'
-
-    @property
-    def worst_case_description(self) -> str:
-        return 'a fully unsorted array'
-
-    @property
-    def space_complexity(self) -> str:
-        return '1'
-
-    @property
-    def is_stable(self) -> bool:
-        return True
+    def algorithm_properties(self) -> SortingAlgorithmProperties:
+        return SortingAlgorithmProperties(
+            name='Bubble Sort',
+            algorithm_family=AlgorithmFamily.SORTING,
+            is_deterministic=True,
+            best_case_time_complexity='n',
+            best_case_description='a fully sorted array',
+            average_case_time_complexity='n^2',
+            worst_case_time_complexity='n^2',
+            worst_case_description='a fully unsorted array',
+            space_complexity='1',
+            is_stable=True,
+        )
 
     def get_worst_case_arguments(self, input_size: int) -> dict[str, Any]:
         """

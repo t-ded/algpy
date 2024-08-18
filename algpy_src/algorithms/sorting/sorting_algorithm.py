@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import Iterable, Any
 
 from algpy_src.algorithms.algorithm import Algorithm
+from algpy_src.algorithms.base.algorithm_properties import SortingAlgorithmProperties, AlgorithmFamily
 from algpy_src.base.constants import Comparable, VERBOSITY_LEVELS
 
 
@@ -15,6 +16,16 @@ class SortingAlgorithm(Algorithm[Iterable[Comparable], int]):
         super().__init__()
         self.n_comparisons = 0
         self.n_swaps = 0
+
+    @property
+    @abstractmethod
+    def algorithm_properties(self) -> SortingAlgorithmProperties:
+        return SortingAlgorithmProperties(
+            name='Base Sorting Algorithm',
+            algorithm_family=AlgorithmFamily.SORTING,
+            **{field: value for field, value in vars(super().algorithm_properties).items() if field not in ['name', 'algorithm_family']},
+            is_stable=True,
+        )
 
     def increment_n_comparisons(self, increment: int = 1) -> None:
         self.n_comparisons += increment
@@ -33,21 +44,8 @@ class SortingAlgorithm(Algorithm[Iterable[Comparable], int]):
         self.n_comparisons = 0
 
     @property
-    def name(self) -> str:
-        return 'Base Sorting Algorithm'
-
-    @property
-    def is_deterministic(self) -> bool:
-        raise NotImplementedError()
-
-    @property
     def n_ops(self) -> int:
         return self.n_swaps + self.n_comparisons
-
-    @property
-    @abstractmethod
-    def is_stable(self) -> bool:
-        raise NotImplementedError()
 
     @abstractmethod
     def get_worst_case_arguments(self, input_size: int) -> dict[str, Any]:

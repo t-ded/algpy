@@ -6,6 +6,7 @@ class AlgorithmFamily(StrEnum):
 
     # Base algorithms, Test algorithms, Example algorithms
     BASE_CLASS = 'Base Generic Algorithms'
+    EXAMPLE = 'Example Algorithms'
 
     # Container-based
     SORTING = 'Sorting Algorithms',

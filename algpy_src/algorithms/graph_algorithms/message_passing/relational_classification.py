@@ -3,6 +3,7 @@ from typing import Any, Generic, cast
 import numpy as np
 
 from algpy_src.algorithms.algorithm import Algorithm
+from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
 from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node, EdgeData
 from algpy_src.base.utils import print_problem_instance
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
@@ -18,36 +19,18 @@ class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Gene
         super().__init__()
 
     @property
-    def name(self) -> str:
-        return 'Relational Classification'
-
-    @property
-    def is_deterministic(self) -> bool:
-        return True
-
-    @property
-    def best_case_time_complexity(self) -> str:
-        return '|V|'
-
-    @property
-    def best_case_description(self) -> str:
-        return 'all nodes pre-labelled'
-
-    @property
-    def average_case_time_complexity(self) -> str:
-        return '|E| * n_iterations'
-
-    @property
-    def worst_case_time_complexity(self) -> str:
-        return 'N/A'
-
-    @property
-    def worst_case_description(self) -> str:
-        return 'does not converge'
-
-    @property
-    def space_complexity(self) -> str:
-        return '|V|'
+    def algorithm_properties(self) -> AlgorithmProperties:
+        return AlgorithmProperties(
+            name='Relational Classification',
+            algorithm_family=AlgorithmFamily.MESSAGE_PASSING,
+            is_deterministic=True,
+            best_case_time_complexity='|V|',
+            best_case_description='all nodes pre-labelled',
+            average_case_time_complexity='|E| * n_iterations',
+            worst_case_time_complexity='N/A',
+            worst_case_description='not reaching convergence',
+            space_complexity='|V|',
+        )
 
     def get_worst_case_arguments(self, input_size: GraphSize = GraphSize(*(1, 1))) -> dict[str, Any]:
         """

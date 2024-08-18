@@ -2,6 +2,7 @@ import itertools
 from typing import Iterable, Any, Optional
 
 from algpy_src.algorithms.algorithm import Algorithm
+from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
 from algpy_src.base.constants import LoadBalancingTaskSize, VERBOSITY_LEVELS
 from algpy_src.base.utils import print_problem_instance
 from algpy_src.data_structures.system_design.load_task import LoadTask
@@ -14,45 +15,21 @@ class RoundRobinAlgorithm(Algorithm[tuple[Iterable[LoadTask], list[Server]], Loa
     """
 
     def __init__(self) -> None:
-        """
-        Constructor of the RoundRobinAlgorithm class.
-
-        Parameters
-        ----------
-        """
         super().__init__()
 
     @property
-    def name(self) -> str:
-        return 'Round Robin'
-
-    @property
-    def is_deterministic(self) -> bool:
-        return True
-
-    @property
-    def best_case_time_complexity(self) -> str:
-        return 'n'
-
-    @property
-    def best_case_description(self) -> str:
-        return 'irrelevant - with this variant, all inputs require exactly one pass through the entire task list'
-
-    @property
-    def average_case_time_complexity(self) -> str:
-        return 'n'
-
-    @property
-    def worst_case_time_complexity(self) -> str:
-        return 'n'
-
-    @property
-    def worst_case_description(self) -> str:
-        return 'irrelevant - with this variant, all inputs require exactly one pass through the entire task list'
-
-    @property
-    def space_complexity(self) -> str:
-        return '1'
+    def algorithm_properties(self) -> AlgorithmProperties:
+        return AlgorithmProperties(
+            name='Round Robin',
+            algorithm_family=AlgorithmFamily.LOAD_BALANCING,
+            is_deterministic=True,
+            best_case_time_complexity='n',
+            best_case_description='irrelevant - with this variant, all inputs require exactly one pass through the entire task list',
+            average_case_time_complexity='n',
+            worst_case_time_complexity='n',
+            worst_case_description='irrelevant - with this variant, all inputs require exactly one pass through the entire task list',
+            space_complexity='1',
+        )
 
     def get_worst_case_arguments(self, input_size: LoadBalancingTaskSize) -> dict[str, Any]:
         """
