@@ -35,6 +35,10 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         return self.algorithm_properties.name
 
     @property
+    def algorithm_family(self) -> AlgorithmFamily:
+        return self.algorithm_properties.algorithm_family
+
+    @property
     def is_deterministic(self) -> bool:
         return self.algorithm_properties.is_deterministic
 
