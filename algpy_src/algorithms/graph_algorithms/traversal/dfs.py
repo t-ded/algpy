@@ -11,7 +11,7 @@ from algpy_src.data_structures.graphs.traversal_graph import TraversalGraph
 from algpy_src.data_structures.linear.stack import Stack
 
 
-class DepthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
+class DepthFirstSearch(Algorithm[Graph | DiGraph, GraphSize, TraversalGraph]):
     """
     Depth First Search algorithm.
     """

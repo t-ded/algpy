@@ -6,7 +6,7 @@ from algpy_src.algorithms.base.algorithm_properties import SortingAlgorithmPrope
 from algpy_src.base.constants import Comparable, VERBOSITY_LEVELS
 
 
-class SortingAlgorithm(Algorithm[Iterable[Comparable], int]):
+class SortingAlgorithm(Algorithm[Iterable[Comparable], int, list[Comparable]]):
     """
     Base class for sorting algorithms.
     Implements attributes n_comparisons and n_swaps

@@ -3,10 +3,10 @@ from typing import Optional, Generic, Any
 
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
 from algpy_src.base.complexity_object import ComplexityObject
-from algpy_src.base.constants import VERBOSITY_LEVELS, ProblemInstance, InputSize
+from algpy_src.base.constants import VERBOSITY_LEVELS, ProblemInstance, InputSize, ResultInstance
 
 
-class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
+class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize, ResultInstance]):
     """
     Base class for all algorithms.
     Inheriting class should specify type hints for ProblemInstance and InputSize
@@ -85,7 +85,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
         raise NotImplementedError()
 
     @abstractmethod
-    def run_algorithm(self, input_instance: ProblemInstance, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any) -> tuple[bool, Optional[ProblemInstance]]:
+    def run_algorithm(self, input_instance: ProblemInstance, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any) -> tuple[bool, Optional[ResultInstance]]:
         """
         The main run function of each algorithm.
         The algorithms should be able to internally count number of ops and should reset self.n_ops to 0 on each use of this method.
@@ -104,7 +104,7 @@ class Algorithm(ComplexityObject, Generic[ProblemInstance, InputSize]):
 
         Returns
         -------
-        result : tuple[bool, Optional[ProblemInstance]]
-            Returns boolean value representing whether the algorithm terminated successfully and input processed by the algorithm if relevant.
+        result : tuple[bool, Optional[ResultInstance]]
+            Returns boolean value representing whether the algorithm terminated successfully and some form of input processed by the algorithm if relevant.
         """
         raise NotImplementedError()

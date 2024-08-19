@@ -20,6 +20,7 @@ TEST_SEED = 42
 VERBOSITY_LEVELS = Literal[0, 1, 2]
 
 ProblemInstance = TypeVar('ProblemInstance')
+ResultInstance = TypeVar('ResultInstance')
 InputSize = TypeVar('InputSize', bound=PrintableComparable)
 GraphSize = namedtuple('GraphSize', 'nodes edges', defaults=[0, 0])
 LoadBalancingTaskSize = namedtuple('LoadBalancingTaskSize', 'num_tasks num_servers')

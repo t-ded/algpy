@@ -67,7 +67,7 @@ class BubbleSort(SortingAlgorithm):
         Returns
         -------
         result : tuple[bool, list[Comparable]]
-            Returns boolean value representing whether the algorithm terminated successfully (always True in this case) and List copy of the given input instance iterable sorted in the required order..
+            Returns boolean value representing whether the algorithm terminated successfully (always True in this case) and List copy of the given input instance iterable sorted in the required order.
         """
         self.reset_all_counters()
         input_list: list[Comparable] = list(input_instance)

@@ -9,7 +9,7 @@ from algpy_src.data_structures.system_design.load_task import LoadTask
 from algpy_src.data_structures.system_design.server import Server
 
 
-class RoundRobinAlgorithm(Algorithm[tuple[Iterable[LoadTask], list[Server]], LoadBalancingTaskSize]):
+class RoundRobinAlgorithm(Algorithm[tuple[Iterable[LoadTask], list[Server]], LoadBalancingTaskSize, tuple[Iterable[LoadTask], list[Server]]]):
     """
     (Optionally weighted) Round Robin algorithm for load assignment to servers.
     """

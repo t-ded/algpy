@@ -18,7 +18,7 @@ class ExampleComplexityObject(ComplexityObject):
         return 'N/A'
 
 
-class ExampleAlgorithm(Algorithm[Iterable[Comparable], int]):
+class ExampleAlgorithm(Algorithm[Iterable[Comparable], int, Optional[Iterable[Comparable]]]):
 
     @property
     def algorithm_properties(self) -> AlgorithmProperties:

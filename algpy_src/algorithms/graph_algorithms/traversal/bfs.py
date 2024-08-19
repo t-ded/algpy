@@ -11,7 +11,7 @@ from algpy_src.data_structures.graphs.traversal_graph import TraversalGraph
 from algpy_src.data_structures.linear.queue import Queue
 
 
-class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize]):
+class BreadthFirstSearch(Algorithm[Graph | DiGraph, GraphSize, TraversalGraph]):
     """
     Breadth First Search algorithm.
     """

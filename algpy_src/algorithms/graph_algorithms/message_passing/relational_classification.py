@@ -10,7 +10,7 @@ from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
 from algpy_src.data_structures.graphs.graph_utils.no_feature_object import NoFeature
 
 
-class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize], Generic[Node, EdgeData]):
+class RelationalClassificationAlgorithm(Algorithm[FeatureGraph, GraphSize, FeatureGraph], Generic[Node, EdgeData]):
     """
     Relational classification message passing algorithm (explained in more detail in https://www.youtube.com/watch?v=QUO-HQ44EDc)
     """

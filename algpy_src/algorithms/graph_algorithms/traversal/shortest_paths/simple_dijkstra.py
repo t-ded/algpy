@@ -11,7 +11,7 @@ from algpy_src.data_structures.graphs.shortest_paths_graph import ShortestPathsG
 from algpy_src.data_structures.graphs.trees.heaps.fibonacci_heap import FibonacciHeap
 
 
-class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize]):
+class DijkstraShortestPathsAlgorithm(Algorithm[Graph | DiGraph, GraphSize, ShortestPathsGraph]):
     """
     Dijkstra's shortest path(s) algorithm.
     """
