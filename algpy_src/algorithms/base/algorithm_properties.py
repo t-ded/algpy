@@ -10,6 +10,7 @@ class AlgorithmFamily(StrEnum):
 
     # Container-based
     SORTING = 'Sorting Algorithms',
+    SEARCHING = 'Searching Algorithms',
 
     # Graph-based
     GRAPH_TRAVERSAL = 'Graph Traversal Algorithms',
