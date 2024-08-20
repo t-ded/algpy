@@ -57,6 +57,20 @@ class RandomInputGeneratorSortingAlgorithm(RandomInputGenerator[Iterable[Compara
         return (rng.randint(1, input_size) for _ in range(input_size))
 
 
+class RandomInputGeneratorSearchingAlgorithm(RandomInputGenerator[Iterable[Comparable], int]):
+    """
+    Random input generator for searching algorithms.
+    Generates a sorted iterable of random integers with input size being integer specifying number of items and sort it.
+    """
+
+    def __init__(self, seed: Optional[int] = None) -> None:
+        super().__init__(seed)
+
+    def generate_random_input(self, input_size: int) -> Iterable[Comparable]:
+        rng = random.Random(self.seed)
+        return sorted(rng.randint(1, input_size) for _ in range(input_size))
+
+
 class RandomInputGeneratorGraphTraversalAlgorithm(RandomInputGenerator[BaseGraph, GraphSize]):
     """
     Random input generator for graph traversal algorithms (BFS and DFS or shortest paths algorithms).
@@ -149,6 +163,8 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
     """
     if algorithm.algorithm_family == AlgorithmFamily.SORTING:
         return RandomInputGeneratorSortingAlgorithm
+    if algorithm.algorithm_family == AlgorithmFamily.SEARCHING:
+        return RandomInputGeneratorSearchingAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.GRAPH_TRAVERSAL:
         return RandomInputGeneratorGraphTraversalAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.MESSAGE_PASSING:

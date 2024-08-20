@@ -5,6 +5,7 @@ from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSear
 from algpy_src.algorithms.graph_algorithms.traversal.dfs import DepthFirstSearch
 from algpy_src.algorithms.graph_algorithms.traversal.shortest_paths.simple_dijkstra import DijkstraShortestPathsAlgorithm
 from algpy_src.algorithms.load_balancing.round_robin import RoundRobinAlgorithm
+from algpy_src.algorithms.searching.binary_search import BinarySearch
 from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
 from algpy_src.algorithms.sorting.insertion_sort import InsertionSort
 from algpy_src.base.constants import TEST_SEED, GraphSize, LoadBalancingTaskSize
@@ -15,7 +16,7 @@ from algpy_src.data_structures.system_design.load_task import LoadTask
 from algpy_src.data_structures.system_design.server import Server
 from algpy_src.tests.test_utils.example_base_objects import ExampleAlgorithm, ExampleSortingAlgorithm
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator, RandomInputGeneratorSortingAlgorithm, RandomInputGeneratorGraphTraversalAlgorithm, \
-    RandomInputGeneratorGraphRelationalClassificationAlgorithm, RandomInputGeneratorLoadBalancingAlgorithms
+    RandomInputGeneratorGraphRelationalClassificationAlgorithm, RandomInputGeneratorLoadBalancingAlgorithms, RandomInputGeneratorSearchingAlgorithm
 
 
 @pytest.fixture
@@ -33,6 +34,9 @@ def test_get_generators() -> None:
     assert get_generator(InsertionSort()) == RandomInputGeneratorSortingAlgorithm
     assert get_generator(BubbleSort()) == RandomInputGeneratorSortingAlgorithm
     assert get_generator(ExampleSortingAlgorithm()) == RandomInputGeneratorSortingAlgorithm
+
+    # Searching Algorithms
+    assert get_generator(BinarySearch()) == RandomInputGeneratorSearchingAlgorithm
 
     # Graph Traversal Algorithms
     assert get_generator(BreadthFirstSearch()) == RandomInputGeneratorGraphTraversalAlgorithm
@@ -52,6 +56,9 @@ def test_random_input_generators(graph_traversal_random_input: BaseGraph) -> Non
 
     # Sorting Algorithms
     assert list(get_generator(ExampleSortingAlgorithm())(TEST_SEED).generate_random_input(input_size=10)) == [2, 1, 5, 4, 4, 3, 2, 9, 2, 10]
+
+    # Searching Algorithms
+    assert list(get_generator(BinarySearch())(TEST_SEED).generate_random_input(input_size=10)) == [1, 2, 2, 2, 3, 4, 4, 5, 9, 10]
 
     # Graph Traversal Algorithms
     assert get_generator(BreadthFirstSearch())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))) == graph_traversal_random_input
