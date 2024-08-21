@@ -18,7 +18,7 @@ class FeatureGraph(Graph, Generic[F]):
         Parameters
         ----------
         adjacency_list : adjacency_list: Optional[dict[Node, dict[Node, SingleEdgeData]]] (default None)
-            Optional adjacency list from which to build the traversal graph.
+            Optional adjacency list from which to build the feature graph.
         node_features : Optional[dict[Node, F]] (default None)
             Node features mapping to start the graph from. If any nodes present here are not in the adjacency list, they are silently added.
         """
