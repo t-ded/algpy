@@ -55,14 +55,14 @@ class FlowNetwork(DiGraph, Generic[Node]):
 
     @staticmethod
     def is_flow_within_bounds(edge_data: FlowEdgeData) -> bool:
-        return edge_data.flow is None or edge_data.lower_bound < edge_data.flow < edge_data.upper_bound
+        return edge_data.flow is None or edge_data.lower_bound <= edge_data.flow <= edge_data.upper_bound
 
     def get_node_balance(self, node: Node) -> int | float:
         flow_balance = 0
         for out_neighbour, out_edge in self.adjacency_list[node].items():
-            flow_balance += out_edge.flow if out_edge.flow is not None else 0
+            flow_balance -= out_edge.flow if out_edge.flow is not None else 0
         for in_neighbour, in_edge in self.adjacency_list_transposed[node].items():
-            flow_balance -= in_edge.flow if in_edge.flow is not None else 0
+            flow_balance += in_edge.flow if in_edge.flow is not None else 0
         return flow_balance
 
     @property
@@ -97,4 +97,4 @@ class FlowNetwork(DiGraph, Generic[Node]):
         """
         current_flow_edge = self.get_edge_data(source, target)
         if not isinstance(current_flow_edge, NoEdge):
-            self.adjacency_list[source][target].flow = new_flow
+            self.add_edge((source, target, FlowEdgeData(current_flow_edge.lower_bound, new_flow, current_flow_edge.upper_bound)))
