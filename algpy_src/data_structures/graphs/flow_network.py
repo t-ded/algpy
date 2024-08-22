@@ -1,15 +1,19 @@
 import math
-from typing import Optional
+from typing import Optional, Generic
 
 from algpy_src.base.constants import Node, FlowEdgeData
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph_utils.affects_adjacency_matrix import affects_adjacency_matrix
 from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
+from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
 
 
-class FlowNetwork(DiGraph):
+class FlowNetwork(DiGraph, Generic[Node]):
 
-    def __init__(self, adjacency_list: Optional[dict[Node, dict[Node, FlowEdgeData]]] = None, check_input_flow_validity: bool = False) -> None:
+    def __init__(
+            self, adjacency_list: Optional[dict[Node, dict[Node, FlowEdgeData]]] = None,
+            source: Node | NoNode = NoNode(), sink: Node | NoNode = NoNode(), check_input_flow_validity: bool = False,
+    ) -> None:
         """
         Constructor of the FlowNetwork class.
 
@@ -18,10 +22,21 @@ class FlowNetwork(DiGraph):
         adjacency_list : adjacency_list: Optional[dict[Node, dict[Node, FlowEdge]]] (default None)
             Optional adjacency list from which to build the flow network. Edge data are named tuples with numeric fields (lower_bound, flow, upper_bound).
             Flow values between nodes may be None in case Flow has not been assigned yet.
+        source : Node | NoNode (default NoNode())
+            Source of the flow. If not given, an error is raised.
+        sink : Node | NoNode (default NoNode())
+            Sink of the flow. If not given, an error is raised.
         check_input_flow_validity : bool (default False)
             Validity of flow given in this constructor may be optionally checked with computation cost of O(n^2).
+
         """
         super().__init__(adjacency_list)
+        if isinstance(source, NoNode) or isinstance(sink, NoNode):
+            raise ValueError('Both source and sink must be given.')
+        if source not in self.nodes or sink not in self.nodes:
+            raise ValueError('Source and sink must be present in the given adjacency list.')
+        self._source: Node = source
+        self._sink: Node = sink
         if check_input_flow_validity and adjacency_list is not None:
             self.check_flow_validity()
 
@@ -33,9 +48,10 @@ class FlowNetwork(DiGraph):
                     raise ValueError(f'Given edge between nodes {node}, {out_neighbour} has initial flow of {out_edge.flow},'
                                      f' which is outside the bounds of [{out_edge.lower_bound}, {out_edge.upper_bound}].')
 
-            flow_balance = self.get_node_balance(node)
-            if not math.isclose(flow_balance, 0):
-                raise ValueError(f"Flow balance of node {node} is {flow_balance}, which does not follow Kirchhoff's law.")
+            if node != self._source and node != self._sink:
+                flow_balance = self.get_node_balance(node)
+                if not math.isclose(flow_balance, 0):
+                    raise ValueError(f"Flow balance of node {node} is {flow_balance}, which does not follow Kirchhoff's law.")
 
     @staticmethod
     def is_flow_within_bounds(edge_data: FlowEdgeData) -> bool:
@@ -49,8 +65,16 @@ class FlowNetwork(DiGraph):
             flow_balance -= in_edge.flow if in_edge.flow is not None else 0
         return flow_balance
 
+    @property
+    def source(self) -> Node:
+        return self._source
+
+    @property
+    def sink(self) -> Node:
+        return self._sink
+
     def __eq__(self, other: object) -> bool:
-        return isinstance(other, FlowNetwork) and self._adjacency_list == other.adjacency_list
+        return isinstance(other, FlowNetwork) and self._adjacency_list == other.adjacency_list and self._source == other.source and self._sink == other.sink
 
     @property
     def name(self) -> str:
