@@ -84,7 +84,7 @@ class FlowNetwork(DiGraph, Generic[Node]):
     def change_flow_between_nodes(self, source: Node, target: Node, new_flow: int | float) -> None:
         """
         Change flow between two nodes to new_flow.
-        Raises ValueError if new flow is not within bounds for the edge between the two nodes (including case when edge between the two nodes does not exist).
+        Does not affect anything if edge did not exist before or if the new flow is outside bounds.
 
         Parameters
         ----------
@@ -97,4 +97,6 @@ class FlowNetwork(DiGraph, Generic[Node]):
         """
         current_flow_edge = self.get_edge_data(source, target)
         if not isinstance(current_flow_edge, NoEdge):
-            self.add_edge((source, target, FlowEdgeData(current_flow_edge.lower_bound, new_flow, current_flow_edge.upper_bound)))
+            new_flow_edge = FlowEdgeData(current_flow_edge.lower_bound, new_flow, current_flow_edge.upper_bound)
+            if self.is_flow_within_bounds(new_flow_edge):
+                self.add_edge((source, target, new_flow_edge))

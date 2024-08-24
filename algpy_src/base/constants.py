@@ -1,5 +1,5 @@
 from collections import namedtuple
-from typing import Literal, Protocol, TypeVar, NamedTuple, Optional
+from typing import Literal, Protocol, TypeVar
 
 T = TypeVar('T')
 
@@ -30,6 +30,6 @@ Node = TypeVar('Node')
 EdgeData = TypeVar('EdgeData')
 SingleEdgeData = TypeVar('SingleEdgeData')
 MultiEdgeData = set[SingleEdgeData]
-FlowEdgeData = NamedTuple('FlowEdgeData', [('lower_bound', int | float), ('flow', Optional[int | float]), ('upper_bound', int | float)])
+FlowEdgeData = namedtuple('FlowEdgeData', 'lower_bound flow upper_bound', defaults=[0, None, float('inf')])
 Edge = tuple[Node, Node, EdgeData]
 
