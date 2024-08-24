@@ -3,7 +3,7 @@ from typing import Any
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
-from algpy_src.base.constants import GraphSize, VERBOSITY_LEVELS, Node, FlowEdgeData
+from algpy_src.base.constants import VERBOSITY_LEVELS, Node, FlowEdgeData
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.flow_network import FlowNetwork
 from algpy_src.data_structures.graphs.graph import Graph
@@ -40,7 +40,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
 
         Parameters
         ----------
-        input_size : GraphSize
+        input_size : FordFulkersonGraphSize
             Tuple of n_edges, max_capacity with desired flow network size and maximum edge capacity.
             Number of edges is expected to be at least 5 and the network will have (n_edges - 1) nodes.
 
@@ -71,7 +71,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
             num_edges += 1
         return {'input_instance': g}
 
-    def run_algorithm(self, input_instance: Graph | DiGraph, verbosity_level: VERBOSITY_LEVELS = 0,
+    def run_algorithm(self, input_instance: FlowNetwork, verbosity_level: VERBOSITY_LEVELS = 0, find_initial_feasible: bool = True,
                       *args: Any, **kwargs: Any) -> tuple[bool, FlowNetwork]:
         """
         Run function of Ford-Fulkerson's maximum flow algorithm.
@@ -84,6 +84,10 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
             Select the amount of information to print throughout run of the algorithm.
             One of 0, 1, 2 with 0 referring to no printing, 1 leading to print the flow in the beginning and in the end and
             2 meaning also print the maximum flow after each augmentation along with the augmentation path found.
+        find_initial_feasible : bool (default True)
+            If True, start the algorithm by finding an initial feasible flow.
+            Initial feasible flow is a prerequisite for the Ford-Fulkerson's algorithm and if this parameter is set to False, it is assumed
+            that the input_instance FlowNetwork object already has a feasible flow assigned to it. If that is not the case, setting this to False may lead to incorrect results.
         *args : Any
             Additional arguments passed to the algorithm.
         **kwargs : Any
