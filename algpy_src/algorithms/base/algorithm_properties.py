@@ -15,6 +15,7 @@ class AlgorithmFamily(StrEnum):
     # Graph-based
     GRAPH_TRAVERSAL = 'Graph Traversal Algorithms',
     MESSAGE_PASSING = 'Relational Classification Algorithms',
+    MAX_FLOW = 'Maximum Flow Algorithms',
 
     # System design
     LOAD_BALANCING = 'Load Balancing Algorithms',
