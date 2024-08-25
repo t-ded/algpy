@@ -62,10 +62,18 @@ def test_check_flow_validity() -> None:
 
 
 def test_default_flow_edge_data() -> None:
-    new_flow_edge: FlowEdgeData = FlowEdgeData()
+    new_flow_edge: FlowEdgeData = FlowEdgeData()  # type: ignore
     assert new_flow_edge.lower_bound == 0
     assert new_flow_edge.flow is None
     assert new_flow_edge.upper_bound == float('inf')
+
+
+def test_maximum_lower_bound_caching() -> None:
+    fn: FlowNetwork[int] = FlowNetwork({1: {}, 5: {}}, source=1, sink=5)
+    assert fn.max_lower_bound == 0
+    for i in range(1, 5):
+        fn.add_edge((i, i + 1, FlowEdgeData(i, None, 10)))
+        assert fn.max_lower_bound == i
 
 
 def test_invalid_flow_change_does_not_proceed(line_flow_network_no_flow: FlowNetwork[int]) -> None:

@@ -1,7 +1,7 @@
 import math
 from typing import Optional, Generic
 
-from algpy_src.base.constants import Node, FlowEdgeData
+from algpy_src.base.constants import Node, FlowEdgeData, Edge
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.graph_utils.affects_adjacency_matrix import affects_adjacency_matrix
 from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
@@ -40,6 +40,11 @@ class FlowNetwork(DiGraph, Generic[Node]):
         if check_input_flow_validity and adjacency_list is not None:
             self.check_flow_validity()
 
+        self._max_lower_bound = 0
+        for node in self.nodes:
+            for edge in self.adjacency_list[node].values():
+                self._max_lower_bound = max(self._max_lower_bound, edge.lower_bound)
+
     def check_flow_validity(self) -> None:
         for node in self.adjacency_list.keys():
 
@@ -73,8 +78,22 @@ class FlowNetwork(DiGraph, Generic[Node]):
     def sink(self) -> Node:
         return self._sink
 
+    def set_source(self, node: Node) -> None:
+        if node not in self.nodes:
+            raise ValueError('Trying to set source which is not present in the graph.')
+        self._source = node
+
+    def set_sink(self, node: Node) -> None:
+        if node not in self.nodes:
+            raise ValueError('Trying to set sink which is not present in the graph.')
+        self._sink = node
+
     def __eq__(self, other: object) -> bool:
         return isinstance(other, FlowNetwork) and self._adjacency_list == other.adjacency_list and self._source == other.source and self._sink == other.sink
+
+    @property
+    def max_lower_bound(self) -> int:
+        return self._max_lower_bound
 
     @property
     def name(self) -> str:
@@ -99,4 +118,10 @@ class FlowNetwork(DiGraph, Generic[Node]):
         if not isinstance(current_flow_edge, NoEdge):
             new_flow_edge = FlowEdgeData(current_flow_edge.lower_bound, new_flow, current_flow_edge.upper_bound)
             if self.is_flow_within_bounds(new_flow_edge):
+                self.remove_edge(source, target, current_flow_edge)
                 self.add_edge((source, target, new_flow_edge))
+
+    @affects_adjacency_matrix
+    def add_edge(self, edge: Edge) -> None:
+        super().add_edge(edge)
+        self._max_lower_bound = max(self._max_lower_bound, edge[2].lower_bound)
