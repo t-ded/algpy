@@ -7,6 +7,7 @@ from algpy_src.base.constants import VERBOSITY_LEVELS, Node, FlowEdgeData
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.flow_network import FlowNetwork
 from algpy_src.data_structures.graphs.graph import Graph
+from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
 
 FordFulkersonGraphSize = namedtuple('FordFulkersonGraphSize', 'edges max_capacity')
 
@@ -71,14 +72,14 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
             num_edges += 1
         return {'input_instance': g}
 
-    def run_algorithm(self, input_instance: FlowNetwork, verbosity_level: VERBOSITY_LEVELS = 0, find_initial_feasible: bool = True,
-                      *args: Any, **kwargs: Any) -> tuple[bool, FlowNetwork]:
+    def run_algorithm(self, input_instance: FlowNetwork[Node], verbosity_level: VERBOSITY_LEVELS = 0, find_initial_feasible: bool = True,
+                      *args: Any, **kwargs: Any) -> tuple[bool, FlowNetwork[Node]]:
         """
         Run function of Ford-Fulkerson's maximum flow algorithm.
 
         Parameters
         ----------
-        input_instance : FlowNetwork
+        input_instance : FlowNetwork[Node]
             Flow network within which to find the maximum flow. Also stores source and sink values.
         verbosity_level : int (default 0)
             Select the amount of information to print throughout run of the algorithm.
@@ -95,12 +96,43 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
 
         Returns
         -------
-        result : tuple[bool, FlowNetwork]
+        result : tuple[bool, FlowNetwork[Node]]
             Returns True in the first index after termination (always terminates with integer capacities) and FlowNetwork with all edge flows set in the second index.
         """
-        raise NotImplementedError()
+        augmenting_path: list[tuple[Node, Node]]
+        while augmenting_path := self.find_augmenting_path(input_instance):
 
-    def find_augmenting_path(self, input_instance: Graph | DiGraph) -> list[Node]:
+            capacity = float('inf')
+            current = input_instance.source
+            for src, tgt in augmenting_path:
+
+                candidate_capacity = float('inf')
+                if current == src:
+                    if not isinstance(flow_edge_data := input_instance.get_edge_data(src, tgt), NoEdge):
+                        candidate_capacity = flow_edge_data.upper_bound - flow_edge_data.flow
+                    current = tgt
+                elif current == tgt:
+                    if not isinstance(flow_edge_data := input_instance.get_edge_data(tgt, src), NoEdge):
+                        candidate_capacity = flow_edge_data.flow - flow_edge_data.lower_bound
+                    current = src
+
+                if candidate_capacity < capacity:
+                    capacity = candidate_capacity
+
+            current = input_instance.source
+            for src, tgt in augmenting_path:
+                if current == src:
+                    if not isinstance(flow_edge_data := input_instance.get_edge_data(src, tgt), NoEdge):
+                        input_instance.change_flow_between_nodes(src, tgt, flow_edge_data.flow + capacity)
+                    current = tgt
+                elif current == tgt:
+                    if not isinstance(flow_edge_data := input_instance.get_edge_data(tgt, src), NoEdge):
+                        input_instance.change_flow_between_nodes(tgt, src, flow_edge_data.flow - capacity)
+                    current = src
+
+        return True, input_instance
+
+    def find_augmenting_path(self, input_instance: Graph | DiGraph) -> list[tuple[Node, Node]]:
         """
         Find the next augmenting path along which to increase the flow.
 
@@ -111,7 +143,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
 
         Returns
         -------
-        augmenting_path: list[Node]
-            Sequence of nodes which provides the next augmenting path.
+        augmenting_path: list[tuple[Node, Node]]
+            Sequence of source-target pairs which provides the next augmenting path.
         """
         raise NotImplementedError()
