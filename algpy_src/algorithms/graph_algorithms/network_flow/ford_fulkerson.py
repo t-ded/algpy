@@ -1,13 +1,11 @@
 from collections import namedtuple
-from typing import Any
+from typing import Any, Optional
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
-from algpy_src.base.constants import VERBOSITY_LEVELS, Node, FlowEdgeData
-from algpy_src.data_structures.graphs.digraph import DiGraph
+from algpy_src.base.constants import VERBOSITY_LEVELS, Node, FlowEdgeData, Edge
 from algpy_src.data_structures.graphs.flow_network import FlowNetwork
-from algpy_src.data_structures.graphs.graph import Graph
-from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
+from algpy_src.data_structures.linear.stack import Stack
 
 FordFulkersonGraphSize = namedtuple('FordFulkersonGraphSize', 'edges max_capacity')
 
@@ -99,51 +97,77 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
         result : tuple[bool, FlowNetwork[Node]]
             Returns True in the first index after termination (always terminates with integer capacities) and FlowNetwork with all edge flows set in the second index.
         """
-        augmenting_path: list[tuple[Node, Node]]
-        while augmenting_path := self.find_augmenting_path(input_instance):
+        augmenting_path: Optional[list[Edge]] = self._find_augmenting_path(input_instance)
+        while augmenting_path:
 
             capacity = float('inf')
             current = input_instance.source
-            for src, tgt in augmenting_path:
+            for src, tgt, flow_edge in augmenting_path:
 
                 candidate_capacity = float('inf')
                 if current == src:
-                    if not isinstance(flow_edge_data := input_instance.get_edge_data(src, tgt), NoEdge):
-                        candidate_capacity = flow_edge_data.upper_bound - flow_edge_data.flow
+                    candidate_capacity = flow_edge.upper_bound - flow_edge.flow
                     current = tgt
                 elif current == tgt:
-                    if not isinstance(flow_edge_data := input_instance.get_edge_data(tgt, src), NoEdge):
-                        candidate_capacity = flow_edge_data.flow - flow_edge_data.lower_bound
+                    candidate_capacity = flow_edge.flow - flow_edge.lower_bound
                     current = src
 
                 if candidate_capacity < capacity:
                     capacity = candidate_capacity
 
             current = input_instance.source
-            for src, tgt in augmenting_path:
+            for src, tgt, flow_edge in augmenting_path:
                 if current == src:
-                    if not isinstance(flow_edge_data := input_instance.get_edge_data(src, tgt), NoEdge):
-                        input_instance.change_flow_between_nodes(src, tgt, flow_edge_data.flow + capacity)
+                    input_instance.change_flow_between_nodes(src, tgt, flow_edge.flow + capacity)
                     current = tgt
                 elif current == tgt:
-                    if not isinstance(flow_edge_data := input_instance.get_edge_data(tgt, src), NoEdge):
-                        input_instance.change_flow_between_nodes(tgt, src, flow_edge_data.flow - capacity)
+                    input_instance.change_flow_between_nodes(tgt, src, flow_edge.flow - capacity)
                     current = src
+
+            augmenting_path = self._find_augmenting_path(input_instance)
 
         return True, input_instance
 
-    def find_augmenting_path(self, input_instance: Graph | DiGraph) -> list[tuple[Node, Node]]:
+    @staticmethod
+    def _find_augmenting_path(input_instance: FlowNetwork[Node]) -> Optional[list[Edge]]:
         """
         Find the next augmenting path along which to increase the flow.
 
         Parameters
         ----------
-        input_instance
+        input_instance : FlowNetwork[Node]
             Flow network within which to find the maximum flow. Also stores source and sink values.
 
         Returns
         -------
-        augmenting_path: list[tuple[Node, Node]]
-            Sequence of source-target pairs which provides the next augmenting path.
+        augmenting_path: Optional[list[Edge]]
+            Return None if no augmenting path is found, otherwise return a sequence of edges representing the augmenting path from source to sink.
         """
-        raise NotImplementedError()
+        visited: set[Node] = set()
+        stack: Stack[Node] = Stack()
+        stack.push(input_instance.source)
+        parents: dict[Node, Edge] = {}
+
+        while stack.size > 0:
+            current = stack.pop()
+
+            if current == input_instance.sink:
+                path = []
+                while preceding_edge := parents.get(current, None):
+                    path.append(preceding_edge)
+                    current = preceding_edge[0] if preceding_edge[0] != current else preceding_edge[1]
+                return path[::-1]
+
+            for successor, flow_edge in input_instance.adjacency_list[current].items():
+                if successor not in visited and flow_edge.flow < flow_edge.upper_bound:
+                    parents[current] = (current, successor, flow_edge)
+                    visited.add(successor)
+                    stack.push(successor)
+
+            for predecessor, flow_edge in input_instance.adjacency_list_transposed[current].items():
+                if predecessor not in visited and flow_edge.lower_bound < flow_edge.flow:
+                    parents[predecessor] = (predecessor, current, flow_edge)
+                    visited.add(predecessor)
+                    stack.push(predecessor)
+
+        return None
