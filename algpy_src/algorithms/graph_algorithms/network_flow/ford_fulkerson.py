@@ -48,7 +48,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
         run_algorithm_kwargs : dict[str, Any]
             A dictionary with the created flow network as 'input_instance' value, which also stores the source and sink nodes as the first and last node in the chain.
         """
-        n_edges = min(5, input_size.edges)
+        n_edges = max(5, input_size.edges)
         n_nodes = n_edges - 1
         capacity = input_size.max_capacity
         g: FlowNetwork[int] = FlowNetwork({0: {}, n_nodes - 1: {}}, source=0, sink=n_nodes - 1)
@@ -140,7 +140,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
 
         Returns
         -------
-        augmenting_path: Optional[list[Edge]]
+        augmenting_path: list[Edge] | None
             Return None if no augmenting path is found, otherwise return a sequence of edges representing the augmenting path from source to sink.
         """
         visited: set[Node] = set()
