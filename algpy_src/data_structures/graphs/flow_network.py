@@ -125,3 +125,7 @@ class FlowNetwork(DiGraph, Generic[Node]):
     def add_edge(self, edge: Edge) -> None:
         super().add_edge(edge)
         self._max_lower_bound = max(self._max_lower_bound, edge[2].lower_bound)
+
+    @property
+    def current_flow(self) -> float:
+        return abs(self.get_node_balance(self._source))

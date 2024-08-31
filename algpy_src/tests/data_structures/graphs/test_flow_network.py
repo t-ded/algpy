@@ -99,6 +99,7 @@ def test_basic_methods(line_flow_network_valid_flow: FlowNetwork[int]) -> None:
     for i in range(2, 5):
         assert line_flow_network_valid_flow.get_node_balance(i) == 0
     assert line_flow_network_valid_flow.get_node_balance(5) == 10
+    assert line_flow_network_valid_flow.current_flow == 10
 
     line_flow_network_valid_flow.add_edge((1, 2, FlowEdgeData(0, 11, 10)))
     with pytest.raises(ValueError):
