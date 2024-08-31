@@ -1,3 +1,4 @@
+from collections.abc import Iterator
 from typing import Any
 
 from algpy_src.base.constants import VERBOSITY_LEVELS, ProblemInstance
@@ -64,3 +65,18 @@ def underscore_formatter(x: int | float, *args: Any) -> str:
         Return the given input value as integer in underscore-formatted string form.
     """
     return f'{int(x):_}'
+
+
+def alternating_binary_generator() -> Iterator[bool]:
+    """
+    Alternates between True and False.
+    
+    Returns
+    -------
+    alternation : Iterator[bool]
+        Generator which yields either True or False.
+    """
+    value = True
+    while True:
+        yield value
+        value = not value

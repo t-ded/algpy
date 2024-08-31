@@ -1,10 +1,13 @@
-from collections import namedtuple
+from collections import namedtuple, defaultdict
+from collections.abc import Iterator
 from typing import Any, Optional
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
 from algpy_src.base.constants import VERBOSITY_LEVELS, Node, FlowEdgeData, Edge
+from algpy_src.base.utils import alternating_binary_generator
 from algpy_src.data_structures.graphs.flow_network import FlowNetwork
+from algpy_src.data_structures.graphs.graph_utils.no_edge_object import NoEdge
 from algpy_src.data_structures.linear.stack import Stack
 
 FordFulkersonGraphSize = namedtuple('FordFulkersonGraphSize', 'edges max_capacity')
@@ -17,6 +20,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
 
     def __init__(self) -> None:
         super().__init__()
+        self._worst_case_alternating_generator: Iterator[bool] = alternating_binary_generator()
 
     @property
     def algorithm_properties(self) -> AlgorithmProperties:
@@ -66,7 +70,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
         current_last = 3
         while num_edges < input_size.edges:
             g.add_node(current_last + 1)
-            g.add_edge((current_last, current_last + 1, FlowEdgeData(0, None, capacity)))
+            g.add_edge((current_last, current_last + 1, FlowEdgeData(0, None, 2 * capacity)))
             num_edges += 1
         return {'input_instance': g}
 
@@ -97,6 +101,11 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
         result : tuple[bool, FlowNetwork[Node]]
             Returns True in the first index after termination (always terminates with integer capacities) and FlowNetwork with all edge flows set in the second index.
         """
+        if find_initial_feasible is True:
+            is_possible_to_set_feasible = self._set_feasible_flow(input_instance)
+            if not is_possible_to_set_feasible:
+                return False, input_instance
+
         augmenting_path: Optional[list[Edge]] = self._find_augmenting_path(input_instance)
         while augmenting_path:
 
@@ -119,19 +128,22 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
             for src, tgt, flow_edge in augmenting_path:
                 if current == src:
                     input_instance.change_flow_between_nodes(src, tgt, flow_edge.flow + capacity)
+                    self.increment_n_ops()
                     current = tgt
                 elif current == tgt:
-                    input_instance.change_flow_between_nodes(tgt, src, flow_edge.flow - capacity)
+                    input_instance.change_flow_between_nodes(src, tgt, flow_edge.flow - capacity)
+                    self.increment_n_ops()
                     current = src
 
             augmenting_path = self._find_augmenting_path(input_instance)
 
         return True, input_instance
 
-    @staticmethod
-    def _find_augmenting_path(input_instance: FlowNetwork[Node]) -> Optional[list[Edge]]:
+    def _find_augmenting_path(self, input_instance: FlowNetwork[Node]) -> Optional[list[Edge]]:
         """
         Find the next augmenting path along which to increase the flow.
+        To demonstrate the worst case of the pure Ford-Fulkerson's algorithm, this always finds the longest augmenting path
+        in contrast to Edmonds-Karp's variant of finding the shortest path.
 
         Parameters
         ----------
@@ -144,30 +156,66 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
             Return None if no augmenting path is found, otherwise return a sequence of edges representing the augmenting path from source to sink.
         """
         visited: set[Node] = set()
-        stack: Stack[Node] = Stack()
-        stack.push(input_instance.source)
-        parents: dict[Node, Edge] = {}
+        stack: Stack[tuple[Node, list[Edge]]] = Stack()
+        stack.push((input_instance.source, []))
+        longest_path: Optional[list[Edge]] = None
+        to_reverse: bool = next(self._worst_case_alternating_generator)
 
         while stack.size > 0:
-            current = stack.pop()
+            current_node, path_so_far = stack.pop()
 
-            if current == input_instance.sink:
-                path = []
-                while preceding_edge := parents.get(current, None):
-                    path.append(preceding_edge)
-                    current = preceding_edge[0] if preceding_edge[0] != current else preceding_edge[1]
-                return path[::-1]
+            if current_node in visited:
+                continue
+            visited.add(current_node)
 
-            for successor, flow_edge in input_instance.adjacency_list[current].items():
-                if successor not in visited and flow_edge.flow < flow_edge.upper_bound:
-                    parents[current] = (current, successor, flow_edge)
-                    visited.add(successor)
-                    stack.push(successor)
+            if current_node == input_instance.sink:
+                if longest_path is None or len(path_so_far) > len(longest_path):
+                    longest_path = path_so_far
 
-            for predecessor, flow_edge in input_instance.adjacency_list_transposed[current].items():
-                if predecessor not in visited and flow_edge.lower_bound < flow_edge.flow:
-                    parents[predecessor] = (predecessor, current, flow_edge)
-                    visited.add(predecessor)
-                    stack.push(predecessor)
+            for successor, flow_edge_data in sorted(input_instance.adjacency_list[current_node].items(), reverse=to_reverse):
+                if successor not in visited and flow_edge_data.flow < flow_edge_data.upper_bound:
+                    stack.push((successor, path_so_far + [(current_node, successor, flow_edge_data)]))
 
-        return None
+            for predecessor, flow_edge_data in input_instance.adjacency_list_transposed[current_node].items():
+                if predecessor not in visited and flow_edge_data.lower_bound < flow_edge_data.flow:
+                    stack.push((predecessor, path_so_far + [(predecessor, current_node, flow_edge_data)]))
+
+        return longest_path
+
+    @staticmethod
+    def _set_feasible_flow(input_instance: FlowNetwork[Node]) -> bool:
+        if input_instance.max_lower_bound == 0:
+            for edge in input_instance.edges:
+                input_instance.change_flow_between_nodes(edge[0], edge[1], 0)
+            return True
+
+        input_instance_copy: FlowNetwork[str | int] = FlowNetwork(
+            {'proxy_source': {}, 'proxy_sink': {}},
+            source='proxy_source',
+            sink='proxy_sink'
+        )
+        input_instance_copy.add_edge((input_instance.sink, input_instance.source, FlowEdgeData(0, None, float('inf'))))
+        node_balances: defaultdict[Node, int] = defaultdict(int)
+        for src, target, flow_edge in input_instance.edges:
+            input_instance_copy.add_edge((src, target, FlowEdgeData(0, 0, flow_edge[2].upper_bound - flow_edge[2].lower_bound)))
+            node_balances[src] -= flow_edge[2].lower_bound
+            node_balances[target] += flow_edge[2].lower_bound
+
+        for node, balance in node_balances.items():
+            if balance > 0:
+                input_instance_copy.add_edge((input_instance_copy.source, node, FlowEdgeData(0, 0, balance)))
+            elif balance < 0:
+                input_instance_copy.add_edge((node, input_instance_copy.sink, FlowEdgeData(0, 0, -balance)))
+
+        res, filled_instance = FordFulkersonAlgorithm().run_algorithm(
+            input_instance=input_instance_copy,
+            find_initial_feasible=False
+        )
+        if res is True:
+            for src, target, flow_edge in input_instance.edges:
+                new_edge_data = filled_instance.get_edge_data(src, target)
+                if not isinstance(new_edge_data, NoEdge):
+                    input_instance.change_flow_between_nodes(src, target, new_edge_data.flow)
+            return True
+
+        return False
