@@ -118,7 +118,6 @@ class FlowNetwork(DiGraph, Generic[Node]):
         if not isinstance(current_flow_edge, NoEdge):
             new_flow_edge = FlowEdgeData(current_flow_edge.lower_bound, new_flow, current_flow_edge.upper_bound)
             if self.is_flow_within_bounds(new_flow_edge):
-                self.remove_edge(source, target, current_flow_edge)
                 self.add_edge((source, target, new_flow_edge))
 
     @affects_adjacency_matrix
