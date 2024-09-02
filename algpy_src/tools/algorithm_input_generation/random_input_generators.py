@@ -5,10 +5,11 @@ from typing import Optional, Generic, Iterable, TypeVar
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmFamily
-from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize, LoadBalancingTaskSize
+from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize, LoadBalancingTaskSize, FlowEdgeData
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
+from algpy_src.data_structures.graphs.flow_network import FlowNetwork
 from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.system_design.load_task import LoadTask
 from algpy_src.data_structures.system_design.server import Server
@@ -96,6 +97,37 @@ class RandomInputGeneratorGraphTraversalAlgorithm(RandomInputGenerator[BaseGraph
         return graph
 
 
+class RandomInputGeneratorMaxFlowAlgorithm(RandomInputGenerator[FlowNetwork, GraphSize]):
+    """
+    Random input generator for maximum flow problem algorithms.
+    Generates either flow network with desired number of nodes and randomly distributed edges between them
+    with input size being named tuple of integers specifying number of nodes and edges.
+    Lower bounds, current flows and upper bounds are distributed at random with lower bound ranging from 0 to 10_000,
+    upper bound ranging from lower bound to 10_000 and flow set in between them or as None (with probability 0.01).
+    """
+
+    def __init__(self, seed: Optional[int] = None) -> None:
+        super().__init__(seed)
+
+    def generate_random_input(self, input_size: GraphSize) -> FlowNetwork[int]:
+
+        rng = random.Random(self.seed)
+        network: FlowNetwork[int] = FlowNetwork(adjacency_list={0: {}, input_size.nodes - 1: {}}, source=0, sink=input_size.nodes - 1)
+
+        network.add_nodes_from(range(input_size.nodes))
+        random_edge_pairs = rng.sample(list(combinations(network.nodes, 2)), input_size.edges)
+        for source, target in random_edge_pairs:
+            lower_bound = rng.randint(0, 10_000)
+            upper_bound = rng.randint(lower_bound, 10_000)
+            if rng.uniform(0, 1) > 0.01:
+                current_flow = rng.randint(lower_bound, upper_bound)
+            else:
+                current_flow = None
+            network.add_edge((source, target, FlowEdgeData(lower_bound, current_flow, upper_bound)))
+
+        return network
+
+
 class RandomInputGeneratorGraphRelationalClassificationAlgorithm(RandomInputGenerator[FeatureGraph, GraphSize]):
     """
     Random input generator for algorithm of relational classification on feature graphs.
@@ -167,6 +199,8 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
         return RandomInputGeneratorSearchingAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.GRAPH_TRAVERSAL:
         return RandomInputGeneratorGraphTraversalAlgorithm
+    if algorithm.algorithm_family == AlgorithmFamily.MAX_FLOW:
+        return RandomInputGeneratorMaxFlowAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.MESSAGE_PASSING:
         return RandomInputGeneratorGraphRelationalClassificationAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.LOAD_BALANCING:

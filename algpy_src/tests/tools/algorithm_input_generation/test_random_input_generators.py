@@ -1,6 +1,7 @@
 import pytest
 
 from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
+from algpy_src.algorithms.graph_algorithms.network_flow.ford_fulkerson import FordFulkersonAlgorithm
 from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
 from algpy_src.algorithms.graph_algorithms.traversal.dfs import DepthFirstSearch
 from algpy_src.algorithms.graph_algorithms.traversal.shortest_paths.simple_dijkstra import DijkstraShortestPathsAlgorithm
@@ -8,15 +9,16 @@ from algpy_src.algorithms.load_balancing.round_robin import RoundRobinAlgorithm
 from algpy_src.algorithms.searching.binary_search import BinarySearch
 from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
 from algpy_src.algorithms.sorting.insertion_sort import InsertionSort
-from algpy_src.base.constants import TEST_SEED, GraphSize, LoadBalancingTaskSize
+from algpy_src.base.constants import TEST_SEED, GraphSize, LoadBalancingTaskSize, FlowEdgeData
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
+from algpy_src.data_structures.graphs.flow_network import FlowNetwork
 from algpy_src.data_structures.graphs.graph import Graph
 from algpy_src.data_structures.system_design.load_task import LoadTask
 from algpy_src.data_structures.system_design.server import Server
 from algpy_src.tests.test_utils.example_base_objects import ExampleAlgorithm, ExampleSortingAlgorithm
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator, RandomInputGeneratorSortingAlgorithm, RandomInputGeneratorGraphTraversalAlgorithm, \
-    RandomInputGeneratorGraphRelationalClassificationAlgorithm, RandomInputGeneratorLoadBalancingAlgorithms, RandomInputGeneratorSearchingAlgorithm
+    RandomInputGeneratorGraphRelationalClassificationAlgorithm, RandomInputGeneratorLoadBalancingAlgorithms, RandomInputGeneratorSearchingAlgorithm, RandomInputGeneratorMaxFlowAlgorithm
 
 
 @pytest.fixture
@@ -43,6 +45,9 @@ def test_get_generators() -> None:
     assert get_generator(DepthFirstSearch()) == RandomInputGeneratorGraphTraversalAlgorithm
     assert get_generator(DijkstraShortestPathsAlgorithm()) == RandomInputGeneratorGraphTraversalAlgorithm
 
+    # Max Flow Algorithms
+    assert get_generator(FordFulkersonAlgorithm()) == RandomInputGeneratorMaxFlowAlgorithm
+
     # Message Passing Algorithms
     assert get_generator(RelationalClassificationAlgorithm()) == RandomInputGeneratorGraphRelationalClassificationAlgorithm
 
@@ -64,6 +69,18 @@ def test_random_input_generators(graph_traversal_random_input: BaseGraph) -> Non
     assert get_generator(BreadthFirstSearch())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))) == graph_traversal_random_input
     assert get_generator(DepthFirstSearch())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))) == graph_traversal_random_input
     assert get_generator(DijkstraShortestPathsAlgorithm())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))) == graph_traversal_random_input
+
+    # Max Flow Algorithms
+    assert get_generator(FordFulkersonAlgorithm())(TEST_SEED).generate_random_input(input_size=GraphSize(*(5, 5))) == FlowNetwork(
+        adjacency_list={
+            0: {1: FlowEdgeData(lower_bound=2286, flow=6753, upper_bound=8319), 4: FlowEdgeData(lower_bound=1424, flow=2191, upper_bound=8336)},
+            1: {},
+            2: {3: FlowEdgeData(lower_bound=9195, flow=9374, upper_bound=9398)},
+            3: {},
+            4: {1: FlowEdgeData(lower_bound=3582, flow=3636, upper_bound=5487), 3: FlowEdgeData(lower_bound=8928, flow=9531, upper_bound=9787)},
+        },
+        source=0, sink=4
+    )
 
     # Message Passing Algorithms
     assert get_generator(RelationalClassificationAlgorithm())(TEST_SEED).generate_random_input(input_size=GraphSize(*(20, 20))) == FeatureGraph(
