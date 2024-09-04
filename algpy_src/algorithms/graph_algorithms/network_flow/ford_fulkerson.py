@@ -163,6 +163,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
 
         while stack.size > 0:
             current_node, path_so_far = stack.pop()
+            self.increment_n_ops()
 
             if current_node in visited:
                 continue
@@ -175,18 +176,20 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
             for successor, flow_edge_data in sorted(input_instance.adjacency_list[current_node].items(), reverse=to_reverse):
                 if successor not in visited and flow_edge_data.flow < flow_edge_data.upper_bound:
                     stack.push((successor, path_so_far + [(current_node, successor, flow_edge_data)]))
+                self.increment_n_ops()
 
             for predecessor, flow_edge_data in input_instance.adjacency_list_transposed[current_node].items():
                 if predecessor not in visited and flow_edge_data.lower_bound < flow_edge_data.flow:
                     stack.push((predecessor, path_so_far + [(predecessor, current_node, flow_edge_data)]))
+                self.increment_n_ops()
 
         return longest_path
 
-    @staticmethod
-    def _set_feasible_flow(input_instance: FlowNetwork[Node]) -> bool:
+    def _set_feasible_flow(self, input_instance: FlowNetwork[Node]) -> bool:
         if input_instance.max_lower_bound == 0:
             for edge in input_instance.edges:
                 input_instance.change_flow_between_nodes(edge[0], edge[1], 0)
+                self.increment_n_ops()
             return True
 
         input_instance_copy: FlowNetwork[str | int] = FlowNetwork(
@@ -200,12 +203,14 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
             input_instance_copy.add_edge((src, target, FlowEdgeData(0, 0, flow_edge.upper_bound - flow_edge.lower_bound)))
             node_balances[src] -= flow_edge.lower_bound
             node_balances[target] += flow_edge.lower_bound
+            self.increment_n_ops()
 
         for node, balance in node_balances.items():
             if balance > 0:
                 input_instance_copy.add_edge((input_instance_copy.source, node, FlowEdgeData(0, 0, balance)))
             elif balance < 0:
                 input_instance_copy.add_edge((node, input_instance_copy.sink, FlowEdgeData(0, 0, -balance)))
+            self.increment_n_ops()
 
         res, filled_instance = FordFulkersonAlgorithm().run_algorithm(
             input_instance=input_instance_copy,
@@ -217,6 +222,7 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
                 original_edge_data = input_instance.get_edge_data(src, target)
                 if not isinstance(new_edge_data, NoEdge) and not isinstance(original_edge_data, NoEdge):
                     input_instance.change_flow_between_nodes(src, target, new_edge_data.flow + original_edge_data.lower_bound)
+                self.increment_n_ops()
             return True
 
         return False

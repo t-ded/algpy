@@ -2,12 +2,12 @@ from typing import Any, Optional
 
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
 from algpy_src.algorithms.graph_algorithms.network_flow.ford_fulkerson import FordFulkersonAlgorithm
-from algpy_src.base.constants import Node, Edge, GraphSize
+from algpy_src.base.constants import Node, Edge, GraphSize, FlowEdgeData
 from algpy_src.data_structures.graphs.flow_network import FlowNetwork
 from algpy_src.data_structures.linear.queue import Queue
 
 
-class EdmondsKarp(FordFulkersonAlgorithm):
+class EdmondsKarpAlgorithm(FordFulkersonAlgorithm):
     """
     Edmonds-Karp's algorithm for finding the maximum flow within a flow network.
     """
@@ -52,9 +52,9 @@ class EdmondsKarp(FordFulkersonAlgorithm):
             g.add_nodes_from((node + n_nodes for node in range(0, input_size.nodes - n_nodes)))
 
         for intermediate in range(1, n_nodes - 1):
-            g.add_edge(0, intermediate)
+            g.add_edge((0, intermediate, FlowEdgeData(0, None, 1)))
             if len(g.edges) < n_edges:
-                g.add_edge(intermediate, n_nodes - 1)
+                g.add_edge((intermediate, n_nodes - 1, FlowEdgeData(0, None, 1)))
 
         return {'input_instance': g}
 
@@ -80,6 +80,7 @@ class EdmondsKarp(FordFulkersonAlgorithm):
 
         while queue.size > 0:
             current_node, path_so_far = queue.dequeue()
+            self.increment_n_ops()
 
             if current_node in visited:
                 continue
@@ -91,9 +92,11 @@ class EdmondsKarp(FordFulkersonAlgorithm):
             for successor, flow_edge_data in input_instance.adjacency_list[current_node].items():
                 if successor not in visited and flow_edge_data.flow < flow_edge_data.upper_bound:
                     queue.enqueue((successor, path_so_far + [(current_node, successor, flow_edge_data)]))
+                self.increment_n_ops()
 
             for predecessor, flow_edge_data in input_instance.adjacency_list_transposed[current_node].items():
                 if predecessor not in visited and flow_edge_data.lower_bound < flow_edge_data.flow:
                     queue.enqueue((predecessor, path_so_far + [(predecessor, current_node, flow_edge_data)]))
+                self.increment_n_ops()
 
         return shortest_path

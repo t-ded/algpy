@@ -46,7 +46,7 @@ def test_worst_case(ford_fulkerson: FordFulkersonAlgorithm) -> None:
         True,
         expected_flow_network
     )
-    assert ford_fulkerson.n_ops == 800
+    assert ford_fulkerson.n_ops == 4_610
     assert worst_case_args['input_instance'].current_flow == 200
 
 def test_simple_case_zero_initial_flow(ford_fulkerson: FordFulkersonAlgorithm) -> None:
