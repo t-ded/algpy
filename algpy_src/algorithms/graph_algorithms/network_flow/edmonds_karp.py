@@ -1,8 +1,8 @@
 from typing import Any, Optional
 
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
-from algpy_src.algorithms.graph_algorithms.network_flow.ford_fulkerson import FordFulkersonAlgorithm
-from algpy_src.base.constants import Node, Edge, GraphSize, FlowEdgeData
+from algpy_src.algorithms.graph_algorithms.network_flow.ford_fulkerson import FordFulkersonAlgorithm, FordFulkersonGraphSize
+from algpy_src.base.constants import Node, Edge, FlowEdgeData
 from algpy_src.data_structures.graphs.flow_network import FlowNetwork
 from algpy_src.data_structures.linear.queue import Queue
 
@@ -29,15 +29,17 @@ class EdmondsKarpAlgorithm(FordFulkersonAlgorithm):
             space_complexity='|V| + |E|',
         )
 
-    def get_worst_case_arguments(self, input_size: GraphSize) -> dict[str, Any]:  # type: ignore
+    def get_worst_case_arguments(self, input_size: FordFulkersonGraphSize) -> dict[str, Any]:
         """
-        Generate a flow network with input_size.edges edges which will be a line graph
-        of input_size.max_capacity edges with one bottleneck split-merge section.
+        Generate a flow network with input_size.edges or (input_size.edges + 1) edges which will be a split-merge graph with source
+        pointing to every intermediate and every intermediate pointing to sink.
 
         Parameters
         ----------
-        input_size : GraphSize
-            Tuple of n_nodes, n_edges with desired dimensions of the graph.
+        input_size : FordFulkersonGraphSize
+            Tuple of n_edges, max_capacity with desired flow network size and maximum edge capacity.
+            Number of edges is expected to be at least 2 and the network will have (2 + n_edges // 2) nodes.
+            Note that maximum flow edge capacity does not influence the runtime complexity of the edmonds-karp's algorithm.
 
         Returns
         -------
@@ -45,16 +47,14 @@ class EdmondsKarpAlgorithm(FordFulkersonAlgorithm):
             A dictionary with the created flow network as 'input_instance' value, which also stores the source and sink nodes as the first and last node in the chain.
         """
         n_edges = max(2, input_size.edges)
+        n_edges = n_edges + 1 if n_edges % 2 != 0 else n_edges
         n_nodes = 2 + n_edges // 2
         g: FlowNetwork[int] = FlowNetwork({0: {}, n_nodes - 1: {}}, source=0, sink=n_nodes - 1)
         g.add_nodes_from(range(0, n_nodes))
-        if input_size.nodes > n_nodes:
-            g.add_nodes_from((node + n_nodes for node in range(0, input_size.nodes - n_nodes)))
 
         for intermediate in range(1, n_nodes - 1):
-            g.add_edge((0, intermediate, FlowEdgeData(0, None, 1)))
-            if len(g.edges) < n_edges:
-                g.add_edge((intermediate, n_nodes - 1, FlowEdgeData(0, None, 1)))
+            g.add_edge((g.source, intermediate, FlowEdgeData(0, None, input_size.max_capacity)))
+            g.add_edge((intermediate, g.sink, FlowEdgeData(0, None, input_size.max_capacity)))
 
         return {'input_instance': g}
 
