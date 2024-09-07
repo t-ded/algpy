@@ -186,6 +186,20 @@ class FordFulkersonAlgorithm(Algorithm[FlowNetwork, FordFulkersonGraphSize, Flow
         return longest_path
 
     def _set_feasible_flow(self, input_instance: FlowNetwork[Node]) -> bool:
+        """
+        Find initial feasible flow through conversion to the maximum flow with balances problem.
+        Easy path of setting all flow to 0 is taken if possible.
+
+        Parameters
+        ----------
+        input_instance : FlowNetwork[Node]
+            Flow network in which to set the initial flow.
+
+        Returns
+        -------
+        success : bool
+            Whether it was possible to set the initial flow.
+        """
         if input_instance.max_lower_bound == 0:
             for edge in input_instance.edges:
                 input_instance.change_flow_between_nodes(edge[0], edge[1], 0)

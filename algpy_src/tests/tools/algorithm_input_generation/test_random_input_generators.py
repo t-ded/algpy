@@ -9,6 +9,7 @@ from algpy_src.algorithms.load_balancing.round_robin import RoundRobinAlgorithm
 from algpy_src.algorithms.searching.binary_search import BinarySearch
 from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
 from algpy_src.algorithms.sorting.insertion_sort import InsertionSort
+from algpy_src.algorithms.sorting.merge_sort import MergeSort
 from algpy_src.base.constants import TEST_SEED, GraphSize, LoadBalancingTaskSize, FlowEdgeData
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
@@ -35,6 +36,7 @@ def test_get_generators() -> None:
     # Sorting Algorithms
     assert get_generator(InsertionSort()) == RandomInputGeneratorSortingAlgorithm
     assert get_generator(BubbleSort()) == RandomInputGeneratorSortingAlgorithm
+    assert get_generator(MergeSort()) == RandomInputGeneratorSortingAlgorithm
     assert get_generator(ExampleSortingAlgorithm()) == RandomInputGeneratorSortingAlgorithm
 
     # Searching Algorithms
