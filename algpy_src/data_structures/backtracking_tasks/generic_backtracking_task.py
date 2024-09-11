@@ -2,27 +2,36 @@ from functools import cached_property
 from typing import Optional, Generic, TypeVar
 
 
-T = TypeVar('T')
-O = TypeVar('O')
+StateType = TypeVar('StateType')
+CandidateType = TypeVar('CandidateType')
+OptionType = TypeVar('OptionType')
 
 
-class GenericBacktrackingTask(Generic[T, O]):
+class GenericBacktrackingTask(Generic[StateType, CandidateType, OptionType]):
 
     def __init__(self) -> None:
-        self._state: Optional[T] = None
+        self._state: Optional[StateType] = None
 
     @property
-    def state(self) -> Optional[T]:
+    def state(self) -> Optional[StateType]:
         return self._state
 
     @cached_property
-    def get_options(self) -> list[O]:
+    def get_candidates(self) -> list[CandidateType]:
         raise NotImplementedError
 
-    def is_option_allowed(self, option: O) -> bool:
+    @cached_property
+    def get_options(self) -> list[OptionType]:
         raise NotImplementedError
 
-    def apply_option(self, option: O) -> None:
+    @property
+    def default_option(self) -> OptionType:
+        raise NotImplementedError
+
+    def is_option_allowed(self, candidate: CandidateType, option: OptionType) -> bool:
+        raise NotImplementedError
+
+    def apply_option(self, candidate: CandidateType, option: OptionType) -> None:
         raise NotImplementedError
 
     def is_solved(self) -> bool:
