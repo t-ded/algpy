@@ -17,6 +17,9 @@ class AlgorithmFamily(StrEnum):
     MESSAGE_PASSING = 'Relational Classification Algorithms',
     MAX_FLOW = 'Maximum Flow Algorithms',
 
+    # Backtracking
+    BACKTRACKING = 'Backtracking Algorithms',
+
     # System design
     LOAD_BALANCING = 'Load Balancing Algorithms',
 
@@ -37,4 +40,3 @@ class AlgorithmProperties:
 @dataclass
 class SortingAlgorithmProperties(AlgorithmProperties):
     is_stable: bool
-
