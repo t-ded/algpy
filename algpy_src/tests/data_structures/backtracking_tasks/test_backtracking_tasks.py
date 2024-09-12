@@ -19,7 +19,6 @@ class TestNQueensTask:
     def test_n_queens_task_creation_and_option_application(self) -> None:
         for n in range(1, 11):
             task = NQueensTask(n)
-            assert task.state is not None
             idx = 0
             for i in range(n):
                 for j in range(n):

@@ -8,7 +8,7 @@ from algpy_src.data_structures.backtracking_tasks.generic_backtracking_task impo
 
 class NQueensTask(GenericBacktrackingTask[NDArray[np.bool_], tuple[int, int], bool]):
 
-    def __init__(self, n: int):
+    def __init__(self, n: int) -> None:
         super().__init__()
         self._n = n
         self._state: NDArray[np.bool_] = np.full((n, n), False, dtype=bool)
@@ -25,6 +25,9 @@ class NQueensTask(GenericBacktrackingTask[NDArray[np.bool_], tuple[int, int], bo
     def default_option(self) -> bool:
         return False
 
+    def reset_candidate_to_initial_state(self, candidate: tuple[int, int]) -> None:
+        self._state[*candidate] = False
+
     def is_option_allowed(self, candidate: tuple[int, int], option: bool) -> bool:
         row, col = candidate
         if option is True:
@@ -37,7 +40,7 @@ class NQueensTask(GenericBacktrackingTask[NDArray[np.bool_], tuple[int, int], bo
         return True
 
     def apply_option(self, candidate: tuple[int, int], option: bool) -> None:
-        self._state[candidate] = option
+        self._state[*candidate] = option
 
     def is_solved(self) -> bool:
         for i in range(self._n):

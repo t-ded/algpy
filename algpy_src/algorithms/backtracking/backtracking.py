@@ -107,7 +107,7 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
                     self._last_candidate_idx += i + 1
                     if self._backtrack(input_instance, verbosity_level, *args, **kwargs)[0]:
                         return True, input_instance
-                    input_instance.apply_option(candidate, input_instance.default_option)
+                    input_instance.reset_candidate_to_initial_state(candidate)
                     self._last_candidate_idx -= i + 1
 
         return False, input_instance
