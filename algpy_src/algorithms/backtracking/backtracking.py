@@ -100,8 +100,8 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
             return True, input_instance
 
         for i, candidate in enumerate(input_instance.get_candidates[self._last_candidate_idx:]):
-            for option in input_instance.get_options:
-                if option != input_instance.default_option and input_instance.is_option_allowed(candidate, option):
+            for option in input_instance.get_non_default_options:
+                if input_instance.is_option_allowed(candidate, option):
                     self.increment_n_ops()
                     input_instance.apply_option(candidate, option)
                     self._last_candidate_idx += i + 1
@@ -109,5 +109,7 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
                         return True, input_instance
                     input_instance.reset_candidate_to_initial_state(candidate)
                     self._last_candidate_idx -= i + 1
+            if input_instance.default_option is None:
+                return False, input_instance
 
         return False, input_instance

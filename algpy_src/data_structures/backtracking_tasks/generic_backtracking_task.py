@@ -25,7 +25,7 @@ class GenericBacktrackingTask(Generic[StateType, CandidateType, OptionType]):
 
     @cached_property
     @abstractmethod
-    def get_options(self) -> list[OptionType]:
+    def get_non_default_options(self) -> list[OptionType]:
         raise NotImplementedError
 
     @property

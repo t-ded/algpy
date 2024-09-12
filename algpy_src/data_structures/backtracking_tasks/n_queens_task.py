@@ -18,8 +18,8 @@ class NQueensTask(GenericBacktrackingTask[NDArray[np.bool_], tuple[int, int], bo
         return [(i, j) for i in range(self._n) for j in range(self._n)]
 
     @cached_property
-    def get_options(self) -> list[bool]:
-        return [False, True]
+    def get_non_default_options(self) -> list[bool]:
+        return [True]
 
     @property
     def default_option(self) -> bool:
