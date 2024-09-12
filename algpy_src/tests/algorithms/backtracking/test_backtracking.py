@@ -1,7 +1,10 @@
+import numpy as np
 import pytest
+from numpy._typing import NDArray
 
 from algpy_src.algorithms.backtracking.backtracking import BacktrackingAlgorithm
 from algpy_src.data_structures.backtracking_tasks.n_queens_task import NQueensTask
+from algpy_src.data_structures.backtracking_tasks.sudoku_task import SudokuTask
 
 
 @pytest.fixture
@@ -25,3 +28,72 @@ def backtracking() -> BacktrackingAlgorithm:
 def test_backtracking_with_n_queens(backtracking: BacktrackingAlgorithm, n: int, expected_result: bool) -> None:
     nqueens = NQueensTask(n)
     assert backtracking.run_algorithm(nqueens)[0] is expected_result
+    if expected_result is True:
+        assert nqueens.is_solved()
+
+
+@pytest.mark.parametrize(
+    ('input_array', 'expected_result'),
+    [
+        pytest.param(np.array([
+            [4, 3, 5, 2, 6, 9, 7, 8, 1],
+            [6, 8, 2, 5, 7, 1, 4, 9, 3],
+            [1, 9, 7, 8, 3, 4, 5, 6, 2],
+            [8, 2, 6, 1, 9, 5, 3, 4, 7],
+            [3, 7, 4, 6, 8, 2, 9, 1, 5],
+            [9, 5, 1, 7, 4, 3, 6, 2, 8],
+            [5, 1, 9, 3, 2, 6, 8, 7, 4],
+            [2, 4, 8, 9, 5, 7, 1, 3, 6],
+            [1, 1, None, None, None, None, None, None, None],
+        ], dtype=np.object_), False, id='Unsolvable'),
+        pytest.param(np.array([
+            [4, 3, 5, 2, 6, 9, 7, 8, 1],
+            [6, 8, 2, 5, 7, 1, 4, 9, 3],
+            [1, 9, 7, 8, 3, 4, 5, 6, 2],
+            [8, 2, 6, 1, 9, 5, 3, 4, 7],
+            [3, 7, 4, 6, 8, 2, 9, 1, 5],
+            [9, 5, 1, 7, 4, 3, 6, 2, 8],
+            [5, 1, 9, 3, 2, 6, 8, 7, 4],
+            [2, 4, 8, 9, 5, 7, 1, 3, 6],
+            [7, 6, 3, 4, 1, 8, 2, 5, 9]
+        ], dtype=np.object_), True, id='Pre-solved'),
+        pytest.param(np.array([
+            [4, 3, 5, 2, 6, 9, 7, 8, 1],
+            [6, 8, 2, 5, 7, 1, 4, 9, 3],
+            [1, 9, 7, 8, 3, 4, 5, 6, 2],
+            [8, 2, 6, 1, 9, 5, 3, 4, 7],
+            [3, 7, 4, 6, 8, 2, 9, 1, 5],
+            [9, 5, 1, 7, 4, 3, 6, 2, 8],
+            [5, 1, 9, 3, 2, 6, 8, 7, 4],
+            [2, 4, 8, 9, 5, 7, 1, 3, 6],
+            [None, None, None, None, None, None, None, None, None]
+        ], dtype=np.object_), True, id='Mostly pre-solved'),
+        pytest.param(np.array([
+            [None, None, 4, 1, None, None, None, None, 5],
+            [None, None, 7, 8, 3, 2, 6, None, None],
+            [3, 9, None, 7, None, None, 8, None, None],
+            [6, None, None, 9, 8, None, 1, None, None],
+            [8, None, 1, 2, None, 7, None, None, 4],
+            [None, 4, 9, None, 1, 3, None, None, 2],
+            [None, 1, None, 3, None, 8, 2, 9, 6],
+            [7, None, 3, None, None, None, None, None, None],
+            [None, None, None, None, 6, 1, 4, None, 7]
+        ], dtype=np.object_), True, id='Solvable (Easy)'),
+        pytest.param(np.array([
+            [1, 3, None, None, 7, 9, 6, 8, 5],
+            [5, 9, None, None, None, 2, None, None, None],
+            [None, None, 4, None, 3, 8, None, None, 9],
+            [None, None, None, 8, 9, 1, None, 7, None],
+            [None, None, None, None, None, 6, None, None, 1],
+            [None, 7, 1, 3, None, None, 9, None, None],
+            [None, None, None, None, 8, None, 3, 4, None],
+            [None, None, 7, 9, 1, 3, None, None, 8],
+            [6, None, 3, 2, 5, 4, None, None, None],
+        ], dtype=np.object_), True, id='Solvable (Medium)'),
+    ]
+)
+def test_backtracking_with_sudoku(backtracking: BacktrackingAlgorithm, input_array: NDArray[np.object_], expected_result: bool) -> None:
+    sudoku = SudokuTask(input_array)
+    assert backtracking.run_algorithm(sudoku)[0] is expected_result
+    if expected_result is True:
+        assert sudoku.is_solved()
