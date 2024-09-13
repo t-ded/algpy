@@ -1,5 +1,7 @@
+import numpy as np
 import pytest
 
+from algpy_src.algorithms.backtracking.backtracking import BacktrackingAlgorithm
 from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
 from algpy_src.algorithms.graph_algorithms.network_flow.ford_fulkerson import FordFulkersonAlgorithm
 from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
@@ -19,7 +21,8 @@ from algpy_src.data_structures.system_design.load_task import LoadTask
 from algpy_src.data_structures.system_design.server import Server
 from algpy_src.tests.test_utils.example_base_objects import ExampleAlgorithm, ExampleSortingAlgorithm
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator, RandomInputGeneratorSortingAlgorithm, RandomInputGeneratorGraphTraversalAlgorithm, \
-    RandomInputGeneratorGraphRelationalClassificationAlgorithm, RandomInputGeneratorLoadBalancingAlgorithms, RandomInputGeneratorSearchingAlgorithm, RandomInputGeneratorMaxFlowAlgorithm
+    RandomInputGeneratorGraphRelationalClassificationAlgorithm, RandomInputGeneratorLoadBalancingAlgorithms, RandomInputGeneratorSearchingAlgorithm, RandomInputGeneratorMaxFlowAlgorithm, \
+    RandomInputGeneratorBacktrackingAlgorithm
 
 
 @pytest.fixture
@@ -52,6 +55,9 @@ def test_get_generators() -> None:
 
     # Message Passing Algorithms
     assert get_generator(RelationalClassificationAlgorithm()) == RandomInputGeneratorGraphRelationalClassificationAlgorithm
+
+    # Backtracking Algorithms
+    assert get_generator(BacktrackingAlgorithm()) == RandomInputGeneratorBacktrackingAlgorithm
 
     # Load Balancing Algorithms
     assert get_generator(RoundRobinAlgorithm()) == RandomInputGeneratorLoadBalancingAlgorithms
@@ -98,6 +104,9 @@ def test_random_input_generators(graph_traversal_random_input: BaseGraph) -> Non
             11: 0, 12: 1, 15: 0, 18: 1, 19: 1
         }
     )
+
+    # Backtracking Algorithms
+    assert np.array_equal(get_generator(BacktrackingAlgorithm())(TEST_SEED).generate_random_input(input_size=10).state, np.full((10, 10), False, dtype=np.bool_))
 
     # Load Balancing Algorithms
     assert get_generator(RoundRobinAlgorithm())(TEST_SEED).generate_random_input(input_size=LoadBalancingTaskSize(*(5, 1))) == (

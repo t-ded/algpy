@@ -6,6 +6,7 @@ from typing import Optional, Generic, Iterable, TypeVar
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmFamily
 from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize, LoadBalancingTaskSize, FlowEdgeData
+from algpy_src.data_structures.backtracking_tasks.n_queens_task import NQueensTask
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
@@ -156,6 +157,18 @@ class RandomInputGeneratorGraphRelationalClassificationAlgorithm(RandomInputGene
         return feature_graph
 
 
+class RandomInputGeneratorBacktrackingAlgorithm(RandomInputGenerator[NQueensTask, int]):
+    """
+    Random input generator for the backtracking algorithm.
+    Generates an instance of N-Queens task with size n.
+    """
+    def __init__(self, seed: Optional[int] = None) -> None:
+        super().__init__(seed)
+
+    def generate_random_input(self, input_size: int) -> NQueensTask:
+        return NQueensTask(input_size)
+
+
 class RandomInputGeneratorLoadBalancingAlgorithms(RandomInputGenerator[tuple[Iterable[LoadTask], list[Server]], LoadBalancingTaskSize]):
     """
     Random input generator for load balancing algorithms.
@@ -203,6 +216,8 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
         return RandomInputGeneratorMaxFlowAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.MESSAGE_PASSING:
         return RandomInputGeneratorGraphRelationalClassificationAlgorithm
+    if algorithm.algorithm_family == AlgorithmFamily.BACKTRACKING:
+        return RandomInputGeneratorBacktrackingAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.LOAD_BALANCING:
         return RandomInputGeneratorLoadBalancingAlgorithms
     raise ValueError('No random input generator assigned for this algorithm class.')
