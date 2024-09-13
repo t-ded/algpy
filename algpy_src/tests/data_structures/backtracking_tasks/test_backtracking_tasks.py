@@ -104,15 +104,10 @@ class TestSudokuTask:
         task.reset_candidate_to_initial_state((8, 8))
         assert task.is_solved() is True
 
-    def test_allowed_options(self) -> None:
+    def test_recognizes_solved(self) -> None:
         solved = self.get_solved_example
         assert solved.is_solved() is True
-        for candidate in solved.get_candidates:
-            for option in solved.get_options:
-                if option is None or option == solved.state[candidate]:
-                    assert solved.is_option_allowed(candidate, option) is True
-                else:
-                    assert solved.is_option_allowed(candidate, False) is True
+        assert solved.get_candidates == []
 
     def test_recognizes_unsolved(self) -> None:
         task = self.get_minimal_example
