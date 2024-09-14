@@ -3,6 +3,10 @@
 .env
 .ipynb_checkpoints/
 
+# Docs
+docs/build/
+docs/source/_autosummary/
+
 # IDE
 .idea/
 .vscode/
