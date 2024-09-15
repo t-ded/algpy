@@ -23,7 +23,6 @@ Check out the :doc:`usage` section for information on how to get started.
    :caption: Contents:
 
    usage
-   generated/algpy_src
 
 .. autosummary::
    :toctree: _autosummary
