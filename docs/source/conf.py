@@ -28,6 +28,9 @@ extensions = [
 ]
 autosummary_generate = True
 add_module_names = False
+autodoc_default_options = {
+    'undoc-members': True,  # This ensures undocumented classes and members are included
+}
 
 templates_path = ['_templates']
 exclude_patterns: list[str] = []
@@ -39,3 +42,8 @@ exclude_patterns: list[str] = []
 
 html_theme = 'sphinx_book_theme'
 html_static_path = ['_static']
+html_theme_options = {
+    'show_toc_level': 10,
+    'repository_url': 'https://github.com/t-ded/algpy',
+    'use_repository_button': True,
+}

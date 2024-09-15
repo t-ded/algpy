@@ -1,4 +1,4 @@
-{{ fullname | escape | underline}}
+{{ fullname.split('.')[-1] | escape | underline}}
 
 .. automodule:: {{ fullname }}
 
@@ -9,7 +9,7 @@
    .. autosummary::
       :toctree:
    {% for item in attributes %}
-      {{ item.split('.')[-1] }}
+      {{ item }}
    {%- endfor %}
    {% endif %}
    {% endblock %}
@@ -21,7 +21,7 @@
    .. autosummary::
       :toctree:
    {% for item in functions %}
-      {{ item.split('.')[-1] }}
+      {{ item }}
    {%- endfor %}
    {% endif %}
    {% endblock %}
@@ -33,8 +33,9 @@
    .. autosummary::
       :toctree:
       :template: custom-class-template.rst
+      :recursive:
    {% for item in classes %}
-      {{ item.split('.')[-1] }}
+      {{ item }}
    {%- endfor %}
    {% endif %}
    {% endblock %}
@@ -60,7 +61,7 @@
    :template: custom-module-template.rst
    :recursive:
 {% for item in modules %}
-   {{ item.split('.')[-1] }}
+   {{ item }}
 {%- endfor %}
 {% endif %}
 {% endblock %}

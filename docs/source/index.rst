@@ -19,8 +19,8 @@ AlgPy approach boils down to these simple strategies that set it apart from othe
 Check out the :doc:`usage` section for information on how to get started.
 
 .. toctree::
-   :maxdepth: 4
    :caption: Contents:
+   :maxdepth: 10
 
    usage
 
