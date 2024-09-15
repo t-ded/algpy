@@ -1,3 +1,4 @@
+import functools
 from typing import Callable, Any
 
 
@@ -16,6 +17,7 @@ def affects_adjacency_matrix(func: Callable) -> Callable:
     wrapper : Callable
         The wrapper for the input function.
     """
+    @functools.wraps(func)
     def wrapper(self, *args, **kwargs) -> Any:
         self._adjacency_matrix = []
         self._adjacency_matrix_is_actual = False
