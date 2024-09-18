@@ -1,0 +1,1085 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>TraversalGraph &#8212; AlgPy 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/algpy_src.data_structures.graphs.traversal_graph.TraversalGraph';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="trees" href="algpy_src.data_structures.graphs.trees.html" />
+    <link rel="prev" title="traversal_graph" href="algpy_src.data_structures.graphs.traversal_graph.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">AlgPy 0.1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Getting Started</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="algpy_src.html">algpy_src</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="algpy_src.algorithms.html">algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.algorithm.html">algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.algorithm.Algorithm.html">Algorithm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.algorithms.backtracking.html">backtracking</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.base.html">base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.base.algorithm_properties.html">algorithm_properties</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.graph_algorithms.html">graph_algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.graph_algorithms.message_passing.html">message_passing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.graph_algorithms.network_flow.html">network_flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.graph_algorithms.traversal.html">traversal</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.algorithms.load_balancing.html">load_balancing</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.searching.html">searching</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.searching.binary_search.html">binary_search</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.sorting.html">sorting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.sorting.bubble_sort.html">bubble_sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.sorting.insertion_sort.html">insertion_sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.sorting.merge_sort.html">merge_sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.sorting.sorting_algorithm.html">sorting_algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="algpy_src.base.html">base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.base.algorithm_runtime_breakdown.html">algorithm_runtime_breakdown</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.algorithm_runtime_breakdown.AlgorithmRuntimeBreakdown.html">AlgorithmRuntimeBreakdown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.algorithm_runtime_breakdown.AlgorithmRuntimeSingle.html">AlgorithmRuntimeSingle</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.base.complexity_object.html">complexity_object</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.complexity_object.ComplexityObject.html">ComplexityObject</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.base.constants.html">constants</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.Comparable.html">Comparable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.FlowEdgeData.html">FlowEdgeData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.GraphSize.html">GraphSize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.LoadBalancingTaskSize.html">LoadBalancingTaskSize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.PrintableComparable.html">PrintableComparable</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.base.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.alternating_binary_generator.html">algpy_src.base.utils.alternating_binary_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.print_delimiter.html">algpy_src.base.utils.print_delimiter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.print_gap.html">algpy_src.base.utils.print_gap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.print_problem_instance.html">algpy_src.base.utils.print_problem_instance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.underscore_formatter.html">algpy_src.base.utils.underscore_formatter</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="algpy_src.data_structures.html">data_structures</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.backtracking_tasks.html">backtracking_tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.backtracking_tasks.generic_backtracking_task.html">generic_backtracking_task</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.container.html">container</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.container.Container.html">Container</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.data_structure.html">data_structure</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.data_structure.DataStructure.html">DataStructure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="algpy_src.data_structures.graphs.html">graphs</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.base_graph.html">base_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.digraph.html">digraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.feature_graph.html">feature_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.flow_network.html">flow_network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.graph.html">graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.graph_utils.html">graph_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.multidigraph.html">multidigraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.multigraph.html">multigraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.shortest_paths_graph.html">shortest_paths_graph</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="algpy_src.data_structures.graphs.traversal_graph.html">traversal_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.trees.html">trees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.data_structures.hash_based.html">hash_based</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.linear.html">linear</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.linear.linked_list.html">linked_list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.linear.linked_list_node.html">linked_list_node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.linear.queue.html">queue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.linear.stack.html">stack</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.system_design.html">system_design</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.system_design.load_task.html">load_task</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="algpy_src.tests.html">tests</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.algorithms.html">algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.backtracking.html">backtracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.graph_algorithms.html">graph_algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.load_balancing.html">load_balancing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.searching.html">searching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.sorting.html">sorting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.base.html">base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.base.test_complexity_object.html">test_complexity_object</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.data_structures.html">data_structures</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.backtracking_tasks.html">backtracking_tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.graphs.html">graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.hash_based.html">hash_based</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.linear.html">linear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.system_design.html">system_design</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.test_utils.html">test_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.test_utils.example_base_objects.html">example_base_objects</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.tools.html">tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.tools.algorithm_input_generation.html">algorithm_input_generation</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="algpy_src.tools.html">tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.tools.algorithm_input_generation.html">algorithm_input_generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.tools.algorithm_runtime_analysis.html">algorithm_runtime_analysis</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tools.complexity_info_display.html">complexity_info_display</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tools.complexity_info_display.algorithms_complexity_info_displays.html">algorithms_complexity_info_displays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tools.complexity_info_display.complexity_info_displaying.html">complexity_info_displaying</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tools.complexity_info_display.data_structures_complexity_info_display.html">data_structures_complexity_info_display</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/t-ded/algpy" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/_autosummary/algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>TraversalGraph</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="traversalgraph">
+<h1>TraversalGraph<a class="headerlink" href="#traversalgraph" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TraversalGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjacency_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="algpy_src.data_structures.graphs.digraph.DiGraph.html#algpy_src.data_structures.graphs.digraph.DiGraph" title="algpy_src.data_structures.graphs.digraph.DiGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">DiGraph</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjacency_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Constructor of the TraversalGraph class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>adjacency_list</strong> (<em>adjacency_list: Optional</em><em>[</em><em>dict</em><em>[</em><em>Node</em><em>, </em><em>dict</em><em>[</em><em>Node</em><em>, </em><em>SingleEdgeData</em><em>]</em><em>]</em><em>] </em><em>(</em><em>default None</em><em>)</em>) – Optional adjacency list from which to build the traversal graph.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.__init__" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([adjacency_list])</p></td>
+<td><p>Constructor of the TraversalGraph class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_edge" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_edge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_edge</span></code></a>(edge)</p></td>
+<td><p>Add a single edge to the graph.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_edges_from" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_edges_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_edges_from</span></code></a>(edges)</p></td>
+<td><p>Add multiple edges from an iterable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_node" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_node</span></code></a>(node)</p></td>
+<td><p>Add a single node to the graph.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_nodes_from" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_nodes_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_nodes_from</span></code></a>(nodes)</p></td>
+<td><p>Add multiple nodes from an iterable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.degree" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">degree</span></code></a>(node)</p></td>
+<td><p>Return degree for a given node.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.get_edge_data" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.get_edge_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edge_data</span></code></a>(source, target)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">EdgeData</span></code>), <a class="reference internal" href="algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge.html#algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge" title="algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge"><code class="xref py py-class docutils literal notranslate"><span class="pre">NoEdge</span></code></a>]</p>
+</dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.increment_n_ops" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.increment_n_ops"><code class="xref py py-obj docutils literal notranslate"><span class="pre">increment_n_ops</span></code></a>([increment])</p></td>
+<td><p>Convenience method to increment n_ops count of the given complexity object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.indegree" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.indegree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">indegree</span></code></a>(node)</p></td>
+<td><p>Return indegree for a given node.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.neighbors" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.neighbors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighbors</span></code></a>(node)</p></td>
+<td><p>Return a set of adjacent nodes for a given node.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.outdegree" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.outdegree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">outdegree</span></code></a>(node)</p></td>
+<td><p>Return outdegree for a given node.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_edge" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_edge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_edge</span></code></a>(source, target, *data)</p></td>
+<td><p>Remove an edge from the graph.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_edges_from" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_edges_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_edges_from</span></code></a>(edges_to_remove)</p></td>
+<td><p>Remove a given bunch of edges from the graph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_node" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_node</span></code></a>(node)</p></td>
+<td><p>Remove given node from the graph along with all its edges.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_nodes_from" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_nodes_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_nodes_from</span></code></a>(nodes_to_remove)</p></td>
+<td><p>Remove a given bunch of nodes from the graph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.reset_n_ops" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.reset_n_ops"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_n_ops</span></code></a>()</p></td>
+<td><p>Convenience method to reset n_ops count of the given complexity object.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_list" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjacency_list</span></code></a></p></td>
+<td><p>Getter for the adjacency list representation of the graph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_list_transposed" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_list_transposed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjacency_list_transposed</span></code></a></p></td>
+<td><p>Getter for transposed adjacency list representation of the graph.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_matrix" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjacency_matrix</span></code></a></p></td>
+<td><p>Getter for the adjacency matrix of the graph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.edges" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">edges</span></code></a></p></td>
+<td><p>Retrieve the edges of this graph.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.is_directed" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.is_directed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_directed</span></code></a></p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.is_multigraph" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.is_multigraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_multigraph</span></code></a></p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.n_ops" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.n_ops"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_ops</span></code></a></p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.name" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.nodes" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.nodes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nodes</span></code></a></p></td>
+<td><p>Retrieve the nodes of this graph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.number_of_edges" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.number_of_edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_edges</span></code></a></p></td>
+<td><p>Retrieve the number of edges of this graph.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.number_of_nodes" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.number_of_nodes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">number_of_nodes</span></code></a></p></td>
+<td><p>Retrieve the number of nodes of this graph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.space_complexity" title="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.space_complexity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">space_complexity</span></code></a></p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_edge">
+<span class="sig-name descname"><span class="pre">add_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_edge" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a single edge to the graph.
+An edge is a tuple of source node, destination node and edge data.
+If an edge is already present in the graph between two nodes, edge’s data is rewritten by the input of this method.
+Both nodes are silently added to the graph in case they are not present in the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>edge</strong> (<em>Edge</em>) – The edge to add represented as a tuple of (source node, destination node, edge data).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_edges_from">
+<span class="sig-name descname"><span class="pre">add_edges_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edges</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_edges_from" title="Permalink to this definition">#</a></dt>
+<dd><p>Add multiple edges from an iterable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>edges</strong> (<em>Iterable</em><em>[</em><em>Edge</em><em>]</em>) – Iterable from which to add the edges.
+Edges are represented as tuples of (source node, destination node, edge data).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_node">
+<span class="sig-name descname"><span class="pre">add_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_node" title="Permalink to this definition">#</a></dt>
+<dd><p>Add a single node to the graph.
+Nothing changes if the node already exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>Node</em>) – Node to add.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_nodes_from">
+<span class="sig-name descname"><span class="pre">add_nodes_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.add_nodes_from" title="Permalink to this definition">#</a></dt>
+<dd><p>Add multiple nodes from an iterable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nodes</strong> (<em>Iterable</em><em>[</em><em>Node</em><em>]</em>) – Iterable from which to add the nodes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_list">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">adjacency_list</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Node</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Node</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">EdgeData</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_list" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter for the adjacency list representation of the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>adjacency_list</strong> – Adjacency list representation of the graph, represented as a dict of node : neighbours pairs with
+neighbours being a dict of neighbour : edge data or set of edge data in case of a multigraph.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[Node, dict[Node, EdgeData]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_list_transposed">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">adjacency_list_transposed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Node</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Node</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">EdgeData</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_list_transposed" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter for transposed adjacency list representation of the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>adjacency_list_transposed</strong> – If the graph is directed, return an adjacency list with all edges having opposite direction.
+Otherwise, simply return the actual adjacency list.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[Node, dict[Node, EdgeData]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_matrix">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">adjacency_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">EdgeData</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge.html#algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge" title="algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge"><span class="pre">algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.adjacency_matrix" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter for the adjacency matrix of the graph.
+Note that the graph is internally represented as an adjacency list, thus the adjacency matrix is built in O(n^2) time with O(n^2) space complexity for each call of this method.
+It is then cached as the graph’s attribute until further change in the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>adjacency_matrix</strong> – Adjacency matrix representation of the graph object represented as a list of lists with edges represented either by the data itself or set of data in case of a multigraph.
+Symmetrical for undirected graph.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[EdgeData | <a class="reference internal" href="algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge.html#algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge" title="algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge">NoEdge</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.degree">
+<span class="sig-name descname"><span class="pre">degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.degree" title="Permalink to this definition">#</a></dt>
+<dd><p>Return degree for a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>Node</em>) – Node for which to find the degree.
+If not present in the graph, 0 is returned.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>degree</strong> – Degree of the given node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.edges">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">edges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Node</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Node</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">EdgeData</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.edges" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve the edges of this graph.
+Edges are represented as tuples of (source node, destination node, edge data).
+The order retrieved here corresponds to the order of being added to the graph and there can be multiple edges between two nodes in case of a multigraph.
+This method retrieves only one direction of each edge even for undirected graph, which is internally represented as a directed graph with edges going both ways.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>edges</strong> – Edges of this graph.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>set[Edge]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.get_edge_data">
+<span class="sig-name descname"><span class="pre">get_edge_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.get_edge_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">EdgeData</span></code>), <a class="reference internal" href="algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge.html#algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge" title="algpy_src.data_structures.graphs.graph_utils.no_edge_object.NoEdge"><code class="xref py py-class docutils literal notranslate"><span class="pre">NoEdge</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.increment_n_ops">
+<span class="sig-name descname"><span class="pre">increment_n_ops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">increment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.increment_n_ops" title="Permalink to this definition">#</a></dt>
+<dd><p>Convenience method to increment n_ops count of the given complexity object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.indegree">
+<span class="sig-name descname"><span class="pre">indegree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.indegree" title="Permalink to this definition">#</a></dt>
+<dd><p>Return indegree for a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>Node</em>) – Node for which to find the indegree.
+If not present in the graph, 0 is returned.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>indegree</strong> – Indegree of the given node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.is_directed">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_directed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.is_directed" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.is_multigraph">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_multigraph</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.is_multigraph" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.n_ops">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_ops</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.n_ops" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.name" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.neighbors">
+<span class="sig-name descname"><span class="pre">neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.neighbors" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a set of adjacent nodes for a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>Node</em>) – Node for which to find the neighbours.
+If not present in the graph, empty set is returned.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>neighbours</strong> – A set of adjacent nodes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set[Node]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.nodes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Node</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.nodes" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve the nodes of this graph.
+Nodes can be represented by any Python object and the order retrieved here corresponds to the order of being added to the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nodes</strong> – Nodes of this graph.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[Node]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.number_of_edges">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_edges</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.number_of_edges" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve the number of edges of this graph.
+In case of an undirected graph, each edge is counted only once despite being internally represented as a directed graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number_of_edges</strong> – Number of edges of this graph.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.number_of_nodes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">number_of_nodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.number_of_nodes" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve the number of nodes of this graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number_of_nodes</strong> – Number of nodes of this graph.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.outdegree">
+<span class="sig-name descname"><span class="pre">outdegree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.outdegree" title="Permalink to this definition">#</a></dt>
+<dd><p>Return outdegree for a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>Node</em>) – Node for which to find the outdegree.
+If not present in the graph, 0 is returned.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>outdegree</strong> – Outdegree of the given node.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_edge">
+<span class="sig-name descname"><span class="pre">remove_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_edge" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove an edge from the graph.
+If an edge is not present in the graph, it is silently ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>Node</em>) – Source node of the edge to remove.</p></li>
+<li><p><strong>target</strong> (<em>Node</em>) – Target node of the edge to remove.</p></li>
+<li><p><strong>*data</strong> (<em>SingleEdgeData</em>) – Data of the edge to be removed. Only one entry has to be given for a simple graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_edges_from">
+<span class="sig-name descname"><span class="pre">remove_edges_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edges_to_remove</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_edges_from" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove a given bunch of edges from the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>edges_to_remove</strong> (<em>Iterable</em><em>[</em><em>Edge</em><em> | </em><em>tuple</em><em>[</em><em>Node</em><em>, </em><em>Node</em><em>]</em><em>]</em>) – Edges to be removed from the graph, given either as tuple(s) (source node, destination node, edge data) or just (source node, destination node).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_node">
+<span class="sig-name descname"><span class="pre">remove_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_node" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove given node from the graph along with all its edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>Node</em>) – Node to be removed.
+If not present in the graph, it is silently ignored.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_nodes_from">
+<span class="sig-name descname"><span class="pre">remove_nodes_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_to_remove</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.remove_nodes_from" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove a given bunch of nodes from the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nodes_to_remove</strong> (<em>Iterable</em><em>[</em><em>Node</em><em>]</em>) – Nodes to be removed from the graph.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.reset_n_ops">
+<span class="sig-name descname"><span class="pre">reset_n_ops</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.reset_n_ops" title="Permalink to this definition">#</a></dt>
+<dd><p>Convenience method to reset n_ops count of the given complexity object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.space_complexity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">space_complexity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#algpy_src.data_structures.graphs.traversal_graph.TraversalGraph.space_complexity" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="algpy_src.data_structures.graphs.traversal_graph.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">traversal_graph</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="algpy_src.data_structures.graphs.trees.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">trees</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By tded
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, tded.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

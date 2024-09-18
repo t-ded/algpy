@@ -1,0 +1,1221 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>AlgorithmFamily &#8212; AlgPy 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="AlgorithmProperties" href="algpy_src.algorithms.base.algorithm_properties.AlgorithmProperties.html" />
+    <link rel="prev" title="algorithm_properties" href="algpy_src.algorithms.base.algorithm_properties.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">AlgPy 0.1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Getting Started</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="algpy_src.html">algpy_src</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="algpy_src.algorithms.html">algorithms</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.algorithm.html">algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.algorithm.Algorithm.html">Algorithm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.algorithms.backtracking.html">backtracking</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="algpy_src.algorithms.base.html">base</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="reference internal" href="algpy_src.algorithms.base.algorithm_properties.html">algorithm_properties</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.graph_algorithms.html">graph_algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.graph_algorithms.message_passing.html">message_passing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.graph_algorithms.network_flow.html">network_flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.graph_algorithms.traversal.html">traversal</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.algorithms.load_balancing.html">load_balancing</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.searching.html">searching</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.searching.binary_search.html">binary_search</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.algorithms.sorting.html">sorting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.sorting.bubble_sort.html">bubble_sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.sorting.insertion_sort.html">insertion_sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.sorting.merge_sort.html">merge_sort</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.algorithms.sorting.sorting_algorithm.html">sorting_algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="algpy_src.base.html">base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.base.algorithm_runtime_breakdown.html">algorithm_runtime_breakdown</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.algorithm_runtime_breakdown.AlgorithmRuntimeBreakdown.html">AlgorithmRuntimeBreakdown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.algorithm_runtime_breakdown.AlgorithmRuntimeSingle.html">AlgorithmRuntimeSingle</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.base.complexity_object.html">complexity_object</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.complexity_object.ComplexityObject.html">ComplexityObject</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.base.constants.html">constants</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.Comparable.html">Comparable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.FlowEdgeData.html">FlowEdgeData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.GraphSize.html">GraphSize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.LoadBalancingTaskSize.html">LoadBalancingTaskSize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.constants.PrintableComparable.html">PrintableComparable</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.base.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.alternating_binary_generator.html">algpy_src.base.utils.alternating_binary_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.print_delimiter.html">algpy_src.base.utils.print_delimiter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.print_gap.html">algpy_src.base.utils.print_gap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.print_problem_instance.html">algpy_src.base.utils.print_problem_instance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.base.utils.underscore_formatter.html">algpy_src.base.utils.underscore_formatter</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="algpy_src.data_structures.html">data_structures</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.backtracking_tasks.html">backtracking_tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.backtracking_tasks.generic_backtracking_task.html">generic_backtracking_task</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.container.html">container</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.container.Container.html">Container</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.data_structure.html">data_structure</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.data_structure.DataStructure.html">DataStructure</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.graphs.html">graphs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.base_graph.html">base_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.digraph.html">digraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.feature_graph.html">feature_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.flow_network.html">flow_network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.graph.html">graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.graph_utils.html">graph_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.multidigraph.html">multidigraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.multigraph.html">multigraph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.shortest_paths_graph.html">shortest_paths_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.traversal_graph.html">traversal_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.graphs.trees.html">trees</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.data_structures.hash_based.html">hash_based</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.linear.html">linear</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.linear.linked_list.html">linked_list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.linear.linked_list_node.html">linked_list_node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.linear.queue.html">queue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.linear.stack.html">stack</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.data_structures.system_design.html">system_design</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.data_structures.system_design.load_task.html">load_task</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="algpy_src.tests.html">tests</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.algorithms.html">algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.backtracking.html">backtracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.graph_algorithms.html">graph_algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.load_balancing.html">load_balancing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.searching.html">searching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.algorithms.sorting.html">sorting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.base.html">base</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.base.test_complexity_object.html">test_complexity_object</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.data_structures.html">data_structures</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.backtracking_tasks.html">backtracking_tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.graphs.html">graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.hash_based.html">hash_based</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.linear.html">linear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.data_structures.system_design.html">system_design</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.test_utils.html">test_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.test_utils.example_base_objects.html">example_base_objects</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tests.tools.html">tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tests.tools.algorithm_input_generation.html">algorithm_input_generation</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="algpy_src.tools.html">tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.tools.algorithm_input_generation.html">algorithm_input_generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="algpy_src.tools.algorithm_runtime_analysis.html">algorithm_runtime_analysis</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="algpy_src.tools.complexity_info_display.html">complexity_info_display</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tools.complexity_info_display.algorithms_complexity_info_displays.html">algorithms_complexity_info_displays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tools.complexity_info_display.complexity_info_displaying.html">complexity_info_displaying</a></li>
+<li class="toctree-l4"><a class="reference internal" href="algpy_src.tools.complexity_info_display.data_structures_complexity_info_display.html">data_structures_complexity_info_display</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/t-ded/algpy" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/_autosummary/algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>AlgorithmFamily</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="algorithmfamily">
+<h1>AlgorithmFamily<a class="headerlink" href="#algorithmfamily" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AlgorithmFamily</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names=&lt;not</span> <span class="pre">given&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.__init__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.__init__" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kwds)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.capitalize" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.capitalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">capitalize</span></code></a>()</p></td>
+<td><p>Return a capitalized version of the string.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.casefold" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.casefold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">casefold</span></code></a>()</p></td>
+<td><p>Return a version of the string suitable for caseless comparisons.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.center" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">center</span></code></a>(width[, fillchar])</p></td>
+<td><p>Return a centered string of length width.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.count" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.count"><code class="xref py py-obj docutils literal notranslate"><span class="pre">count</span></code></a>(sub[, start[, end]])</p></td>
+<td><p>Return the number of non-overlapping occurrences of substring sub in string S[start:end].</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.encode" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.encode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encode</span></code></a>([encoding, errors])</p></td>
+<td><p>Encode the string using the codec registered for encoding.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.endswith" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.endswith"><code class="xref py py-obj docutils literal notranslate"><span class="pre">endswith</span></code></a>(suffix[, start[, end]])</p></td>
+<td><p>Return True if S ends with the specified suffix, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.expandtabs" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.expandtabs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">expandtabs</span></code></a>([tabsize])</p></td>
+<td><p>Return a copy where all tab characters are expanded using spaces.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.find" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.find"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find</span></code></a>(sub[, start[, end]])</p></td>
+<td><p>Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.format" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Return a formatted version of S, using substitutions from args and kwargs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.format_map" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.format_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_map</span></code></a>(mapping)</p></td>
+<td><p>Return a formatted version of S, using substitutions from mapping.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.index" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code></a>(sub[, start[, end]])</p></td>
+<td><p>Return the lowest index in S where substring sub is found, such that sub is contained within S[start:end].</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isalnum" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isalnum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isalnum</span></code></a>()</p></td>
+<td><p>Return True if the string is an alpha-numeric string, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isalpha" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isalpha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isalpha</span></code></a>()</p></td>
+<td><p>Return True if the string is an alphabetic string, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isascii" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isascii"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isascii</span></code></a>()</p></td>
+<td><p>Return True if all characters in the string are ASCII, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isdecimal" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isdecimal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isdecimal</span></code></a>()</p></td>
+<td><p>Return True if the string is a decimal string, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isdigit" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isdigit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isdigit</span></code></a>()</p></td>
+<td><p>Return True if the string is a digit string, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isidentifier" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isidentifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isidentifier</span></code></a>()</p></td>
+<td><p>Return True if the string is a valid Python identifier, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.islower" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.islower"><code class="xref py py-obj docutils literal notranslate"><span class="pre">islower</span></code></a>()</p></td>
+<td><p>Return True if the string is a lowercase string, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isnumeric" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isnumeric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isnumeric</span></code></a>()</p></td>
+<td><p>Return True if the string is a numeric string, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isprintable" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isprintable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isprintable</span></code></a>()</p></td>
+<td><p>Return True if the string is printable, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isspace" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isspace</span></code></a>()</p></td>
+<td><p>Return True if the string is a whitespace string, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.istitle" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.istitle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">istitle</span></code></a>()</p></td>
+<td><p>Return True if the string is a title-cased string, False otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isupper" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isupper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isupper</span></code></a>()</p></td>
+<td><p>Return True if the string is an uppercase string, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.join" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">join</span></code></a>(iterable, /)</p></td>
+<td><p>Concatenate any number of strings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.ljust" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.ljust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ljust</span></code></a>(width[, fillchar])</p></td>
+<td><p>Return a left-justified string of length width.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.lower" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.lower"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lower</span></code></a>()</p></td>
+<td><p>Return a copy of the string converted to lowercase.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.lstrip" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.lstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lstrip</span></code></a>([chars])</p></td>
+<td><p>Return a copy of the string with leading whitespace removed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.maketrans" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.maketrans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maketrans</span></code></a></p></td>
+<td><p>Return a translation table usable for str.translate().</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.partition" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.partition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">partition</span></code></a>(sep, /)</p></td>
+<td><p>Partition the string into three parts using the given separator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.removeprefix" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.removeprefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">removeprefix</span></code></a>(prefix, /)</p></td>
+<td><p>Return a str with the given prefix string removed if present.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.removesuffix" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.removesuffix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">removesuffix</span></code></a>(suffix, /)</p></td>
+<td><p>Return a str with the given suffix string removed if present.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.replace" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.replace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace</span></code></a>(old, new[, count])</p></td>
+<td><p>Return a copy with all occurrences of substring old replaced by new.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rfind" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rfind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rfind</span></code></a>(sub[, start[, end]])</p></td>
+<td><p>Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rindex" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rindex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rindex</span></code></a>(sub[, start[, end]])</p></td>
+<td><p>Return the highest index in S where substring sub is found, such that sub is contained within S[start:end].</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rjust" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rjust"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rjust</span></code></a>(width[, fillchar])</p></td>
+<td><p>Return a right-justified string of length width.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rpartition" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rpartition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rpartition</span></code></a>(sep, /)</p></td>
+<td><p>Partition the string into three parts using the given separator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rsplit" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rsplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rsplit</span></code></a>([sep, maxsplit])</p></td>
+<td><p>Return a list of the substrings in the string, using sep as the separator string.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rstrip" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rstrip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rstrip</span></code></a>([chars])</p></td>
+<td><p>Return a copy of the string with trailing whitespace removed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.split" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split</span></code></a>([sep, maxsplit])</p></td>
+<td><p>Return a list of the substrings in the string, using sep as the separator string.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.splitlines" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.splitlines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">splitlines</span></code></a>([keepends])</p></td>
+<td><p>Return a list of the lines in the string, breaking at line boundaries.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.startswith" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.startswith"><code class="xref py py-obj docutils literal notranslate"><span class="pre">startswith</span></code></a>(prefix[, start[, end]])</p></td>
+<td><p>Return True if S starts with the specified prefix, False otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.strip" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.strip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip</span></code></a>([chars])</p></td>
+<td><p>Return a copy of the string with leading and trailing whitespace removed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.swapcase" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.swapcase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swapcase</span></code></a>()</p></td>
+<td><p>Convert uppercase characters to lowercase and lowercase characters to uppercase.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.title" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code></a>()</p></td>
+<td><p>Return a version of the string where each word is titlecased.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.translate" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.translate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translate</span></code></a>(table, /)</p></td>
+<td><p>Replace each character in the string using the given translation table.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.upper" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.upper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">upper</span></code></a>()</p></td>
+<td><p>Return a copy of the string converted to uppercase.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.zfill" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.zfill"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zfill</span></code></a>(width, /)</p></td>
+<td><p>Pad a numeric string with zeros on the left, to fill a field of the given width.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.BASE_CLASS" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.BASE_CLASS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASE_CLASS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.EXAMPLE" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.EXAMPLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXAMPLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.SORTING" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.SORTING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SORTING</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.SEARCHING" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.SEARCHING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SEARCHING</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.GRAPH_TRAVERSAL" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.GRAPH_TRAVERSAL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GRAPH_TRAVERSAL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.MESSAGE_PASSING" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.MESSAGE_PASSING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MESSAGE_PASSING</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.MAX_FLOW" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.MAX_FLOW"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAX_FLOW</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.BACKTRACKING" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.BACKTRACKING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BACKTRACKING</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.LOAD_BALANCING" title="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.LOAD_BALANCING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LOAD_BALANCING</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.BACKTRACKING">
+<span class="sig-name descname"><span class="pre">BACKTRACKING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Backtracking</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.BACKTRACKING" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.BASE_CLASS">
+<span class="sig-name descname"><span class="pre">BASE_CLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Base</span> <span class="pre">Generic</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.BASE_CLASS" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.EXAMPLE">
+<span class="sig-name descname"><span class="pre">EXAMPLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Example</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.EXAMPLE" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.GRAPH_TRAVERSAL">
+<span class="sig-name descname"><span class="pre">GRAPH_TRAVERSAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Graph</span> <span class="pre">Traversal</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.GRAPH_TRAVERSAL" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.LOAD_BALANCING">
+<span class="sig-name descname"><span class="pre">LOAD_BALANCING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Load</span> <span class="pre">Balancing</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.LOAD_BALANCING" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.MAX_FLOW">
+<span class="sig-name descname"><span class="pre">MAX_FLOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Maximum</span> <span class="pre">Flow</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.MAX_FLOW" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.MESSAGE_PASSING">
+<span class="sig-name descname"><span class="pre">MESSAGE_PASSING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Relational</span> <span class="pre">Classification</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.MESSAGE_PASSING" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.SEARCHING">
+<span class="sig-name descname"><span class="pre">SEARCHING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Searching</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.SEARCHING" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.SORTING">
+<span class="sig-name descname"><span class="pre">SORTING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Sorting</span> <span class="pre">Algorithms'</span></em><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.SORTING" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.capitalize">
+<span class="sig-name descname"><span class="pre">capitalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.capitalize" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a capitalized version of the string.</p>
+<p>More specifically, make the first character have upper case and the rest lower
+case.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.casefold">
+<span class="sig-name descname"><span class="pre">casefold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.casefold" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a version of the string suitable for caseless comparisons.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.center">
+<span class="sig-name descname"><span class="pre">center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillchar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.center" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a centered string of length width.</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.count">
+<span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.count" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the number of non-overlapping occurrences of substring sub in
+string S[start:end].  Optional arguments start and end are
+interpreted as in slice notation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'utf-8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'strict'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.encode" title="Permalink to this definition">#</a></dt>
+<dd><p>Encode the string using the codec registered for encoding.</p>
+<dl class="simple">
+<dt>encoding</dt><dd><p>The encoding in which to encode the string.</p>
+</dd>
+<dt>errors</dt><dd><p>The error handling scheme to use for encoding errors.
+The default is ‘strict’ meaning that encoding errors raise a
+UnicodeEncodeError.  Other possible values are ‘ignore’, ‘replace’ and
+‘xmlcharrefreplace’ as well as any other name registered with
+codecs.register_error that can handle UnicodeEncodeErrors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.endswith">
+<span class="sig-name descname"><span class="pre">endswith</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.endswith" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if S ends with the specified suffix, False otherwise.
+With optional start, test S beginning at that position.
+With optional end, stop comparing S at that position.
+suffix can also be a tuple of strings to try.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.expandtabs">
+<span class="sig-name descname"><span class="pre">expandtabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.expandtabs" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a copy where all tab characters are expanded using spaces.</p>
+<p>If tabsize is not given, a tab size of 8 characters is assumed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.find" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the lowest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Return -1 on failure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.format" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a formatted version of S, using substitutions from args and kwargs.
+The substitutions are identified by braces (‘{’ and ‘}’).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.format_map">
+<span class="sig-name descname"><span class="pre">format_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.format_map" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a formatted version of S, using substitutions from mapping.
+The substitutions are identified by braces (‘{’ and ‘}’).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.index">
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.index" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the lowest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Raises ValueError when the substring is not found.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isalnum">
+<span class="sig-name descname"><span class="pre">isalnum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isalnum" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is an alpha-numeric string, False otherwise.</p>
+<p>A string is alpha-numeric if all characters in the string are alpha-numeric and
+there is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isalpha">
+<span class="sig-name descname"><span class="pre">isalpha</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isalpha" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is an alphabetic string, False otherwise.</p>
+<p>A string is alphabetic if all characters in the string are alphabetic and there
+is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isascii">
+<span class="sig-name descname"><span class="pre">isascii</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isascii" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if all characters in the string are ASCII, False otherwise.</p>
+<p>ASCII characters have code points in the range U+0000-U+007F.
+Empty string is ASCII too.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isdecimal">
+<span class="sig-name descname"><span class="pre">isdecimal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isdecimal" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is a decimal string, False otherwise.</p>
+<p>A string is a decimal string if all characters in the string are decimal and
+there is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isdigit">
+<span class="sig-name descname"><span class="pre">isdigit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isdigit" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is a digit string, False otherwise.</p>
+<p>A string is a digit string if all characters in the string are digits and there
+is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isidentifier">
+<span class="sig-name descname"><span class="pre">isidentifier</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isidentifier" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is a valid Python identifier, False otherwise.</p>
+<p>Call keyword.iskeyword(s) to test whether string s is a reserved identifier,
+such as “def” or “class”.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.islower">
+<span class="sig-name descname"><span class="pre">islower</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.islower" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is a lowercase string, False otherwise.</p>
+<p>A string is lowercase if all cased characters in the string are lowercase and
+there is at least one cased character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isnumeric">
+<span class="sig-name descname"><span class="pre">isnumeric</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isnumeric" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is a numeric string, False otherwise.</p>
+<p>A string is numeric if all characters in the string are numeric and there is at
+least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isprintable">
+<span class="sig-name descname"><span class="pre">isprintable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isprintable" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is printable, False otherwise.</p>
+<p>A string is printable if all of its characters are considered printable in
+repr() or if it is empty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isspace">
+<span class="sig-name descname"><span class="pre">isspace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isspace" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is a whitespace string, False otherwise.</p>
+<p>A string is whitespace if all characters in the string are whitespace and there
+is at least one character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.istitle">
+<span class="sig-name descname"><span class="pre">istitle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.istitle" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is a title-cased string, False otherwise.</p>
+<p>In a title-cased string, upper- and title-case characters may only
+follow uncased characters and lowercase characters only cased ones.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isupper">
+<span class="sig-name descname"><span class="pre">isupper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.isupper" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if the string is an uppercase string, False otherwise.</p>
+<p>A string is uppercase if all cased characters in the string are uppercase and
+there is at least one cased character in the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.join">
+<span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.join" title="Permalink to this definition">#</a></dt>
+<dd><p>Concatenate any number of strings.</p>
+<p>The string whose method is called is inserted in between each given string.
+The result is returned as a new string.</p>
+<p>Example: ‘.’.join([‘ab’, ‘pq’, ‘rs’]) -&gt; ‘ab.pq.rs’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.ljust">
+<span class="sig-name descname"><span class="pre">ljust</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillchar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.ljust" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a left-justified string of length width.</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.lower">
+<span class="sig-name descname"><span class="pre">lower</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.lower" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a copy of the string converted to lowercase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.lstrip">
+<span class="sig-name descname"><span class="pre">lstrip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.lstrip" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a copy of the string with leading whitespace removed.</p>
+<p>If chars is given and not None, remove characters in chars instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.maketrans">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">maketrans</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.maketrans" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a translation table usable for str.translate().</p>
+<p>If there is only one argument, it must be a dictionary mapping Unicode
+ordinals (integers) or characters to Unicode ordinals, strings or None.
+Character keys will be then converted to ordinals.
+If there are two arguments, they must be strings of equal length, and
+in the resulting dictionary, each character in x will be mapped to the
+character at the same position in y. If there is a third argument, it
+must be a string, whose characters will be mapped to None in the result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.partition">
+<span class="sig-name descname"><span class="pre">partition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sep</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.partition" title="Permalink to this definition">#</a></dt>
+<dd><p>Partition the string into three parts using the given separator.</p>
+<p>This will search for the separator in the string.  If the separator is found,
+returns a 3-tuple containing the part before the separator, the separator
+itself, and the part after it.</p>
+<p>If the separator is not found, returns a 3-tuple containing the original string
+and two empty strings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.removeprefix">
+<span class="sig-name descname"><span class="pre">removeprefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.removeprefix" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a str with the given prefix string removed if present.</p>
+<p>If the string starts with the prefix string, return string[len(prefix):].
+Otherwise, return a copy of the original string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.removesuffix">
+<span class="sig-name descname"><span class="pre">removesuffix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.removesuffix" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a str with the given suffix string removed if present.</p>
+<p>If the string ends with the suffix string and that suffix is not empty,
+return string[:-len(suffix)]. Otherwise, return a copy of the original
+string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.replace" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a copy with all occurrences of substring old replaced by new.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>count</dt><dd><p>Maximum number of occurrences to replace.
+-1 (the default value) means replace all occurrences.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>If the optional argument count is given, only the first count occurrences are
+replaced.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rfind">
+<span class="sig-name descname"><span class="pre">rfind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rfind" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the highest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Return -1 on failure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rindex">
+<span class="sig-name descname"><span class="pre">rindex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rindex" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the highest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Raises ValueError when the substring is not found.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rjust">
+<span class="sig-name descname"><span class="pre">rjust</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fillchar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rjust" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a right-justified string of length width.</p>
+<p>Padding is done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rpartition">
+<span class="sig-name descname"><span class="pre">rpartition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sep</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rpartition" title="Permalink to this definition">#</a></dt>
+<dd><p>Partition the string into three parts using the given separator.</p>
+<p>This will search for the separator in the string, starting at the end. If
+the separator is found, returns a 3-tuple containing the part before the
+separator, the separator itself, and the part after it.</p>
+<p>If the separator is not found, returns a 3-tuple containing two empty strings
+and the original string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rsplit">
+<span class="sig-name descname"><span class="pre">rsplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsplit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rsplit" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a list of the substrings in the string, using sep as the separator string.</p>
+<blockquote>
+<div><dl>
+<dt>sep</dt><dd><p>The separator used to split the string.</p>
+<p>When set to None (the default value), will split on any whitespace
+character (including n r t f and spaces) and will discard
+empty strings from the result.</p>
+</dd>
+<dt>maxsplit</dt><dd><p>Maximum number of splits.
+-1 (the default value) means no limit.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Splitting starts at the end of the string and works to the front.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rstrip">
+<span class="sig-name descname"><span class="pre">rstrip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.rstrip" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a copy of the string with trailing whitespace removed.</p>
+<p>If chars is given and not None, remove characters in chars instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.split">
+<span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsplit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.split" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a list of the substrings in the string, using sep as the separator string.</p>
+<blockquote>
+<div><dl>
+<dt>sep</dt><dd><p>The separator used to split the string.</p>
+<p>When set to None (the default value), will split on any whitespace
+character (including n r t f and spaces) and will discard
+empty strings from the result.</p>
+</dd>
+<dt>maxsplit</dt><dd><p>Maximum number of splits.
+-1 (the default value) means no limit.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Splitting starts at the front of the string and works to the end.</p>
+<p>Note, str.split() is mainly useful for data that has been intentionally
+delimited.  With natural text that includes punctuation, consider using
+the regular expression module.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.splitlines">
+<span class="sig-name descname"><span class="pre">splitlines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keepends</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.splitlines" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a list of the lines in the string, breaking at line boundaries.</p>
+<p>Line breaks are not included in the resulting list unless keepends is given and
+true.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.startswith">
+<span class="sig-name descname"><span class="pre">startswith</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.startswith" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if S starts with the specified prefix, False otherwise.
+With optional start, test S beginning at that position.
+With optional end, stop comparing S at that position.
+prefix can also be a tuple of strings to try.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.strip">
+<span class="sig-name descname"><span class="pre">strip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.strip" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a copy of the string with leading and trailing whitespace removed.</p>
+<p>If chars is given and not None, remove characters in chars instead.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.swapcase">
+<span class="sig-name descname"><span class="pre">swapcase</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.swapcase" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert uppercase characters to lowercase and lowercase characters to uppercase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.title">
+<span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.title" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a version of the string where each word is titlecased.</p>
+<p>More specifically, words start with uppercased characters and all remaining
+cased characters have lower case.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.translate">
+<span class="sig-name descname"><span class="pre">translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.translate" title="Permalink to this definition">#</a></dt>
+<dd><p>Replace each character in the string using the given translation table.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>table</dt><dd><p>Translation table, which must be a mapping of Unicode ordinals to
+Unicode ordinals, strings, or None.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>The table must implement lookup/indexing via __getitem__, for instance a
+dictionary or list.  If this operation raises LookupError, the character is
+left untouched.  Characters mapped to None are deleted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.upper">
+<span class="sig-name descname"><span class="pre">upper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.upper" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a copy of the string converted to uppercase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.zfill">
+<span class="sig-name descname"><span class="pre">zfill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algpy_src.algorithms.base.algorithm_properties.AlgorithmFamily.zfill" title="Permalink to this definition">#</a></dt>
+<dd><p>Pad a numeric string with zeros on the left, to fill a field of the given width.</p>
+<p>The string is never truncated.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="algpy_src.algorithms.base.algorithm_properties.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">algorithm_properties</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="algpy_src.algorithms.base.algorithm_properties.AlgorithmProperties.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">AlgorithmProperties</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By tded
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, tded.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
