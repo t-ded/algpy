@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from numpy._typing import NDArray
+from numpy.typing import NDArray
 
 from algpy_src.algorithms.backtracking.backtracking import BacktrackingAlgorithm
 from algpy_src.data_structures.backtracking_tasks.n_queens_task import NQueensTask
@@ -27,9 +27,34 @@ def backtracking() -> BacktrackingAlgorithm:
 )
 def test_backtracking_with_n_queens(backtracking: BacktrackingAlgorithm, n: int, expected_result: bool) -> None:
     nqueens = NQueensTask(n)
-    assert backtracking.run_algorithm(nqueens)[0] is expected_result
+    solved, solutions = backtracking.run_algorithm(nqueens)
+    assert solved is expected_result
     if expected_result is True:
-        assert nqueens.is_solved()
+        assert next(iter(solutions)).is_solved()
+    else:
+        assert len(solutions) == 0
+
+
+def test_finds_all_solutions(backtracking: BacktrackingAlgorithm) -> None:
+    nqueens = NQueensTask(4)
+    solved, solutions = backtracking.run_algorithm(nqueens, find_all=True)
+    assert solved is True
+    assert len(solutions) == 2
+    print([solution.state for solution in solutions])
+
+    expected_solution_1 = NQueensTask(4)
+    expected_solution_1.apply_option((0, 1), True)
+    expected_solution_1.apply_option((1, 3), True)
+    expected_solution_1.apply_option((2, 0), True)
+    expected_solution_1.apply_option((3, 2), True)
+    assert solutions[0] == expected_solution_1
+
+    expected_solution_2 = NQueensTask(4)
+    expected_solution_2.apply_option((0, 2), True)
+    expected_solution_2.apply_option((1, 0), True)
+    expected_solution_2.apply_option((2, 3), True)
+    expected_solution_2.apply_option((3, 1), True)
+    assert solutions[1] == expected_solution_2
 
 
 @pytest.mark.parametrize(
@@ -94,6 +119,9 @@ def test_backtracking_with_n_queens(backtracking: BacktrackingAlgorithm, n: int,
 )
 def test_backtracking_with_sudoku(backtracking: BacktrackingAlgorithm, input_array: NDArray[np.object_], expected_result: bool) -> None:
     sudoku = SudokuTask(input_array)
-    assert backtracking.run_algorithm(sudoku)[0] is expected_result
+    solved, solutions = backtracking.run_algorithm(sudoku)
+    assert solved is expected_result
     if expected_result is True:
-        assert sudoku.is_solved()
+        assert next(iter(solutions)).is_solved()
+    else:
+        assert len(solutions) == 0

@@ -1,4 +1,5 @@
-from typing import Any, Optional
+import copy
+from typing import Any
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
@@ -8,11 +9,12 @@ from algpy_src.data_structures.backtracking_tasks.generic_backtracking_task impo
 from algpy_src.data_structures.backtracking_tasks.n_queens_task import NQueensTask
 
 
-class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBacktrackingTask]):
+class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, list[GenericBacktrackingTask]]):
 
     def __init__(self) -> None:
         super().__init__()
         self._last_candidate_idx: int = 0
+        self._solutions: list[GenericBacktrackingTask] = []
 
     @property
     def algorithm_properties(self) -> AlgorithmProperties:
@@ -44,7 +46,9 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
         """
         return {'input_instance': NQueensTask(input_size)}
 
-    def run_algorithm(self, input_instance: GenericBacktrackingTask, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any) -> tuple[bool, Optional[GenericBacktrackingTask]]:
+    def run_algorithm(
+            self, input_instance: GenericBacktrackingTask, verbosity_level: VERBOSITY_LEVELS = 0, find_all: bool = False, *args: Any, **kwargs: Any
+    ) -> tuple[bool, list[GenericBacktrackingTask]]:
         """
         Main run function of the backtracking algorithm, serves as a wrapper around the recursive method.
         Assuming GenericBacktrackingTask interface, this algorithm should be task-agnostic.
@@ -57,6 +61,9 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
             Select the amount of information to print throughout run of the algorithm.
             One of 0, 1, 2 with 0 referring to no printing, 1 leading to print the state in the beginning and in the end and
             2 meaning also print the state following every candidate expansion and backtracking.
+        find_all : bool (default False)
+            If True, find all solutions to the given input instance.
+            This will increase computational load.
         *args : Any
             Additional arguments passed to the algorithm.
         **kwargs : Any
@@ -64,15 +71,17 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
 
         Returns
         -------
-        result : tuple[bool, GenericBacktrackingTask]
-            Returns True along with the solved input instance if a solution was found, otherwise False and the given input instance.
+        result : tuple[bool, list[GenericBacktrackingTask]]
+            Returns True along with a list containing the solved input instance(s) if a solution was found, otherwise False and an empty list.
         """
         print_problem_instance(input_instance.state, verbosity_level, 1)
-        self._backtrack(input_instance, verbosity_level)
+        self._backtrack(input_instance, verbosity_level, find_all)
         print_problem_instance(input_instance.state, verbosity_level, 1)
-        return input_instance.is_solved(), input_instance
+        return len(self._solutions) > 0, self._solutions
 
-    def _backtrack(self, input_instance: GenericBacktrackingTask, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any) -> tuple[bool, Optional[GenericBacktrackingTask]]:
+    def _backtrack(
+            self, input_instance: GenericBacktrackingTask, verbosity_level: VERBOSITY_LEVELS = 0, find_all: bool = False, *args: Any, **kwargs: Any
+    ) -> tuple[bool, list[GenericBacktrackingTask]]:
         """
         Main run function of the backtracking algorithm, serves as a wrapper around the recursive method.
         Assuming GenericBacktrackingTask interface, this algorithm should be task-agnostic.
@@ -85,6 +94,9 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
             Select the amount of information to print throughout run of the algorithm.
             One of 0, 1, 2 with 0 referring to no printing, 1 leading to print the state in the beginning and in the end and
             2 meaning also print the state following every candidate expansion and backtracking.
+        find_all : bool (default False)
+            If True, find all solutions to the given input instance.
+            This will increase computational load.
         *args : Any
             Additional arguments passed to the algorithm.
         **kwargs : Any
@@ -92,12 +104,15 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
 
         Returns
         -------
-        result : tuple[bool, GenericBacktrackingTask]
-            Returns True along with the solved input instance if a solution was found, otherwise False and the given input instance.
+        result : tuple[bool, list[GenericBacktrackingTask]]
+            Returns True along with a list containing the solved input instance(s) if a solution was found, otherwise False and an empty list.
         """
         print_problem_instance(input_instance.state, verbosity_level, 2)
         if input_instance.is_solved():
-            return True, input_instance
+            self._solutions.append(copy.deepcopy(input_instance))
+            if find_all:
+                return False, self._solutions
+            return True, self._solutions
 
         for i, candidate in enumerate(input_instance.get_candidates[self._last_candidate_idx:]):
             for option in input_instance.get_non_default_options:
@@ -105,11 +120,11 @@ class BacktrackingAlgorithm(Algorithm[GenericBacktrackingTask, int, GenericBackt
                     self.increment_n_ops()
                     input_instance.apply_option(candidate, option)
                     self._last_candidate_idx += i + 1
-                    if self._backtrack(input_instance, verbosity_level, *args, **kwargs)[0]:
-                        return True, input_instance
+                    if self._backtrack(input_instance, verbosity_level, find_all, *args, **kwargs)[0]:
+                        return True, self._solutions
                     input_instance.reset_candidate_to_initial_state(candidate)
                     self._last_candidate_idx -= i + 1
             if input_instance.default_option is None:
-                return False, input_instance
+                return False, self._solutions
 
-        return False, input_instance
+        return False, self._solutions
