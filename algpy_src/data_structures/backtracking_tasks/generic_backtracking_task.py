@@ -14,6 +14,9 @@ class GenericBacktrackingTask(Generic[StateType, CandidateType, OptionType]):
     def __init__(self) -> None:
         self._state: StateType = cast(StateType, self._EMPTY_STATE)
 
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, type(self)) and self._state == other._state
+
     @property
     def state(self) -> StateType:
         return self._state

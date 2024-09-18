@@ -14,6 +14,9 @@ class SudokuTask(GenericBacktrackingTask[NDArray[np.object_], tuple[int, int], i
         self._initial_state = initial_state
         self._filled = set(range(1, 10))
 
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, SudokuTask) and np.array_equal(self._state, other._state)
+
     @cached_property
     def get_candidates(self) -> list[tuple[int, int]]:
         return [(i, j) for i in range(9) for j in range(9) if self._initial_state[i][j] is None]

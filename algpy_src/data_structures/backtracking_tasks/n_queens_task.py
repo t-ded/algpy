@@ -13,6 +13,9 @@ class NQueensTask(GenericBacktrackingTask[NDArray[np.bool_], tuple[int, int], bo
         self._n = n
         self._state: NDArray[np.bool_] = np.full((n, n), False, dtype=bool)
 
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, NQueensTask) and np.array_equal(self._state, other._state)
+
     @cached_property
     def get_candidates(self) -> list[tuple[int, int]]:
         return [(i, j) for i in range(self._n) for j in range(self._n)]
