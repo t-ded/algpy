@@ -20,6 +20,9 @@ class AlgorithmFamily(StrEnum):
     # Backtracking
     BACKTRACKING = 'Backtracking Algorithms',
 
+    # Dynamic Programming
+    DYNAMIC_PROGRAMMING = 'Dynamic Programming Algorithms',
+
     # System design
     LOAD_BALANCING = 'Load Balancing Algorithms',
 
