@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from algpy_src.algorithms.dynamic_programming.dynamic_programming import DynamicProgrammingAlgorithm
-from algpy_src.data_structures.dynamic_programming_tasks.fibonacci_task import NThFibonacciNumber
+from algpy_src.data_structures.dynamic_programming_tasks.fibonacci_task import NThFibonacciNumberTask
 
 
 @pytest.fixture
@@ -13,8 +13,8 @@ def dp() -> DynamicProgrammingAlgorithm:
 class TestDynamicProgramming:
 
     @staticmethod
-    def get_fib(n: int) -> NThFibonacciNumber:
-        return NThFibonacciNumber(n)
+    def get_fib(n: int) -> NThFibonacciNumberTask:
+        return NThFibonacciNumberTask(n)
 
     @pytest.mark.parametrize('n', list(range(2, 31)) + list(range(100, 901, 100)))
     def test_nth_fib_number(self, dp: DynamicProgrammingAlgorithm, n: int) -> None:

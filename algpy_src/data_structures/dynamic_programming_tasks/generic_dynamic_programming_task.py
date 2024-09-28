@@ -23,10 +23,6 @@ class GenericDynamicProgrammingTask(Generic[StateType]):
         raise NotImplementedError
 
     @abstractmethod
-    def compute_value(self, *args, **kwargs) -> int | float:
-        raise NotImplementedError
-
-    @abstractmethod
     def get_state_transitions(self) -> Optional[list[StateType]]:
         raise NotImplementedError
 

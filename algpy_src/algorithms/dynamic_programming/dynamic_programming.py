@@ -40,7 +40,7 @@ class DynamicProgrammingAlgorithm(Algorithm[GenericDynamicProgrammingTask, tuple
 
         Returns
         -------
-        nqueens: ZeroOneKnapsackTask
+        knapsack: ZeroOneKnapsackTask
             Empty Knapsack problem instance.
         """
         raise NotImplementedError
