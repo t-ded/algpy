@@ -67,5 +67,13 @@ class DynamicProgrammingAlgorithm(Algorithm[GenericDynamicProgrammingTask, tuple
         if not input_instance.is_optimization:
             return True, current_value
 
-        # TODO
-        return False, -1
+        possible_states = input_instance.get_state_transitions()
+        if possible_states is None:
+            return True, current_value
+        best_possible_value: int | float = 0
+        for possible_state in possible_states:
+            input_instance.set_state(possible_state)
+            _, possible_value = self.run_algorithm(input_instance, verbosity_level)
+            best_possible_value = max(best_possible_value, possible_value)
+            input_instance.set_state(current_state)
+        return True, max(current_value, best_possible_value)
