@@ -4,15 +4,16 @@ from typing import TypeVar, Generic, Optional
 
 from algpy_src.base.constants import Comparable
 from algpy_src.data_structures.graphs.graph_utils.no_node_object import NoNode
+from algpy_src.data_structures.graphs.trees.tree_node import TreeNode
 from algpy_src.data_structures.linear.linked_list_node import LinkedListNode
 
 _K = TypeVar('_K')
 _V = TypeVar('_V', bound=Comparable)
 
 
-class HeapNode(LinkedListNode, Generic[_K, _V]):
+class HeapNode(LinkedListNode, TreeNode[_K], Generic[_K, _V]):
 
-    def __init__(self, key: _K, priority: _V):
+    def __init__(self, key: _K, priority: _V) -> None:
         """
         Constructor of the HeapNode class.
 
@@ -23,7 +24,8 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
         priority : _V
             Numeric priority with respect to which the heap property is maintained.
         """
-        super().__init__(key)
+        LinkedListNode.__init__(self, key)
+        TreeNode.__init__(self, key)
 
         self._priority: _V = priority
         self._degree: int = 0
@@ -182,9 +184,3 @@ class HeapNode(LinkedListNode, Generic[_K, _V]):
 
     def add_parent(self, key: _K, priority: _V) -> None:
         self._parent = HeapNode(key, priority)
-
-    def change_parent(self, new_parent: Optional[HeapNode]) -> None:
-        self._parent = new_parent
-
-    def remove_parent(self) -> None:
-        self._parent = None
