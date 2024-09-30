@@ -5,8 +5,11 @@ from algpy_src.data_structures.graphs.trees.tree_node import TreeNode
 def test_basic_node_properties() -> None:
     tree_node = TreeNode(TEST_SEED)
     tree_node_child_1 = TreeNode(TEST_SEED + 1, parent=tree_node)
+    tree_node.add_child(tree_node_child_1)
     tree_node_child_2 = TreeNode(TEST_SEED + 2, parent=tree_node)
+    tree_node.add_child(tree_node_child_2)
     tree_node_child_3 = TreeNode(TEST_SEED + 3, parent=tree_node)
+    tree_node.add_child(tree_node_child_3)
 
     assert tree_node.depth == 0
     assert tree_node.degree == 3

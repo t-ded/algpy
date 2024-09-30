@@ -19,11 +19,9 @@ class TreeNode(Generic[_K]):
             Parent of this node within the tree. If not given, this node will be root-like.
         """
         self._key = key
-        self._children: list[Self] = []
+        self._children: list[Optional[Self]] = []
         self._depth = 0
-        self._parent: Optional[Self] = None
-        if parent is not None:
-            parent.add_child(self)
+        self._parent: Optional[Self] = parent
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, TreeNode) and self.key == other.key
@@ -45,7 +43,7 @@ class TreeNode(Generic[_K]):
         return self._parent
 
     @property
-    def children(self) -> list[Self]:
+    def children(self) -> list[Optional[Self]]:
         return self._children
 
     @property
