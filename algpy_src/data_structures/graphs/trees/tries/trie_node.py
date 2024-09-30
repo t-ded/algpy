@@ -9,11 +9,15 @@ T = TypeVar('T')
 
 class TrieNode(TreeNode[T]):
 
-    def __init__(self, key: T, is_marked: bool = False, parent: Optional[Self] = None) -> None:
+    def __init__(self, key: T, alphabet_length: int, is_terminal: bool = False, parent: Optional[Self] = None) -> None:
         super().__init__(key, parent)
-        self._is_marked = is_marked
+        self._children = [None] * alphabet_length
+        self._is_terminal = is_terminal
 
     @property
-    def is_marked(self) -> bool:
-        return self._is_marked
+    def is_terminal(self) -> bool:
+        return self._is_terminal
+
+    def set_terminal(self, is_terminal: bool) -> None:
+        self._is_terminal = is_terminal
     
