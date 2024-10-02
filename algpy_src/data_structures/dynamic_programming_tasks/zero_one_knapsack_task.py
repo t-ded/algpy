@@ -30,3 +30,7 @@ class ZeroOneKnapsackTask(GenericDynamicProgrammingTask[ZeroOneKnapsackTaskState
     @property
     def is_optimization(self) -> bool:
         return True
+
+    @property
+    def get_input(self) -> tuple[int, list[int], list[int]]:
+        return self._capacity, self._weights, self._values
