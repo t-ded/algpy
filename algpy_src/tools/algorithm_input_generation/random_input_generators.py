@@ -7,6 +7,9 @@ from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmFamily
 from algpy_src.base.constants import InputSize, ProblemInstance, Comparable, GraphSize, LoadBalancingTaskSize, FlowEdgeData
 from algpy_src.data_structures.backtracking_tasks.n_queens_task import NQueensTask
+from algpy_src.data_structures.dynamic_programming_tasks.fibonacci_task import NThFibonacciNumberTask
+from algpy_src.data_structures.dynamic_programming_tasks.generic_dynamic_programming_task import GenericDynamicProgrammingTask
+from algpy_src.data_structures.dynamic_programming_tasks.zero_one_knapsack_task import ZeroOneKnapsackTask
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.digraph import DiGraph
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
@@ -169,6 +172,22 @@ class RandomInputGeneratorBacktrackingAlgorithm(RandomInputGenerator[NQueensTask
         return NQueensTask(input_size)
 
 
+class RandomInputGeneratorDynamicProgrammingAlgorithm(RandomInputGenerator[GenericDynamicProgrammingTask, int]):
+    """
+    Random input generator for the dynamic programming algorithm.
+    Generates an instance of N-th Fibonacci number task with size n or Zero-One Knapsack task with n items randomly.
+    """
+    def __init__(self, seed: Optional[int] = None) -> None:
+        super().__init__(seed)
+
+    def generate_random_input(self, input_size: int) -> GenericDynamicProgrammingTask:
+
+        rng = random.Random(self.seed)
+        if rng.uniform(0, 1) > 0.5:
+            return NThFibonacciNumberTask(input_size)
+        return ZeroOneKnapsackTask(rng.randint(0, 100_000), [rng.randint(0, 100_000) for _ in range(input_size)], [rng.randint(0, 100_000) for _ in range(input_size)])
+
+
 class RandomInputGeneratorLoadBalancingAlgorithms(RandomInputGenerator[tuple[Iterable[LoadTask], list[Server]], LoadBalancingTaskSize]):
     """
     Random input generator for load balancing algorithms.
@@ -218,6 +237,8 @@ def get_generator(algorithm: A) -> type[RandomInputGenerator]:
         return RandomInputGeneratorGraphRelationalClassificationAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.BACKTRACKING:
         return RandomInputGeneratorBacktrackingAlgorithm
+    if algorithm.algorithm_family == AlgorithmFamily.DYNAMIC_PROGRAMMING:
+        return RandomInputGeneratorDynamicProgrammingAlgorithm
     if algorithm.algorithm_family == AlgorithmFamily.LOAD_BALANCING:
         return RandomInputGeneratorLoadBalancingAlgorithms
     raise ValueError('No random input generator assigned for this algorithm class.')

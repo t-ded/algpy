@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from algpy_src.algorithms.backtracking.backtracking import BacktrackingAlgorithm
+from algpy_src.algorithms.dynamic_programming.dynamic_programming import DynamicProgrammingAlgorithm
 from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
 from algpy_src.algorithms.graph_algorithms.network_flow.ford_fulkerson import FordFulkersonAlgorithm
 from algpy_src.algorithms.graph_algorithms.traversal.bfs import BreadthFirstSearch
@@ -13,6 +14,8 @@ from algpy_src.algorithms.sorting.bubble_sort import BubbleSort
 from algpy_src.algorithms.sorting.insertion_sort import InsertionSort
 from algpy_src.algorithms.sorting.merge_sort import MergeSort
 from algpy_src.base.constants import TEST_SEED, GraphSize, LoadBalancingTaskSize, FlowEdgeData
+from algpy_src.data_structures.dynamic_programming_tasks.fibonacci_task import NThFibonacciNumberTask
+from algpy_src.data_structures.dynamic_programming_tasks.zero_one_knapsack_task import ZeroOneKnapsackTask
 from algpy_src.data_structures.graphs.base_graph import BaseGraph
 from algpy_src.data_structures.graphs.feature_graph import FeatureGraph
 from algpy_src.data_structures.graphs.flow_network import FlowNetwork
@@ -22,7 +25,7 @@ from algpy_src.data_structures.system_design.server import Server
 from algpy_src.tests.test_utils.example_base_objects import ExampleAlgorithm, ExampleSortingAlgorithm
 from algpy_src.tools.algorithm_input_generation.random_input_generators import get_generator, RandomInputGeneratorSortingAlgorithm, RandomInputGeneratorGraphTraversalAlgorithm, \
     RandomInputGeneratorGraphRelationalClassificationAlgorithm, RandomInputGeneratorLoadBalancingAlgorithms, RandomInputGeneratorSearchingAlgorithm, RandomInputGeneratorMaxFlowAlgorithm, \
-    RandomInputGeneratorBacktrackingAlgorithm
+    RandomInputGeneratorBacktrackingAlgorithm, RandomInputGeneratorDynamicProgrammingAlgorithm
 
 
 @pytest.fixture
@@ -58,6 +61,9 @@ def test_get_generators() -> None:
 
     # Backtracking Algorithms
     assert get_generator(BacktrackingAlgorithm()) == RandomInputGeneratorBacktrackingAlgorithm
+
+    # Dynamic Programming Algorithms
+    assert get_generator(DynamicProgrammingAlgorithm()) == RandomInputGeneratorDynamicProgrammingAlgorithm
 
     # Load Balancing Algorithms
     assert get_generator(RoundRobinAlgorithm()) == RandomInputGeneratorLoadBalancingAlgorithms
@@ -107,6 +113,13 @@ def test_random_input_generators(graph_traversal_random_input: BaseGraph) -> Non
 
     # Backtracking Algorithms
     assert np.array_equal(get_generator(BacktrackingAlgorithm())(TEST_SEED).generate_random_input(input_size=10).state, np.full((10, 10), False, dtype=np.bool_))
+
+    # Dynamic Programming Algorithms
+    assert isinstance(get_generator(DynamicProgrammingAlgorithm())(TEST_SEED).generate_random_input(input_size=10), NThFibonacciNumberTask)
+    knapsack = get_generator(DynamicProgrammingAlgorithm())(TEST_SEED + 1).generate_random_input(input_size=10)
+    assert isinstance(knapsack, ZeroOneKnapsackTask)
+    assert knapsack.get_input == (91_255, [99_966, 18_865, 60_625, 48_480, 88_034, 91_545, 12_620, 59_400, 78_486, 65_309], [79_821, 2_510, 67_381, 56_674, 75_578, 48_807, 81_855, 71_694, 99_000, 56_894])
+
 
     # Load Balancing Algorithms
     assert get_generator(RoundRobinAlgorithm())(TEST_SEED).generate_random_input(input_size=LoadBalancingTaskSize(*(5, 1))) == (

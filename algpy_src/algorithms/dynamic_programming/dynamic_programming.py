@@ -4,9 +4,10 @@ from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.base.algorithm_properties import AlgorithmProperties, AlgorithmFamily
 from algpy_src.base.constants import VERBOSITY_LEVELS
 from algpy_src.data_structures.dynamic_programming_tasks.generic_dynamic_programming_task import GenericDynamicProgrammingTask, StateType
+from algpy_src.data_structures.dynamic_programming_tasks.zero_one_knapsack_task import ZeroOneKnapsackTask
 
 
-class DynamicProgrammingAlgorithm(Algorithm[GenericDynamicProgrammingTask, tuple[int, list[int]], int | float], Generic[StateType]):
+class DynamicProgrammingAlgorithm(Algorithm[GenericDynamicProgrammingTask, tuple[int, list[int], list[int]], int | float], Generic[StateType]):
 
     def __init__(self) -> None:
         super().__init__()
@@ -28,7 +29,7 @@ class DynamicProgrammingAlgorithm(Algorithm[GenericDynamicProgrammingTask, tuple
             space_complexity='O(n)',
         )
 
-    def get_worst_case_arguments(self, input_size: tuple[int, list[int]]) -> dict[str, Any]:
+    def get_worst_case_arguments(self, input_size: tuple[int, list[int], list[int]]) -> dict[str, Any]:
         """
         Generate an empty 0-1 Knapsack problem instance as an example of the dynamic programming task with non-trivial complexity.
 
@@ -43,7 +44,7 @@ class DynamicProgrammingAlgorithm(Algorithm[GenericDynamicProgrammingTask, tuple
         knapsack: ZeroOneKnapsackTask
             Empty Knapsack problem instance.
         """
-        raise NotImplementedError
+        return {'input_instance': ZeroOneKnapsackTask(*input_size)}
 
     def run_algorithm(
             self, input_instance: GenericDynamicProgrammingTask, verbosity_level: VERBOSITY_LEVELS = 0, *args: Any, **kwargs: Any
