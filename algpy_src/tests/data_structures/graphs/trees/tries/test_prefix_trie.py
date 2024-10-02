@@ -16,8 +16,8 @@ def test_prefix_trie_insert(prefix_trie: PrefixTrie[str]) -> None:
     prefix_trie.insert('cattle')
     prefix_trie.insert('hours')
 
-    assert prefix_trie.insert('horse') == True
-    assert prefix_trie.insert('horse') == False
+    assert prefix_trie.insert('horse') is True
+    assert prefix_trie.insert('horse') is False
 
 
 def test_prefix_trie_search(prefix_trie: PrefixTrie[str]) -> None:
