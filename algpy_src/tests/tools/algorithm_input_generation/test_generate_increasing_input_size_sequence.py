@@ -4,6 +4,7 @@ import pytest
 
 from algpy_src.algorithms.algorithm import Algorithm
 from algpy_src.algorithms.backtracking.backtracking import BacktrackingAlgorithm
+from algpy_src.algorithms.dynamic_programming.dynamic_programming import DynamicProgrammingAlgorithm
 from algpy_src.algorithms.graph_algorithms.message_passing.relational_classification import RelationalClassificationAlgorithm
 from algpy_src.algorithms.graph_algorithms.network_flow.edmonds_karp import EdmondsKarpAlgorithm
 from algpy_src.algorithms.graph_algorithms.network_flow.ford_fulkerson import FordFulkersonAlgorithm, FordFulkersonGraphSize
@@ -43,6 +44,7 @@ from algpy_src.tools.algorithm_input_generation.generate_increasing_input_size_s
         pytest.param(EdmondsKarpAlgorithm(), FordFulkersonGraphSize(*(10, 100)), 10, [(i, 10 * (i - 1) + i) for i in range(1, 11)],
                      id="Edmonds-Karp's algorithm generate increasing input size sequence with up to 10 edges with up to 100 upper bound"),
         pytest.param(BacktrackingAlgorithm(), 10, 10, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], id='Backtracking generate increasing input size sequence with 10 elements'),
+        pytest.param(DynamicProgrammingAlgorithm(), 10, 10, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], id='Dynamic programming generate increasing input size sequence with 10 elements'),
         pytest.param(RoundRobinAlgorithm(), LoadBalancingTaskSize(*(10, 10)), 10, [(i, i) for i in range(1, 11)],
                      id='Round Robin load balancing algorithm generate increasing input size sequence with up to 10 tasks and servers with same counts'),
     ]
@@ -54,3 +56,21 @@ def test_generate_valid_increasing_input_size_sequence(algorithm: Algorithm, max
 def test_fails_on_base_algorithms() -> None:
     with pytest.raises(ValueError):
         generate_increasing_input_size_sequence(ExampleAlgorithm(), 10, 10)
+
+
+@pytest.mark.parametrize(
+    ('algorithm', 'invalid_input_size'),
+    [
+        pytest.param(BubbleSort(), (5, 10_000), id='Invalid sorting'),
+        pytest.param(BinarySearch(), (5, 10_000), id='Invalid searching'),
+        pytest.param(BacktrackingAlgorithm(), (5, 10_000), id='Invalid backtracking'),
+        pytest.param(DynamicProgrammingAlgorithm(), (5, 10_000), id='Invalid dynamic programming'),
+        pytest.param(DepthFirstSearch(), 100, id='Invalid graph traversal'),
+        pytest.param(RelationalClassificationAlgorithm(), 100, id='Invalid message passing'),
+        pytest.param(FordFulkersonAlgorithm(), 'A', id='Invalid max flow'),
+        pytest.param(RoundRobinAlgorithm(), 300, id='Invalid load balancing'),
+    ]
+)
+def test_fails_on_invalid_input(algorithm: Algorithm, invalid_input_size: InputSize) -> None:
+    with pytest.raises(ValueError):
+        generate_increasing_input_size_sequence(algorithm, invalid_input_size, 10)

@@ -28,10 +28,10 @@ def generate_increasing_input_size_sequence(algorithm: A, max_input_size: InputS
     increasing_input_size_sequence : Iterable[InputSize]
         Input size sequence with increasing difficulty.
     """
-    if algorithm.algorithm_family == AlgorithmFamily.SORTING or algorithm.algorithm_family == AlgorithmFamily.SEARCHING:
+    if algorithm.algorithm_family in [AlgorithmFamily.SORTING, AlgorithmFamily.SEARCHING, AlgorithmFamily.BACKTRACKING, AlgorithmFamily.DYNAMIC_PROGRAMMING]:
         if isinstance(max_input_size, int):
             return list(np.linspace(1, max_input_size, num=sequence_length, dtype=int))
-        raise ValueError('ax_input_size must be an integer for SORTING and SEARCHING algorithm families increasing input size sequence generation')
+        raise ValueError(f'max_input_size must be an integer for {algorithm.algorithm_family} algorithm family increasing input size sequence generation')
 
     if algorithm.algorithm_family == AlgorithmFamily.GRAPH_TRAVERSAL or algorithm.algorithm_family == AlgorithmFamily.MESSAGE_PASSING:
         if isinstance(max_input_size, GraphSize):
@@ -46,11 +46,6 @@ def generate_increasing_input_size_sequence(algorithm: A, max_input_size: InputS
             upper_bounds = np.linspace(1, max_input_size.max_capacity, num=sequence_length, dtype=int)
             return cast(list[InputSize], [FordFulkersonGraphSize(*(nodes, edges)) for nodes, edges in zip(n_edges, upper_bounds)])
         raise ValueError('max_input_size must be of FordFulkersonGraphSize type for MAX_FLOW algorithm family increasing input size sequence generation')
-
-    if algorithm.algorithm_family == AlgorithmFamily.BACKTRACKING:
-        if isinstance(max_input_size, int):
-            return list(np.linspace(1, max_input_size, num=sequence_length, dtype=int))
-        raise ValueError('max_input_size must be an integer for BACKTRACKING algorithm family increasing input size sequence generation')
 
     if algorithm.algorithm_family == AlgorithmFamily.LOAD_BALANCING:
         if isinstance(max_input_size, LoadBalancingTaskSize):
