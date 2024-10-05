@@ -16,6 +16,10 @@ class PrintableComparable(Comparable, Protocol):
     def __repr__(self) -> str: ...
 
 
+class Hashable(Protocol):
+    def __hash__(self) -> int: ...
+
+
 COMPLEXITIES = Literal['both', 'time', 'space']
 METRICS_TO_PLOT = Literal['both', 'time', 'n_ops']
 TEST_SEED = 42
