@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, TypeVar, Literal, Iterator
+from typing import Optional, TypeVar, Literal, Iterator, cast
 
 from algpy_src.base.constants import VERBOSITY_LEVELS
 from algpy_src.data_structures.container import Container
@@ -199,16 +199,18 @@ class LinkedList(Container):
         data : Any
             Value for the node to hold.
         """
-        new_node: LinkedListNode = LinkedListNode(data)
-        tail = self.traverse(self._length)
-        if tail is not None:
+        if self._length == 0:
+            self.insert_to_empty(data)
+        else:
+            new_node: LinkedListNode = LinkedListNode(data)
+            tail = cast(LinkedListNode, self.traverse(self._length))
             tail.change_successor(new_node)
             self.increment_n_ops()
-        if self.linked_list_type == 'doubly':
-            new_node.change_predecessor(tail)
-            self._tail = new_node
-            self.increment_n_ops(2)
-        self._length += 1
+            if self.linked_list_type == 'doubly':
+                new_node.change_predecessor(tail)
+                self._tail = new_node
+                self.increment_n_ops(2)
+            self._length += 1
 
     def insert_to_empty(self, data: T) -> None:
         """
