@@ -38,3 +38,6 @@ def test_basic_node_operations(ll_node: LinkedListNode) -> None:
 
     assert str(node) == f'(value={TEST_SEED})'
     assert repr(node) == f'LinkedListNode ((value={TEST_SEED}), successor=(value={TEST_SEED + 2}), predecessor=(value={TEST_SEED - 2}))'
+
+    node.change_value(TEST_SEED * 3)
+    assert node.value == TEST_SEED * 3

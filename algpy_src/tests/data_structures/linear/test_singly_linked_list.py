@@ -159,3 +159,10 @@ class TestSinglyLinkedList:
         for insert_value in initial_state:
             sll.insert(insert_value, -1)
         assert sll.search(value_to_search) == expected_result
+
+    def test_singly_linked_list_iter(self, sll: LinkedList) -> None:
+        insert_iter = list(range(10))
+        for value in insert_iter:
+            sll.append(value)
+        for i, node in enumerate(sll):
+            assert node.value == insert_iter[i]

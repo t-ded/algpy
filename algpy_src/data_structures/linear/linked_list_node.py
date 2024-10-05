@@ -60,3 +60,6 @@ class LinkedListNode(Generic[T, LLN]):
     def remove_predecessor(self) -> None:
         del self._predecessor
         self._predecessor = None
+
+    def change_value(self, new_value: T) -> None:
+        self._value = new_value

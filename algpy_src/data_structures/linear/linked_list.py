@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, TypeVar, Literal
+from typing import Optional, TypeVar, Literal, Iterator
 
 from algpy_src.base.constants import VERBOSITY_LEVELS
 from algpy_src.data_structures.container import Container
@@ -30,6 +30,12 @@ class LinkedList(Container):
 
     def __len__(self) -> int:
         return self._length
+
+    def __iter__(self) -> Iterator[LinkedListNode]:
+        node = self._head
+        while node is not None:
+            yield node
+            node = node.successor
 
     @property
     def name(self) -> str:

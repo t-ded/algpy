@@ -188,3 +188,10 @@ class TestDoublyLinkedList:
         for insert_value in initial_state:
             dll.insert(insert_value, -1)
         assert dll.search(value_to_search) == expected_result
+
+    def test_doubly_linked_list_iter(self, dll: LinkedList) -> None:
+        insert_iter = list(range(10))
+        for value in insert_iter:
+            dll.append(value)
+        for i, node in enumerate(dll):
+            assert node.value == insert_iter[i]
