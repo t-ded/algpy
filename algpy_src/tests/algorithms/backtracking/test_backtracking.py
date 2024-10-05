@@ -40,7 +40,6 @@ def test_finds_all_solutions(backtracking: BacktrackingAlgorithm) -> None:
     solved, solutions = backtracking.run_algorithm(nqueens, find_all=True)
     assert solved is True
     assert len(solutions) == 2
-    print([solution.state for solution in solutions])
 
     expected_solution_1 = NQueensTask(4)
     expected_solution_1.apply_option((0, 1), True)
