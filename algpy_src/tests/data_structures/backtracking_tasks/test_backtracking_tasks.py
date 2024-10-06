@@ -3,6 +3,7 @@ from functools import cached_property
 import numpy as np
 
 from algpy_src.data_structures.backtracking_tasks.n_queens_task import NQueensTask
+from algpy_src.data_structures.backtracking_tasks.sat_task import SATTask
 from algpy_src.data_structures.backtracking_tasks.sudoku_task import SudokuTask
 
 
@@ -142,3 +143,38 @@ class TestSudokuTask:
         assert sudoku1 != SudokuTask(np.array([]))
         assert sudoku1 != self.get_minimal_example
         assert sudoku1 != NQueensTask(2)
+
+
+class TestSATTask:
+
+    @cached_property
+    def get_example(self) -> SATTask:
+        return SATTask(proposition=[{1, -5, 4}, {-1, 5, 3, 4}, {-3, -4}])
+
+    def test_sat_option_application(self) -> None:
+        task = self.get_example
+        assert task.is_solved() is False
+
+        for candidate in task.get_candidates:
+            for option in task.get_non_default_options:
+                assert task.is_option_allowed(candidate, option) is True
+
+        task.apply_option(1, True)
+        assert task.is_solved() is False
+        task.apply_option(2, False)
+        assert task.is_solved() is False
+        task.apply_option(3, False)
+        assert task.is_solved() is False
+        task.apply_option(4, False)
+        assert task.is_solved() is False
+        task.apply_option(5, True)
+        assert task.is_solved() is True
+
+    def test_equality(self) -> None:
+        sat1 = self.get_example
+        sat2 = SATTask(proposition=[{1, -5, 4}, {-1, 5, 3, 4}, {-3, -4}])
+        assert sat1 == sat2
+        sat1.apply_option(1, True)
+        assert sat1 != sat2
+        sat1.reset_candidate_to_initial_state(1)
+        assert sat1 == sat2
